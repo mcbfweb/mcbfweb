@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd 
+    http://www.springframework.org/schema/tx 
+    http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<tx:annotation-driven />
+
+	<context:component-scan base-package="cl.dao" />
+	<context:component-scan base-package="cl.managers" />
+	<context:component-scan base-package="cl.model" />
+	<context:component-scan base-package="cl.service" />
+    <bean
+		class="org.jasypt.spring31.properties.EncryptablePropertyPlaceholderConfigurer">
+		<constructor-arg>
+			<bean class="org.jasypt.encryption.pbe.StandardPBEStringEncryptor">
+				<property name="config">
+					<bean class="org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig">
+						<property name="algorithm" value="PBEWithMD5AndDES" />
+						<!-- I have set the variable below in the Environment variables in 
+							Control Panel -->
+						<property name="passwordEnvName" value="APP_ENCRYPTION_PASSWORD" />
+					</bean>
+				</property>
+			</bean>
+		</constructor-arg>
+		<property name="locations">
+			<list>
+				<value>jdbc.properties</value>
+			</list>
+		</property>
+	</bean>  
+   
+   <context:property-placeholder location="jdbc.properties"/>
+	<!-- Primary data source MySQL -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />		
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+		<property name="packagesToScan" value="cl.model" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager"
+		p:sessionFactory-ref="sessionFactory">
+	</bean>
+
+	<!-- Second data source from the iSeries 
+	<bean id="dataSourcei" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbci.driver}" />
+		<property name="url" value="${jdbci.url}" />
+		<property name="username" value="${jdbci.username}" />
+		<property name="password" value="${jdbci.password}" />
+	</bean>
+
+	<bean id="sessionFactoryB"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSourcei"></property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.DB2400Dialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+		<property name="packagesToScan" value="cl.model" />
+	</bean>
+
+	<bean id="transactionManageri"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager"
+		p:sessionFactory-ref="sessionFactoryB">
+	</bean>-->
+	<!-- End Second data source -->
+
+
+	<!-- String encryptor for encrypting passwords and other data -->
+	 <bean id="strongEncryptor" class="org.jasypt.encryption.pbe.PooledPBEStringEncryptor">
+		<property name="algorithm">
+			<value>PBEWithMD5AndDES</value>
+		</property>
+		<property name="password">
+			<value>select12</value>
+		</property>
+		<property name="poolSize">
+			<value>4</value>
+		</property>
+	</bean>  
+
+    <bean id="hibernateStringEncryptor"
+		class="org.jasypt.hibernate4.encryptor.HibernatePBEStringEncryptor">
+		<property name="registeredName">
+			<value>strongHibernateStringEncryptor</value>
+		</property>
+		<property name="encryptor">
+			<ref bean="strongEncryptor" />
+		</property>
+	</bean>  
+
+
+	<!-- Multi-Part resolver -->
+	 
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+ 
+	
+	<!-- Declare explicitly, or use <context:annotation-config/> -->
+	
+	<bean id="fileUploadController" class="cl.controller.FileUploadController">
+		
+	</bean>
+
+
+
+</beans>

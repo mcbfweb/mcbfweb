@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.custom.i18n.resources" value="global" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<package name="default" extends="struts-default,json-default"
+		namespace="/">
+
+		<result-types>
+			<result-type name="json" class="org.apache.struts2.json.JSONResult">
+				<param name="noCache">true</param>
+				<param name="excludeNullProperties">true</param>
+			</result-type>
+		</result-types>
+
+		<interceptors>
+			<!-- <interceptor-stack name="defaultStack"> <interceptor-ref name="params"> 
+				Excludes the jQuery no-cache _ parameter and the Displaytag d-#-X parameter(s) 
+				<param name="excludeParams"> _,d-\d+?-[sop] </param> </interceptor-ref> </interceptor-stack> -->
+
+			<interceptor name="loginCheck" class="cl.interceptors.LoginCheckInterceptor" />
+			<interceptor name="mobileType" class="cl.interceptors.MobileInterceptor" />
+			<interceptor name="cachingHeader"
+				class="cl.interceptors.CachingHeaderInterceptor" />
+			<interceptor name="json"
+				class="org.apache.struts2.json.JSONInterceptor" />
+			<interceptor name="enquiry" class="cl.interceptors.EnquiryInterceptor" />
+
+			<interceptor-stack name="loginStack">
+				<interceptor-ref name="mobileType" />
+				<interceptor-ref name="loginCheck" />
+				<interceptor-ref name="cachingHeader" />
+				<interceptor-ref name="enquiry" />
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="params">
+					<param name="excludeParams">
+						_,d-\d+?-[sop]
+					</param>
+				</interceptor-ref>
+
+			</interceptor-stack>
+
+			<interceptor-stack name="securityStack">
+				<interceptor-ref name="mobileType" />
+				<interceptor-ref name="tokenSession">
+					<param name="excludeMethods">*</param>
+				</interceptor-ref>
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="params">
+					<param name="excludeParams">
+						_,d-\d+?-[sop]
+					</param>
+				</interceptor-ref>
+			</interceptor-stack>
+
+		</interceptors>
+
+		<global-results>
+			<result name="authentication_required">/security/pages/AuthenticationRequired.jsp
+			</result>
+		</global-results>
+	</package>
+
+
+
+</struts>
+
+
