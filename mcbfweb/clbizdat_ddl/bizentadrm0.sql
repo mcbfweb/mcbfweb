@@ -1,0 +1,28 @@
+DROP TABLE IF EXISTS `cb_clbizdat`.`BIZENTADRM0`;
+CREATE TABLE  `cb_clbizdat`.`BIZENTADRM0` (
+  `ADRENTITY` int(11) NOT NULL COMMENT 'Entity Code',
+  `ADRTYP` varchar(5) NOT NULL COMMENT 'Address Type',
+  `ADRBLDG` varchar(30) default NULL COMMENT 'Building Name/No.',
+  `ADRFLR` varchar(5) default NULL COMMENT 'Floor',
+  `ADRAPTNO` varchar(5) default NULL COMMENT 'Apartment No.',
+  `ADRSTRTNO` varchar(10) NOT NULL COMMENT 'Street Number',
+  `ADRSTRNM` varchar(30) NOT NULL COMMENT 'Street Name.',
+  `ADRLINE1` varchar(30) default NULL COMMENT 'Address Line 1',
+  `ADRLINE2` varchar(30) default NULL COMMENT 'Address Line 2',
+  `ADRLINE3` varchar(30) default NULL COMMENT 'Address Line 3',
+  `ADRCITY` varchar(5) NOT NULL COMMENT 'City Code',
+  `ADRSTATE` varchar(5) NOT NULL COMMENT 'State Code',
+  `ADRCTRY` varchar(5) NOT NULL COMMENT 'Country Code',
+  `ADRPSTCDE` varchar(10) NOT NULL COMMENT 'Post Code',
+  `ADRGEOID` int(20) unsigned default NULL COMMENT 'Geo ID',
+  `ADRDATID` int(11) NOT NULL auto_increment COMMENT 'File Unique Id',
+  `ADRCRTDT` datetime NOT NULL default '2013-12-04 14:19:27' COMMENT 'Create Date',
+  `ADRCRTUSR` varchar(15) NOT NULL COMMENT 'Created By',
+  `ADRCHGDT` datetime default NULL COMMENT 'Change Date',
+  `ADRCHGUSR` varchar(15) default NULL COMMENT 'Changed By',
+  `ADRVERSION` int(7) NOT NULL COMMENT 'Version No.',
+  PRIMARY KEY  USING BTREE (`ADRENTITY`,`ADRDATID`),
+  KEY `PstCde` (`ADRCTRY`,`ADRCITY`,`ADRPSTCDE`),
+  KEY `GeoId` (`ADRGEOID`,`ADRENTITY`),
+  KEY `PstCdeIdx` USING BTREE (`ADRPSTCDE`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='Entity Address Table';
