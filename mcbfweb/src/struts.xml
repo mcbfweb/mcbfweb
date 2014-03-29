@@ -24,6 +24,7 @@
 
 			<interceptor name="loginCheck" class="cl.interceptors.LoginCheckInterceptor" />
 			<interceptor name="mobileType" class="cl.interceptors.MobileInterceptor" />
+			<interceptor name="macAddr" class="cl.interceptors.MACAddressInterceptor" />
 			<interceptor name="cachingHeader"
 				class="cl.interceptors.CachingHeaderInterceptor" />
 			<interceptor name="json"
@@ -33,6 +34,7 @@
 			<interceptor-stack name="loginStack">
 				<interceptor-ref name="mobileType" />
 				<interceptor-ref name="loginCheck" />
+				<interceptor-ref name="macAddr" />
 				<interceptor-ref name="cachingHeader" />
 				<interceptor-ref name="enquiry" />
 				<interceptor-ref name="defaultStack" />

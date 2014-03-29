@@ -3,9 +3,14 @@
 
 <jsp:include page="/inc.header.jsp" />
 
+ 
+<% session.getServletContext().setAttribute("application", "application"); %>
 
 <script type="text/javascript">
 	$(function() {
+		
+		var tt = '<%=(String)session.getServletContext().getAttribute("application")%>';
+		alert(tt+ "Done this....");
 		/* $('#map_canvas').gmap({
 			'center' : '42.345573,-71.098326'
 		}).bind('init', function(evt, map) {
@@ -33,7 +38,7 @@
 		}); */
 
 		 $('#map_canvas').gmap('displayStreetView', 'panel', {
-			'position' : google.maps.LatLng(42.345573, -71.098326),
+			'position' : google.maps.LatLng(43.671812, -79.764175),
 			'pov' : {
 				'heading' : 34,
 				'pitch' : 10,

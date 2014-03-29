@@ -24,13 +24,17 @@
 					<b>Add/Update Client</b>
 				</legend>
 				<sjm:div role="fieldcontain">
-					<sjm:textfield id="bizName" name="bizName" value="%{entity.bizName}" label="Business Name"
-						required="true" />
-					<sjm:textfield id="idtype" name="idTyp" value="%{entity.idTyp}" label="ID Type"
-						required="true" />
-					<sjm:textfield id="idnumber" name="idCode"  value="%{entity.idCode}" label="ID Number"
-						required="true" />
+					<sjm:textfield id="bizName" name="bizName"
+						value="%{entity.bizName}" label="Business Name" required="true" />
+					<sjm:textfield id="idtype" name="idTyp" value="%{entity.idTyp}"
+						label="ID Type" required="true" />
+					<sjm:textfield id="idnumber" name="idCode" value="%{entity.idCode}"
+						label="ID Number" required="true" />
 					<sjm:div data-role="collapsible-set" data-inset="false">
+						<sjm:div data-role="collapsible" id="entityId">
+							<h3>Id</h3>
+							<s:include value="entityId.jsp"></s:include>
+						</sjm:div>
 						<sjm:div data-role="collapsible">
 							<h3>Address</h3>
 							<ul data-role="listview" data-inset="false">
@@ -46,38 +50,29 @@
 										label="Address Line 2" required="true" /></li>
 							</ul>
 						</sjm:div>
-						<sjm:div data-role="collapsible">
-							<h3>Contact</h3>
-							<ul data-role="listview" data-inset="false">
-								<li><sjm:textfield id="email" name="email" label="Email"
-										required="true" /></li>
-								<li><sjm:textfield id="isd" name="isd" label="Country Code"
-										required="true" /></li>
-								<li><sjm:textfield id="areacode" name="areacode"
-										label="Area Code" /></li>
-								<li><sjm:textfield id="phone" name="phone"
-										label="Phone No." required="true" /></li>
-								<li><sjm:textfield id="extention" name="extention"
-										label="Extention" required="true" /></li>
-							</ul>
+
+						<sjm:div data-role="collapsible" id="contact">
+							<h3>Contacts</h3>
+							<s:include value="contact.jsp"></s:include>
 						</sjm:div>
 
 					</sjm:div>
 					<sjm:select id="bizGroup" name="bizGroup" class="bizGroup"
 						label="Group" headerKey="-1" headerValue="--Select a Group--"
-						emptyOption="false" onchange="showChange(this[this.selectedIndex].value, this.id)"
+						emptyOption="false"
+						onchange="showChange(this[this.selectedIndex].value, this.id)"
 						list="bizGroupArry" listKey="code" listValue="label" />
 
 					<sjm:select id="bizType" name="bizType" class="bizType"
 						label="Type" headerKey="-1" headerValue="--Select a Type--"
 						emptyOption="false" list="bizTypeArry" listKey="code"
 						listValue="label" />
-                   
-                  
+
+
 					<s:submit value="Add Client"
 						cssClass="button ui-state-default ui-corner-all"
 						action="createClient" clearForm="true" />
-				
+
 				</sjm:div>
 			</fieldset>
 		</s:form>

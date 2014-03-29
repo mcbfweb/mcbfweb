@@ -15,24 +15,19 @@ import org.apache.struts2.convention.annotation.ResultPath;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import cl.errors.ClientDoesNotExistError;
-import cl.mainStream.AppConstants;
 import cl.mainStream.BSOption;
 import cl.mainStream.BSTables;
 import cl.mainStream.VedaConstants;
 import cl.managers.BizEntityMgr;
 import cl.model.BizEntId;
-import cl.model.BizEntInn;
-import cl.model.BizEntity;
 import cl.model.EntityDetail;
-import cl.model.User;
 
 @ParentPackage(value = "default")
 @Namespace("/Main")
 @ResultPath(value = "/")
 @InterceptorRefs({
-	    @InterceptorRef("loginStack"),
-		
+		@InterceptorRef("loginStack"),
+
 })
 @Action(value = "AddClient", results = {
 		@Result(name = "success", location = "/User/MaintUser", type = "redirect"),
@@ -61,13 +56,35 @@ public class AddClientAction extends BaseAction {
 	private String bizGroup;
 	private String bizType;
 
+	private List<BizEntId> entIds ;
+	private EntityDetail entity;
+	private int entid;
+	private UserDetails usrd;
+	private BizEntityMgr manager;
+	private ApplicationContext ctx;
+	// private final static int MAX_ADDRESSES = 3;
+	private final static int MAX_CONTACTS = 3;
+
+	// private final static int MAX_OCCUPATIONS = 3;
+
 	@Override
 	public String execute() throws Exception {
 
 		System.out.println("AddClientAction");
+		
 		if (!init) {
 			setInit(true);
 			loadArrays();
+			this.usrd = (UserDetails) getSession().get(VedaConstants.USER_KEY);
+
+			this.ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
+
+			this.manager = (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
+			this.entity = (EntityDetail) ctx.getBean("entityDetail");
+			entity.addId(new BizEntId()); 
+			entity.addId(new BizEntId()); 
+			entity.addId(new BizEntId()); 
+			//this.entid = manager.getNextEntityNumber();
 
 		}
 
@@ -77,28 +94,15 @@ public class AddClientAction extends BaseAction {
 		return INPUT;
 	}
 
-	public void loadArrays() {
-
-		super.bizGroupArry = BSTables.instance().getTable(BSTables.ECONOMIC_SECTOR, "");
-		super.bizTypeArry = new ArrayList<BSOption>();
-		super.bizTypeArry.add(new BSOption("", "", ""));
-	}
-
 	@Action(value = "createClient", results = { @Result(name = "success", location = "/Main/ListClient", type = "redirect"),
 			@Result(name = "input", location = "/admin/pages/addClient.jsp") })
 	public String addUpdateClient() {
 
 		System.out.println("createClient method Action");
-		UserDetails usrd = (UserDetails) getSession().get(VedaConstants.USER_KEY);
 
-		ApplicationContext ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
-
-		BizEntityMgr manager =
-				(BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
-		int entid = manager.getNextEntityNumber();
 		Date current = new Date();
 		Calendar cal = Calendar.getInstance();
-		EntityDetail entity = (EntityDetail) ctx.getBean("entityDetail");
+
 		entity.setBizCode(getBizType());
 		entity.setBizName(getBizName());
 		entity.setfName("");
@@ -113,13 +117,19 @@ public class AddClientAction extends BaseAction {
 		entity.setEcoCode(getBizGroup());
 		entity.setEntity(entid);
 		entity.setEntTyp("BIZ");
-		entity.setIdchgByUser("");
-		entity.setIdchgDate(current);
-		entity.setIdCode(getIdCode());
-		entity.setIdcrtByUser(usrd.getUsername());
-		entity.setIdcrtDate(current);
-		entity.setIdversion(1);
-		entity.setIdTyp(getIdTyp());
+		entIds = entity.getIds();
+		
+		for (BizEntId e : entIds) {
+			e.setChgByUser("");
+			e.setChgDate(current);
+			e.setIdCode(getIdCode());
+			e.setCrtByUser(usrd.getUsername());
+			e.setCrtDate(current);
+			e.setVersion(1);
+			e.setIdTyp(getIdTyp());
+		}
+
+		entity.setIds(entIds);
 		entity.setInnchgByUser("");
 		entity.setInnchgDate(current);
 		entity.setInncrtByUser(usrd.getUsername());
@@ -133,6 +143,21 @@ public class AddClientAction extends BaseAction {
 		getServletContex().setAttribute("CLIENTS_LIST", clients);
 
 		return SUCCESS;
+	}
+
+	public void loadArrays() {
+
+		super.bizGroupArry = BSTables.instance().getTable(BSTables.ECONOMIC_SECTOR, "");
+		super.bizTypeArry = new ArrayList<BSOption>();
+		super.bizTypeArry.add(new BSOption("", "", ""));
+	}
+
+	public EntityDetail getEntity() {
+		return entity;
+	}
+
+	public void setEntity(EntityDetail entity) {
+		this.entity = entity;
 	}
 
 	public String getClientId() {
@@ -270,5 +295,7 @@ public class AddClientAction extends BaseAction {
 	public void setInit(boolean init) {
 		this.init = init;
 	}
+
+	
 
 }

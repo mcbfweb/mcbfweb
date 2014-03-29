@@ -14,33 +14,42 @@ import org.springframework.stereotype.Service;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "BIZENTIDM0")
+@Table(name = "BIZENTCNTM0")
 @Service
-public class BizEntId implements java.io.Serializable{
+public class BizEntCnt implements java.io.Serializable{
 
 	@Id
 	@GeneratedValue(generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")	
-	@Column(name = "IDDATID",unique = true, nullable = false)
+	@Column(name = "CNTDATID",unique = true, nullable = false)
 	private int datid;	
 	
-	@Column(name = "IDENTITY", unique = true, nullable = false)
+	@Column(name = "CNTENTITY", unique = true, nullable = false)
 	private int entity;	
-	@Column(name = "IDIDTYP")
-	private String idTyp;
+	@Column(name = "CNTTYP")
+	private String cntTyp;
 
-	@Column(name = "IDIDCODE")
-	private String idCode;
-	
-	@Column(name = "IDCRTDT")
+	@Column(name = "CNTNAME")
+	private String cntName;
+	@Column(name = "CNTPOS")
+	private String cntPos;
+	@Column(name = "CNTEMAIL")
+	private String cntEmail;	
+	@Column(name = "CNTISDCDE")
+	private String cntIsdCde;
+	@Column(name = "CNTAREACDE")
+	private String cntAreaCde;
+	@Column(name = "CNTPHNNO")
+	private String cntPhnNo;	
+	@Column(name = "CNTCRTDT")
 	private Date crtDate;;
-	@Column(name = "IDCRTUSR")
+	@Column(name = "CNTCRTUSR")
 	private String crtByUser;
-	@Column(name = "IDCHGDT")
+	@Column(name = "CNTCHGDT")
 	private Date chgDate;;
-	@Column(name = "IDCHGUSR")
+	@Column(name = "CNTCHGUSR")
 	private String chgByUser;
-	@Column(name = "IDVERSION")
+	@Column(name = "CNTVERSION")
 	private Integer version;
 	
 	@ManyToOne
@@ -48,17 +57,10 @@ public class BizEntId implements java.io.Serializable{
 	
 	 
 	 
-	public BizEntId() {
+	public BizEntCnt() {
 
 	}
 
-	public BizEntId(int entity, String idTyp, String idCode) {
-
-		this.entity = entity;
-		this.idTyp = idTyp;
-		this.idCode = idCode;
-		
-	}
 	
 	public int getDatid() {
 		return datid;
@@ -73,18 +75,77 @@ public class BizEntId implements java.io.Serializable{
 	public void setEntity(int entity) {
 		this.entity = entity;
 	}
-	public String getIdTyp() {
-		return idTyp;
+	
+	public String getCntTyp() {
+		return cntTyp;
 	}
-	public void setIdTyp(String idTyp) {
-		this.idTyp = idTyp;
+
+
+	public void setCntTyp(String cntTyp) {
+		this.cntTyp = cntTyp;
 	}
-	public String getIdCode() {
-		return idCode;
+
+
+	public String getCntName() {
+		return cntName;
 	}
-	public void setIdCode(String idCode) {
-		this.idCode = idCode;
+
+
+	public void setCntName(String cntName) {
+		this.cntName = cntName;
 	}
+
+
+	public String getCntPos() {
+		return cntPos;
+	}
+
+
+	public void setCntPos(String cntPos) {
+		this.cntPos = cntPos;
+	}
+
+
+	public String getCntEmail() {
+		return cntEmail;
+	}
+
+
+	public void setCntEmail(String cntEmail) {
+		this.cntEmail = cntEmail;
+	}
+
+
+	public String getCntIsdCde() {
+		return cntIsdCde;
+	}
+
+
+	public void setCntIsdCde(String cntIsdCde) {
+		this.cntIsdCde = cntIsdCde;
+	}
+
+
+	public String getCntAreaCde() {
+		return cntAreaCde;
+	}
+
+
+	public void setCntAreaCde(String cntAreaCde) {
+		this.cntAreaCde = cntAreaCde;
+	}
+
+
+	public String getCntPhnNo() {
+		return cntPhnNo;
+	}
+
+
+	public void setCntPhnNo(String cntPhnNo) {
+		this.cntPhnNo = cntPhnNo;
+	}
+
+
 	public Date getCrtDate() {
 		return crtDate;
 	}
