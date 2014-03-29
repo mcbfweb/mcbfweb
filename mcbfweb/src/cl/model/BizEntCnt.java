@@ -53,14 +53,11 @@ public class BizEntCnt implements java.io.Serializable{
 	private Integer version;
 	
 	@ManyToOne
-	private EntityDetail entitydetail;
-	
-	 
+	private EntityDetail entitydetail;	 
 	 
 	public BizEntCnt() {
 
 	}
-
 	
 	public int getDatid() {
 		return datid;
