@@ -10,10 +10,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <sjm:head compressed='false' jqueryui="true" jquerytheme="ui-lightness" />
-<!-- <link rel="stylesheet"
-	href="http://code.jquery.com/mobile/git/jquery.mobile-git.css"> -->
-<script src="../js/jquery.ui.map.full.min.js" type="text/javascript"></script>
 
+<script src="./js/jquery.ui.map.full.min.js" type="text/javascript"></script>
+<script src="./js/jqm-inlinetabs.js" type="text/javascript"></script>
+<link rel="stylesheet"	href="./css/jqm-inlinetabs.css">
 <title>MCM</title>
 
 <script>

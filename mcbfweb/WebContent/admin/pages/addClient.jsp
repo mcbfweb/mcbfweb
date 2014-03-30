@@ -26,29 +26,18 @@
 				<sjm:div role="fieldcontain">
 					<sjm:textfield id="bizName" name="bizName"
 						value="%{entity.bizName}" label="Business Name" required="true" />
-					<sjm:textfield id="idtype" name="idTyp" value="%{entity.idTyp}"
-						label="ID Type" required="true" />
-					<sjm:textfield id="idnumber" name="idCode" value="%{entity.idCode}"
-						label="ID Number" required="true" />
-					<sjm:div data-role="collapsible-set" data-inset="false">
+
+					<div data-role="collapsible-set" data-inset="false">
+
 						<sjm:div data-role="collapsible" id="entityId">
-							<h3>Id</h3>
+							<h3>Identity</h3>
 							<s:include value="entityId.jsp"></s:include>
 						</sjm:div>
-						<sjm:div data-role="collapsible">
-							<h3>Address</h3>
-							<ul data-role="listview" data-inset="false">
-								<li><sjm:textfield id="type" name="addtype"
-										label="Address Type" required="true" /></li>
-								<li><sjm:textfield id="streetNo" name="streetNo"
-										label="Street No." required="true" /></li>
-								<li><sjm:textfield id="streetName" name="streetName"
-										label="Street Name" required="true" /></li>
-								<li><sjm:textfield id="addrLine1" name="addrLine1"
-										label="Address Line 1" required="true" /></li>
-								<li><sjm:textfield id="addrLine2" name="addrLine2"
-										label="Address Line 2" required="true" /></li>
-							</ul>
+
+
+						<sjm:div data-role="collapsible" id="address">
+							<h3>Addresses</h3>
+							<s:include value="address.jsp"></s:include>
 						</sjm:div>
 
 						<sjm:div data-role="collapsible" id="contact">
@@ -56,7 +45,7 @@
 							<s:include value="contact.jsp"></s:include>
 						</sjm:div>
 
-					</sjm:div>
+					</div>
 					<sjm:select id="bizGroup" name="bizGroup" class="bizGroup"
 						label="Group" headerKey="-1" headerValue="--Select a Group--"
 						emptyOption="false"
@@ -72,7 +61,6 @@
 					<s:submit value="Add Client"
 						cssClass="button ui-state-default ui-corner-all"
 						action="createClient" clearForm="true" />
-
 				</sjm:div>
 			</fieldset>
 		</s:form>

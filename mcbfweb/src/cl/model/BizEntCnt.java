@@ -2,10 +2,12 @@ package cl.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -24,7 +26,7 @@ public class BizEntCnt implements java.io.Serializable{
 	@Column(name = "CNTDATID",unique = true, nullable = false)
 	private int datid;	
 	
-	@Column(name = "CNTENTITY", unique = true, nullable = false)
+	@Column(name = "CNTENTITY", unique = true, nullable = false, insertable = false, updatable = false)
 	private int entity;	
 	@Column(name = "CNTTYP")
 	private String cntTyp;
@@ -52,7 +54,8 @@ public class BizEntCnt implements java.io.Serializable{
 	@Column(name = "CNTVERSION")
 	private Integer version;
 	
-	@ManyToOne
+	@ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
+	@JoinColumn(name="CNTENTITY")
 	private EntityDetail entitydetail;	 
 	 
 	public BizEntCnt() {

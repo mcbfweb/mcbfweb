@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
 import javax.persistence.SecondaryTables;
@@ -17,12 +18,15 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Service;
 
+import cl.mainStream.BSOption;
+
 @Entity
 @Table(name = "BIZENTITYM0")
 @Service
 @SecondaryTables({
 		@SecondaryTable(name = "BIZENTIDM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "IDENTITY", referencedColumnName = "ITYENTITY") }),
 		@SecondaryTable(name = "BIZENTCNTM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "CNTENTITY", referencedColumnName = "ITYENTITY") }),
+		@SecondaryTable(name = "BIZENTADRM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "ADRENTITY", referencedColumnName = "ITYENTITY") }),		
 		@SecondaryTable(name = "BIZENTINNM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "INNENTITY", referencedColumnName = "ITYENTITY") }) })
 public class EntityDetail {
 
@@ -33,6 +37,8 @@ public class EntityDetail {
 	int entity;
 	@Column(name = "ITYENTTYP")
 	String entTyp;
+	@Column(name = "ITYCTRY")
+	String ctry;
 	@Column(name = "ITYECOCODE")
 	String ecoCode;
 	@Column(name = "ITYBIZCODE")
@@ -93,32 +99,66 @@ public class EntityDetail {
 	 */
 
 	@OneToMany(mappedBy = "entitydetail")
-	private List<BizEntId> ids;
+	@OrderColumn(name = "IDDATID")
+	private BizEntId ids[] = new BizEntId[2];
 
 	@OneToMany(mappedBy = "entitydetail")
-	private List<BizEntCnt> contacts;
+	@OrderColumn(name = "CNTDATID")
+	private BizEntCnt contacts[] = new BizEntCnt[2];
+	
+	@OneToMany(mappedBy = "entitydetail")
+	@OrderColumn(name = "ADRDATID")
+	private BizEntAdr addresses[] =  new BizEntAdr[2];
 
 	public EntityDetail() {
-		ids = new ArrayList<BizEntId>();
-		contacts = new ArrayList<BizEntCnt>();
+		super();
+		int index = 0;
+		for (BizEntId id : ids) {
+			this.ids[index++] = new BizEntId();
+		}		
+		
+		index = 0;
+		for (BizEntCnt contact : contacts) {
+			contacts[index++] = new BizEntCnt();
+		}
+		index = 0;
+		for (BizEntAdr address : addresses) {
+			addresses[index++] = new BizEntAdr();
+		}
+		
 		
 	}
 
-	public void addId(BizEntId id) {
-		if (id != null)
-			ids.add(id);
-	}
-	public void addContact(BizEntCnt contact) {
-		if (contact != null)
-			contacts.add(contact);
-	}
-	public List<BizEntId> getIds() {
+	
+	public BizEntId[] getIds() {
 		return ids;
 	}
 
-	public void setIds(List<BizEntId> ids) {
+
+	public void setIds(BizEntId[] ids) {
 		this.ids = ids;
 	}
+
+
+	public BizEntCnt[] getContacts() {
+		return contacts;
+	}
+
+
+	public void setContacts(BizEntCnt[] contacts) {
+		this.contacts = contacts;
+	}
+
+
+	public BizEntAdr[] getAddresses() {
+		return addresses;
+	}
+
+
+	public void setAddresses(BizEntAdr[] addresses) {
+		this.addresses = addresses;
+	}
+
 
 	public int getEntity() {
 		return entity;
@@ -135,6 +175,16 @@ public class EntityDetail {
 	public void setEntTyp(String entTyp) {
 		this.entTyp = entTyp;
 	}
+
+	public String getCtry() {
+		return ctry;
+	}
+
+
+	public void setCtry(String ctry) {
+		this.ctry = ctry;
+	}
+
 
 	public String getEcoCode() {
 		return ecoCode;

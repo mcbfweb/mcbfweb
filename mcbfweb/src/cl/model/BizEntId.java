@@ -1,12 +1,16 @@
 package cl.model;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -24,7 +28,7 @@ public class BizEntId implements java.io.Serializable{
 	@Column(name = "IDDATID",unique = true, nullable = false)
 	private int datid;	
 	
-	@Column(name = "IDENTITY", unique = true, nullable = false)
+	@Column(name = "IDENTITY", unique = true, nullable = false, insertable = false, updatable = false)
 	private int entity;	
 	@Column(name = "IDIDTYP")
 	private String idTyp;
@@ -43,13 +47,30 @@ public class BizEntId implements java.io.Serializable{
 	@Column(name = "IDVERSION")
 	private Integer version;
 	
-	@ManyToOne
+	@ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
+	@JoinColumn(name="IDENTITY")
 	private EntityDetail entitydetail;
 	
-	 
-	 
+	
+	
 	public BizEntId() {
 
+	}
+    
+	public BizEntId(int datid, int entity, String idTyp, String idCode,
+			Date crtDate, String crtByUser, Date chgDate, String chgByUser,
+			Integer version, EntityDetail entitydetail) {
+		super();
+		this.datid = datid;
+		this.entity = entity;
+		this.idTyp = idTyp;
+		this.idCode = idCode;
+		this.crtDate = crtDate;
+		this.crtByUser = crtByUser;
+		this.chgDate = chgDate;
+		this.chgByUser = chgByUser;
+		this.version = version;
+		this.entitydetail = entitydetail;
 	}
 
 	public BizEntId(int entity, String idTyp, String idCode) {

@@ -2,44 +2,39 @@
 <%@ taglib prefix="sjm" uri="/struts-jquery-mobile-tags"%>
 
 
-<sjm:div>
-	<sjm:div data-role="tabs" id="tabs">
-		<sjm:div data-role="navbar">
-			<ul>
-				<li><a href="#contact1" data-ajax="false">Contact 1</a></li>
-				<li><a href="#contact2" data-ajax="false">Contact 2</a></li>
-				<li><a href="#contact3" data-ajax="false">Contact 3</a></li>
-			</ul>
-		</sjm:div>
-		<s:iterator value="%{entity.Ids}" var="contact" id="cnt" status="idx">
+<div data-role="inlinetabs">
+	<ul>
+		<li data-tab="cnt1">Address 1</li>
+		<li data-tab="cnt2">Address 2</li>
+	</ul>
 
-			<sjm:div id='contact%{#idx.count}'>
-				<ul data-role="listview" data-inset="false">
-					<li><sjm:textfield id="email%{#idx.index}"
-							name="entity.Ids[%{#idx.index}].email" label="Email"
-							required="true" /></li>
-					<li><sjm:textfield id="isd%{#idx.index}"
-							name="entity.Ids[%{#idx.index}].isd" label="Country Code"
-							required="true" /></li>
-					<li><sjm:textfield id="areacode%{#idx.index}"
-							name="entity.Ids[%{#idx.index}].areacode" label="Area Code" /></li>
-					<li><sjm:textfield id="phone%{#idx.index}"
-							name="entity.Ids[%{#idx.index}].phone" label="Phone No."
-							required="true" /></li>
-					<li><sjm:textfield id="extention%{#idx.index}"
-							name="entity.Ids[%{#idx.index}].extention" label="Extention"
-							required="true" /></li>
-				</ul>
-			</sjm:div>
-
-		</s:iterator>
-
+	<div data-tab="cnt1">
+		<sjm:textfield id="email_0" name="entCnts[0].email"
+			value="%{entCnts[0].email}" label="Email" required="true" />
+		<sjm:textfield id="isd_0" name="entCnts[0].isd"
+			value="%{entCnts[0].isd}" label="Country Code" required="true" />
+		<sjm:textfield id="areacode_0" name="entCnts[0].areacode"
+			value="%{entCnts[0].areacode}" label="Area Code" />		
+		<sjm:textfield id="phone_0" name="entCnts[0].phone"
+			value="%{entCnts[0].phone}" label="Phone No." required="true" />
+		<sjm:textfield id="extention_0" name="entCnts[0].extention"
+			value="%{entCnts[0].extention}" label="Extention" required="true" />
+	</div>
+	<div data-tab="cnt2">
+		<sjm:textfield id="email_1" name="entCnts[1].email"
+			value="%{entCnts[1].email}" label="Email"  />
+		<sjm:textfield id="isd_1" name="entCnts[1].isd"
+			value="%{entCnts[1].isd}" label="Country Code"  />
+		<sjm:textfield id="areacode_1" name="entCnts[1].areacode"
+			value="%{entCnts[1].areacode}" label="Area Code" />		
+		<sjm:textfield id="phone_1" name="entCnts[1].phone"
+			value="%{entCnts[1].phone}" label="Phone No."  />
+		<sjm:textfield id="extention_1" name="entCnts[1].extention"
+			value="%{entCnts[1].extention}" label="Extention"  />
+	</div>
 
 
-	</sjm:div>
-</sjm:div>
-
-
+</div>
 
 
 

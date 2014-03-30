@@ -2,44 +2,25 @@
 <%@ taglib prefix="sjm" uri="/struts-jquery-mobile-tags"%>
 
 
-<sjm:div>
-	<sjm:div data-role="tabs" id="tabs">
-		<sjm:div data-role="navbar">
-			<ul>
-				<li><a href="#Id1" data-ajax="false">ID 1</a></li>
-				<li><a href="#Id2" data-ajax="false">ID 2</a></li>
-				
-			</ul>
-		</sjm:div>
-		<s:iterator value="%{entity.Ids}" var="Id" id="eid" status="idx">
 
-			<sjm:div id='Id%{#idx.count}'>
-				<ul data-role="listview" data-inset="false">
-					<li><sjm:textfield id="email%{#idx.index}"
-							name="entity.Ids[%{#idx.index}].email" label="Email"
-							required="true" /></li>
-					<li><sjm:textfield id="isd%{#idx.index}"
-							name="entity.Ids[%{#idx.index}].isd" label="Country Code"
-							required="true" /></li>
-					<li><sjm:textfield id="areacode%{#idx.index}"
-							name="entity.Ids[%{#idx.index}].areacode" label="Area Code" /></li>
-					<li><sjm:textfield id="phone%{#idx.index}"
-							name="entity.Ids[%{#idx.index}].phone" label="Phone No."
-							required="true" /></li>
-					<li><sjm:textfield id="extention%{#idx.index}"
-							name="entity.Ids[%{#idx.index}].extention" label="Extention"
-							required="true" /></li>
-				</ul>
-			</sjm:div>
+<div data-role="inlinetabs">
+	<ul>
+		<li data-tab="id1">Id 1</li>
+		<li data-tab="id2">Id 2</li>
+	</ul>
 
-		</s:iterator>
+	<div data-tab="id1">
+		<sjm:textfield id="idtype_0" name="entIds[0].idTyp"
+			value="%{entIds[0].idTyp}" label="ID Type" required="true" />
+		<sjm:textfield id="idnumber_0" name="entIds[0].idCode"
+			value="%{entIds[0].idCode}" label="ID Number" required="true" />
+	</div>
+	<div data-tab="id2">
+		<sjm:textfield id="idtype_1" name="entIds[1].idTyp"
+			value="%{entIds[1].idTyp}" label="ID Type" />
+		<sjm:textfield id="idnumber_1" name="entIds[1].idCode"
+			value="%{entIds[1].idCode}" label="ID Number" />
+	</div>
 
 
-
-	</sjm:div>
-</sjm:div>
-
-
-
-
-
+</div>

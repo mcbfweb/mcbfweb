@@ -2,10 +2,12 @@ package cl.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -24,7 +26,7 @@ public class BizEntAdr implements java.io.Serializable{
 	@Column(name = "ADRDATID",unique = true, nullable = false)
 	private int datid;	
 	
-	@Column(name = "ADRENTITY", unique = true, nullable = false)
+	@Column(name = "ADRENTITY", unique = true, nullable = false, insertable = false, updatable = false)
 	private int entity;	
 	
 	@Column(name = "ADRTYP")
@@ -67,13 +69,44 @@ public class BizEntAdr implements java.io.Serializable{
 	@Column(name = "ADRVERSION")
 	private Integer version;
 	
-	@ManyToOne
+	@ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
+	@JoinColumn(name="ADRENTITY")
 	private EntityDetail entitydetail;	 
 	 
 	public BizEntAdr() {
 
 	}
 	
+	public BizEntAdr(int datid, int entity, String adrTyp, String adrBldg,
+			String adrFlr, String adrAptNo, String adrStrtNo, String adrstrNm,
+			String adrLine1, String adrLine2, String adrLine3, String adrCity,
+			String adrState, String adrCtry, String adrPstCde, String adrGeoId,
+			Date crtDate, String crtByUser, Date chgDate, String chgByUser,
+			Integer version) {
+		super();
+		this.datid = datid;
+		this.entity = entity;
+		this.adrTyp = adrTyp;
+		this.adrBldg = adrBldg;
+		this.adrFlr = adrFlr;
+		this.adrAptNo = adrAptNo;
+		this.adrStrtNo = adrStrtNo;
+		this.adrstrNm = adrstrNm;
+		this.adrLine1 = adrLine1;
+		this.adrLine2 = adrLine2;
+		this.adrLine3 = adrLine3;
+		this.adrCity = adrCity;
+		this.adrState = adrState;
+		this.adrCtry = adrCtry;
+		this.adrPstCde = adrPstCde;
+		this.adrGeoId = adrGeoId;
+		this.crtDate = crtDate;
+		this.crtByUser = crtByUser;
+		this.chgDate = chgDate;
+		this.chgByUser = chgByUser;
+		this.version = version;
+	}
+
 	public int getDatid() {
 		return datid;
 	}

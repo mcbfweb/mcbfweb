@@ -2,12 +2,12 @@
 <%@ taglib prefix="sjm" uri="/struts-jquery-mobile-tags"%>
 
 <jsp:include page="/inc.header.jsp" />
-<script>
+<%-- <script>
 $(function() {
 var tt = <%=(String) session.getServletContext().getAttribute("application")%>
 alert(tt+ "Done this....");
 });
-</script>
+</script> --%>
 <sjm:div role="page" id="loginpage" jquerytheme="redmond" data-theme="b" theme="simple">
 	<sjm:div role="header" jquerytheme="redmond" data-theme="b">
 		<sjm:a button="true" buttonIcon="arrow-l" data-rel="back">Back</sjm:a>

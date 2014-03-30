@@ -19,6 +19,8 @@ import cl.mainStream.BSOption;
 import cl.mainStream.BSTables;
 import cl.mainStream.VedaConstants;
 import cl.managers.BizEntityMgr;
+import cl.model.BizEntAdr;
+import cl.model.BizEntCnt;
 import cl.model.BizEntId;
 import cl.model.EntityDetail;
 
@@ -41,22 +43,25 @@ public class AddClientAction extends BaseAction {
 	private boolean init;
 	private String clientId;
 	private String bizName;
-	private String idTyp;
-	private String idCode;
-	private String addtype;
-	private String streetNo;
-	private String streetName;
-	private String addrLine1;
-	private String addrLine2;
-	private String email;
-	private String isd;
-	private String areacode;
-	private String phone;
-	private String extention;
+	//private String idTyp;
+	//private String idCode;
+	//private String addtype;
+	//private String streetNo;
+	//private String streetName;
+	//private String addrLine1;
+	//private String addrLine2;
+	//private String email;
+	//private String isd;
+	//private String areacode;
+	//private String phone;
+	//private String extention;
 	private String bizGroup;
 	private String bizType;
 
-	private List<BizEntId> entIds ;
+	private BizEntId entIds[] = new BizEntId[2];;
+	private BizEntAdr entAdrs[] = new BizEntAdr[2]; ;
+	private BizEntCnt entCnts[] =new BizEntCnt[2]; ;
+	
 	private EntityDetail entity;
 	private int entid;
 	private UserDetails usrd;
@@ -64,8 +69,6 @@ public class AddClientAction extends BaseAction {
 	private ApplicationContext ctx;
 	// private final static int MAX_ADDRESSES = 3;
 	private final static int MAX_CONTACTS = 3;
-
-	// private final static int MAX_OCCUPATIONS = 3;
 
 	@Override
 	public String execute() throws Exception {
@@ -75,16 +78,9 @@ public class AddClientAction extends BaseAction {
 		if (!init) {
 			setInit(true);
 			loadArrays();
-			this.usrd = (UserDetails) getSession().get(VedaConstants.USER_KEY);
-
-			this.ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
-
-			this.manager = (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
-			this.entity = (EntityDetail) ctx.getBean("entityDetail");
-			entity.addId(new BizEntId()); 
-			entity.addId(new BizEntId()); 
-			entity.addId(new BizEntId()); 
+			
 			//this.entid = manager.getNextEntityNumber();
+			this.entid = 2;
 
 		}
 
@@ -99,7 +95,14 @@ public class AddClientAction extends BaseAction {
 	public String addUpdateClient() {
 
 		System.out.println("createClient method Action");
+		ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
 
+		manager = (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
+		entity = (EntityDetail) ctx.getBean("entityDetail");
+		entIds = entity.getIds();
+		entAdrs = entity.getAddresses();
+		entCnts = entity.getContacts();
+		usrd = (UserDetails) getSession().get(VedaConstants.USER_KEY);
 		Date current = new Date();
 		Calendar cal = Calendar.getInstance();
 
@@ -112,23 +115,40 @@ public class AddClientAction extends BaseAction {
 		entity.setType("PRMRY");
 		entity.setChgByUser("");
 		entity.setChgDate(current);
-		entity.setCrtByUser(usrd.getUsername());
+		entity.setCrtByUser(getUsrd().getUsername());
 		entity.setCrtDate(current);
 		entity.setEcoCode(getBizGroup());
 		entity.setEntity(entid);
-		entity.setEntTyp("BIZ");
-		entIds = entity.getIds();
+		entity.setEntTyp("BIZ");		
 		
 		for (BizEntId e : entIds) {
 			e.setChgByUser("");
 			e.setChgDate(current);
-			e.setIdCode(getIdCode());
 			e.setCrtByUser(usrd.getUsername());
 			e.setCrtDate(current);
 			e.setVersion(1);
-			e.setIdTyp(getIdTyp());
+			
 		}
-
+				
+		for (BizEntAdr e : entAdrs) {
+			e.setChgByUser("");
+			e.setChgDate(current);			
+			e.setCrtByUser(usrd.getUsername());
+			e.setCrtDate(current);
+			e.setVersion(1);			
+		}
+		
+		for (BizEntCnt e : entCnts) {
+			e.setChgByUser("");
+			e.setChgDate(current);			
+			e.setCrtByUser(usrd.getUsername());
+			e.setCrtDate(current);
+			e.setVersion(1);			
+		}
+		entity.setIds(entIds);
+		entity.setAddresses(entAdrs);
+		entity.setContacts(entCnts);
+		
 		entity.setIds(entIds);
 		entity.setInnchgByUser("");
 		entity.setInnchgDate(current);
@@ -150,6 +170,62 @@ public class AddClientAction extends BaseAction {
 		super.bizGroupArry = BSTables.instance().getTable(BSTables.ECONOMIC_SECTOR, "");
 		super.bizTypeArry = new ArrayList<BSOption>();
 		super.bizTypeArry.add(new BSOption("", "", ""));
+	}
+
+	public BizEntId[] getEntIds() {
+		return entIds;
+	}
+
+	public void setEntIds(BizEntId[] entIds) {
+		this.entIds = entIds;
+	}
+
+	public BizEntAdr[] getEntAdrs() {
+		return entAdrs;
+	}
+
+	public void setEntAdrs(BizEntAdr[] entAdrs) {
+		this.entAdrs = entAdrs;
+	}
+
+	public BizEntCnt[] getEntCnts() {
+		return entCnts;
+	}
+
+	public void setEntCnts(BizEntCnt[] entCnts) {
+		this.entCnts = entCnts;
+	}
+
+	public int getEntid() {
+		return entid;
+	}
+
+	public void setEntid(int entid) {
+		this.entid = entid;
+	}
+
+	public UserDetails getUsrd() {
+		return usrd;
+	}
+
+	public void setUsrd(UserDetails usrd) {
+		this.usrd = usrd;
+	}
+
+	public BizEntityMgr getManager() {
+		return manager;
+	}
+
+	public void setManager(BizEntityMgr manager) {
+		this.manager = manager;
+	}
+
+	public ApplicationContext getCtx() {
+		return ctx;
+	}
+
+	public void setCtx(ApplicationContext ctx) {
+		this.ctx = ctx;
 	}
 
 	public EntityDetail getEntity() {
@@ -176,102 +252,7 @@ public class AddClientAction extends BaseAction {
 		this.bizName = bizName;
 	}
 
-	public String getIdTyp() {
-		return idTyp;
-	}
-
-	public void setIdTyp(String idTyp) {
-		this.idTyp = idTyp;
-	}
-
-	public String getIdCode() {
-		return idCode;
-	}
-
-	public void setIdCode(String idCode) {
-		this.idCode = idCode;
-	}
-
-	public String getAddtype() {
-		return addtype;
-	}
-
-	public void setAddtype(String addtype) {
-		this.addtype = addtype;
-	}
-
-	public String getStreetNo() {
-		return streetNo;
-	}
-
-	public void setStreetNo(String streetNo) {
-		this.streetNo = streetNo;
-	}
-
-	public String getStreetName() {
-		return streetName;
-	}
-
-	public void setStreetName(String streetName) {
-		this.streetName = streetName;
-	}
-
-	public String getAddrLine1() {
-		return addrLine1;
-	}
-
-	public void setAddrLine1(String addrLine1) {
-		this.addrLine1 = addrLine1;
-	}
-
-	public String getAddrLine2() {
-		return addrLine2;
-	}
-
-	public void setAddrLine2(String addrLine2) {
-		this.addrLine2 = addrLine2;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getIsd() {
-		return isd;
-	}
-
-	public void setIsd(String isd) {
-		this.isd = isd;
-	}
-
-	public String getAreacode() {
-		return areacode;
-	}
-
-	public void setAreacode(String areacode) {
-		this.areacode = areacode;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getExtention() {
-		return extention;
-	}
-
-	public void setExtention(String extention) {
-		this.extention = extention;
-	}
-
+	
 	public String getBizGroup() {
 		return bizGroup;
 	}
