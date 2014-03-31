@@ -18,6 +18,8 @@ import org.apache.struts2.convention.annotation.ResultPath;
 import org.apache.struts2.json.annotations.JSON;
 import org.springframework.context.ApplicationContext;
 
+import cl.errors.ClientDoesNotExistError;
+import cl.mainStream.AppConstants;
 import cl.mainStream.BSOption;
 import cl.mainStream.BSTables;
 import cl.managers.BizEntityMgr;
@@ -39,9 +41,14 @@ import cl.model.EntityDetail;
 public class SearchBizAction extends BaseAction {
 
 	private static final long serialVersionUID = 1L;
-	protected List<String> clientArry = new ArrayList <String>();
-    public String q;
-	
+
+	private List<EntityDetail> clients;
+	public String q;
+	public String mode;
+	public EntityDetail entity;
+	public EntityDetail entityR;
+	private String clientId;
+	protected List<String> clientArry = new ArrayList<String>();
 
 	@Override
 	public String execute() throws Exception {
@@ -53,25 +60,80 @@ public class SearchBizAction extends BaseAction {
 		return INPUT;
 	}
 
-	@Action(value = "findBiz", results = { @Result(name = "success", type="json" )})
-	public String findBiz() throws Exception {
+	@Action(value = "findBizByType", results = { @Result(name = "success", type = "json") })
+	public String findBizByType() throws Exception {
 
-		//System.out.println("findBiz");
+		// System.out.println("findBiz");
 		System.out.println(request.getParameter("q"));
 		String query = request.getParameter("q");
-		clientArry.clear();
+
 		setArrays();
 		@SuppressWarnings("unchecked")
-		List<String> clientList = (List<String>) getServletContex().getAttribute("CLIENT_LIST");   
-		String client ="";
-		for(String c: clientList){
-		  client = c.toLowerCase();	
-		  if(client.startsWith(query.toLowerCase())) {
-              clientArry.add(c);
-          }	
+		List<String> clientList = (List<String>) getServletContex().getAttribute("CLIENT_LIST");
+		String client = "";
+		for (String c : clientList) {
+			client = c.toLowerCase();
+			if (client.startsWith(query.toLowerCase())) {
+				clientArry.add(c);
+			}
 		}
-						
+
 		return SUCCESS;
+	}
+
+	@Action(value = "findBizByName", results = { @Result(name = "success", type = "json") })
+	public String findBizName() throws Exception {
+
+		// System.out.println("findBiz");
+		System.out.println(request.getParameter("q"));
+		String query = request.getParameter("q");
+
+		setArrays();
+		@SuppressWarnings("unchecked")
+		List<String> clientList = (List<String>) getServletContex().getAttribute("CLIENT_LIST");
+		String client = "";
+		for (String c : clientList) {
+			client = c.toLowerCase();
+			if (client.startsWith(query.toLowerCase())) {
+				clientArry.add(c);
+			}
+		}
+
+		return SUCCESS;
+	}
+
+	@Action(value = "getSearchClient", results = { @Result(name = "input_m", location = "/admin/pages/maintClient.jsp"), })
+	public String getClient() {
+
+		setMode("maintain");
+		// setMode((String) getSession().get("mode"));
+		ApplicationContext ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
+		String cid = (String) getSession().get("clientId");
+		BizEntityMgr manager =
+				(BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
+
+		try {
+			entityR = manager.getClientById(new Integer(clientId).intValue());
+
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClientDoesNotExistError e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// return INPUT;
+		return AppConstants.INPUT_MOBILE_VIEW;
+
+	}
+
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
 	}
 
 	@JSON(serialize = true)
@@ -83,19 +145,25 @@ public class SearchBizAction extends BaseAction {
 		this.clientArry = clientArry;
 	}
 
-    public void setQ(String query){
-    	
-    	this.q = query;
-    }
-	
+	public void setQ(String query) {
+
+		this.q = query;
+	}
 
 	public void setArrays() {
-		setBizGroupArry(BSTables.instance().getTable(BSTables.ECONOMIC_SECTOR, ""));
-		bizTypeArry = new ArrayList<BSOption>();
-		bizTypeArry.add(new BSOption("", "", ""));
-		setBizTypeArry(bizTypeArry);
+		setBizTypeArry(BSTables.instance().getTable(BSTables.BUSINESS_SECTOR, ""));
 
-		// clientArry = (List<String>) getServletContex().getAttribute("CLIENT_LIST");
+		// clients = (List<EntityDetail>)
+		// getServletContex().getAttribute("CLIENTS_LIST");
+		// if (clients == null) {
+		// ApplicationContext ctx = (ApplicationContext)
+		// getServletContex().getAttribute("SPRING_CTX");
 
+		// BizEntityMgr manager =
+		// (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
+
+		// clients = manager.getAllClients();
+		// getServletContex().setAttribute("CLIENTS_LIST", clients);
 	}
+
 }

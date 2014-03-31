@@ -156,6 +156,8 @@ public class BSTables implements ServiceNames {
 			List<EntityDetail> clients = manager.getAllClients();
 			System.out.println(clients.size());
 			sce.getServletContext().setAttribute(tableName, clients);
+			sce.getServletContext().setAttribute("ENTITY_DETAIL_LIST", clients);
+			
 			
 			//Map<String,String> clientArry = new HashMap<String,String>();
 			List<String> clientArry =new ArrayList<String>();
