@@ -28,23 +28,32 @@
 						value="%{entity.bizName}" label="Business Name" required="true" />
 
 					<div data-role="collapsible-set" data-inset="false">
+						<div data-role="inlinetabs">
+							<ul>
+								<li data-tab="id">Id</li>
+								<li data-tab="address">Address</li>
+								<li data-tab="contact">Contact</li>
+							</ul>
 
-						<sjm:div data-role="collapsible" id="entityId">
-							<h3>Identity</h3>
-							<s:include value="entityId.jsp"></s:include>
-						</sjm:div>
-
-
-						<sjm:div data-role="collapsible" id="address">
-							<h3>Addresses</h3>
-							<s:include value="address.jsp"></s:include>
-						</sjm:div>
-
-						<sjm:div data-role="collapsible" id="contact">
-							<h3>Contacts</h3>
-							<s:include value="contact.jsp"></s:include>
-						</sjm:div>
-
+							<div data-tab="id">
+								<sjm:div data-role="collapsible" id="entityId">
+									<h3>Identity</h3>
+									<s:include value="entityId.jsp"></s:include>
+								</sjm:div>
+							</div>
+							<div data-tab="address">
+								<sjm:div data-role="collapsible" id="address">
+									<h3>Addresses</h3>
+									<s:include value="address.jsp"></s:include>
+								</sjm:div>
+							</div>
+							<div data-tab="contact">
+								<sjm:div data-role="collapsible" id="contact">
+									<h3>Contacts</h3>
+									<s:include value="contact.jsp"></s:include>
+								</sjm:div>
+							</div>
+						</div>
 					</div>
 					<sjm:select id="bizGroup" name="bizGroup" class="bizGroup"
 						label="Group" headerKey="-1" headerValue="--Select a Group--"

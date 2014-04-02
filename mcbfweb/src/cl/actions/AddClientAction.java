@@ -27,15 +27,13 @@ import cl.model.EntityDetail;
 @ParentPackage(value = "default")
 @Namespace("/Main")
 @ResultPath(value = "/")
-@InterceptorRefs({
-		@InterceptorRef("loginStack"),
+@InterceptorRefs({ @InterceptorRef("loginStack"),
 
 })
 @Action(value = "AddClient", results = {
 		@Result(name = "success", location = "/User/MaintUser", type = "redirect"),
 		@Result(name = "input", location = "/admin/pages/addClient.jsp"),
-		@Result(name = "error", location = "pages/error.jsp")
-})
+		@Result(name = "error", location = "pages/error.jsp") })
 public class AddClientAction extends BaseAction {
 
 	private static final long serialVersionUID = 1L;
@@ -43,25 +41,14 @@ public class AddClientAction extends BaseAction {
 	private boolean init;
 	private String clientId;
 	private String bizName;
-	//private String idTyp;
-	//private String idCode;
-	//private String addtype;
-	//private String streetNo;
-	//private String streetName;
-	//private String addrLine1;
-	//private String addrLine2;
-	//private String email;
-	//private String isd;
-	//private String areacode;
-	//private String phone;
-	//private String extention;
+	
 	private String bizGroup;
 	private String bizType;
 
-	private BizEntId entIds[] = new BizEntId[2];;
-	private BizEntAdr entAdrs[] = new BizEntAdr[2]; ;
-	private BizEntCnt entCnts[] =new BizEntCnt[2]; ;
-	
+	private BizEntId entIds[];
+	private BizEntAdr entAdrs[];
+	private BizEntCnt entCnts[];
+
 	private EntityDetail entity;
 	private int entid;
 	private UserDetails usrd;
@@ -74,34 +61,41 @@ public class AddClientAction extends BaseAction {
 	public String execute() throws Exception {
 
 		System.out.println("AddClientAction");
-		
+
 		if (!init) {
 			setInit(true);
 			loadArrays();
 			
-			//this.entid = manager.getNextEntityNumber();
+			
+			entIds = new BizEntId[2];
+			entAdrs = new BizEntAdr[2];
+			entCnts = new BizEntCnt[2];
+			// this.entid = manager.getNextEntityNumber();
 			this.entid = 2;
 
 		}
 
-		if (getBizGroup() == null || getBizGroup() == "-1" || getBizGroup().trim().length() == 0)
+		if (getBizGroup() == null || getBizGroup() == "-1"
+				|| getBizGroup().trim().length() == 0)
 			return INPUT;
 
 		return INPUT;
 	}
 
-	@Action(value = "createClient", results = { @Result(name = "success", location = "/Main/ListClient", type = "redirect"),
+	@Action(value = "createClient", results = {
+			@Result(name = "success", location = "/Main/ListClient", type = "redirect"),
 			@Result(name = "input", location = "/admin/pages/addClient.jsp") })
 	public String addUpdateClient() {
 
 		System.out.println("createClient method Action");
-		ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
+		ctx = (ApplicationContext) getServletContex()
+				.getAttribute("SPRING_CTX");
 
 		manager = (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
 		entity = (EntityDetail) ctx.getBean("entityDetail");
-		entIds = entity.getIds();
-		entAdrs = entity.getAddresses();
-		entCnts = entity.getContacts();
+		// entIds = entity.getIds();
+		// entAdrs = entity.getAddresses();
+		// entCnts = entity.getContacts();
 		usrd = (UserDetails) getSession().get(VedaConstants.USER_KEY);
 		Date current = new Date();
 		Calendar cal = Calendar.getInstance();
@@ -119,36 +113,36 @@ public class AddClientAction extends BaseAction {
 		entity.setCrtDate(current);
 		entity.setEcoCode(getBizGroup());
 		entity.setEntity(entid);
-		entity.setEntTyp("BIZ");		
-		
+		entity.setEntTyp("BIZ");
+
 		for (BizEntId e : entIds) {
 			e.setChgByUser("");
 			e.setChgDate(current);
 			e.setCrtByUser(usrd.getUsername());
 			e.setCrtDate(current);
 			e.setVersion(1);
-			
+
 		}
-				
+
 		for (BizEntAdr e : entAdrs) {
 			e.setChgByUser("");
-			e.setChgDate(current);			
+			e.setChgDate(current);
 			e.setCrtByUser(usrd.getUsername());
 			e.setCrtDate(current);
-			e.setVersion(1);			
+			e.setVersion(1);
 		}
-		
+
 		for (BizEntCnt e : entCnts) {
 			e.setChgByUser("");
-			e.setChgDate(current);			
+			e.setChgDate(current);
 			e.setCrtByUser(usrd.getUsername());
 			e.setCrtDate(current);
-			e.setVersion(1);			
+			e.setVersion(1);
 		}
 		entity.setIds(entIds);
 		entity.setAddresses(entAdrs);
 		entity.setContacts(entCnts);
-		
+
 		entity.setIds(entIds);
 		entity.setInnchgByUser("");
 		entity.setInnchgDate(current);
@@ -167,7 +161,8 @@ public class AddClientAction extends BaseAction {
 
 	public void loadArrays() {
 
-		super.bizGroupArry = BSTables.instance().getTable(BSTables.ECONOMIC_SECTOR, "");
+		super.bizGroupArry = BSTables.instance().getTable(
+				BSTables.ECONOMIC_SECTOR, "");
 		super.bizTypeArry = new ArrayList<BSOption>();
 		super.bizTypeArry.add(new BSOption("", "", ""));
 	}
@@ -252,7 +247,6 @@ public class AddClientAction extends BaseAction {
 		this.bizName = bizName;
 	}
 
-	
 	public String getBizGroup() {
 		return bizGroup;
 	}
@@ -276,7 +270,5 @@ public class AddClientAction extends BaseAction {
 	public void setInit(boolean init) {
 		this.init = init;
 	}
-
-	
 
 }

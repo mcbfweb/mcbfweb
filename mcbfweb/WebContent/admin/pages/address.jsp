@@ -13,7 +13,7 @@
 			value="%{entAdrs[0].addtype}" label="Address Type"
 			required="true" />
 		<sjm:textfield id="streetNo_0" name="entAdrs[0].streetNo"
-			value="%{entAdrs[0].streetNo]" label="Street No."
+			value="%{entAdrs[0].streetNo}" label="Street No."
 			required="true" />
 		<sjm:textfield id="streetName_0" name="entAdrs[0].streetName"
 			value="%{entAdrs[0].streetName}" label="Street Name"

@@ -5,21 +5,27 @@
 
 <%
 	List<EntityDetail> clients = (List<EntityDetail>) session.getServletContext().getAttribute("ENTITY_DETAIL_LIST");
-	
-	String bizType = request.getParameter("bizType").trim();
 
+	String bizType = request.getParameter("bizType").trim();
+	String buffer = "";
+	String urlTag = "";
 	try {
-		String code = "";
-		String desc = "";
-			List<EntityDetail> filterList = new ArrayList<EntityDetail>();
+
 		for (EntityDetail option : clients) {
-			if (option != null && option.getType() != null && option.getBizCode().trim().equalsIgnoreCase(bizType))
-				filterList.add(option);
+			if (option != null && option.getType() != null && option.getBizCode().trim().equalsIgnoreCase(bizType)) {
+				String clientId = new Integer(option.getEntity()).toString();
+
+				String bizName = option.getBizName();
+				
+				buffer = buffer + "<li><a href=''>" + bizName + "</a></li>";
+			}
 		}
-    
-		request.setAttribute("filter_list", filterList);
-		
+		response.getWriter().println(buffer);
 	} catch (Exception e) {
 		System.out.println(e);
 	}
 %>
+
+
+
+

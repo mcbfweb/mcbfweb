@@ -16,23 +16,36 @@
 			class="ui-filterable" method="post">
 			<sjm:div role="fieldcontain">
 
-				<sjm:select id="bizGroup" name="bizGroup" class="bizGroup"
-						label="Group" headerKey="-1" headerValue="--Select a Group--"
-						emptyOption="false" onchange="showChange(this[this.selectedIndex].value, this.id)"
-						list="bizGroupArry" listKey="code" listValue="label" />
+				<sjm:select id="bizType" name="bizType" class="bizType" label="Type"
+					headerKey="-1" headerValue="--Select a Type--" emptyOption="false"
+					onchange="filterByType(this[this.selectedIndex].value, this.id)"
+					list="bizTypeArry" listKey="code" listValue="label" />
 
-					<sjm:select id="bizType" name="bizType" class="bizType"
-						label="Type" headerKey="-1" headerValue="--Select a Type--"
-						emptyOption="false" list="bizTypeArry" listKey="code"
-						listValue="label" />
+				<br />
+				<form>
+					<input type="text" data-type="search" id="filterable-input">
+				</form>
+				<form data-role="controlgroup" data-filter-reveal="true"
+					data-filter="true" data-input="#filterable-input">
 
-				<input type="text" id="myinput">
-				<br />
-				<br />
-				<ul id="autocomplete" data-role="listview" data-inset="true"
-					data-autodividers="true" data-filter="true"
-					data-filter-reveal="true"
-					data-filter-placeholder="Find a Business	..." data-filter-theme="d"></ul>
+					<s:iterator value="filterList" id="filterList">
+						<s:if test="%{#filterList.bizName != ''}">
+							<s:url action="../Main/findBizByType.action" var="urlTag">
+								<s:param name="clientId">
+									<s:property value="entity" />
+								</s:param>
+								<s:param name="mode">
+									<s:property value="view" />
+								</s:param>
+							</s:url>
+
+							<li><s:a href="%{urlTag}">
+									<s:property value="bizName" />
+								</s:a></li>
+						</s:if>
+					</s:iterator>
+					
+				</form>
 
 			</sjm:div>
 			<br />

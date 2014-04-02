@@ -4,8 +4,8 @@
 
 <div data-role="inlinetabs">
 	<ul>
-		<li data-tab="cnt1">Address 1</li>
-		<li data-tab="cnt2">Address 2</li>
+		<li data-tab="cnt1">Contact 1</li>
+		<li data-tab="cnt2">Contact 2</li>
 	</ul>
 
 	<div data-tab="cnt1">

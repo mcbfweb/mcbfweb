@@ -10,15 +10,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <sjm:head compressed='false' jqueryui="true" jquerytheme="ui-lightness" />
+<!-- <link rel="stylesheet"
+	href="http://code.jquery.com/mobile/git/jquery.mobile-git.css"> -->
+<script src="../js/jquery.ui.map.full.min.js" type="text/javascript"></script>
 
-<script src="./js/jquery.ui.map.full.min.js" type="text/javascript"></script>
-<script src="./js/jqm-inlinetabs.js" type="text/javascript"></script>
-<link rel="stylesheet"	href="./css/jqm-inlinetabs.css">
 <title>MCM</title>
 
 <script>
 	var xmlHttp;
-	var xmlHttp;
+
+	function filterByType(str, str2) {
+		//alert(str + "_" + str2);
+		if (typeof XMLHttpRequest != "undefined") {
+			xmlHttp = new XMLHttpRequest();
+		} else if (window.ActiveXObject) {
+			alert("Microsoft");
+			xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		if (xmlHttp == null) {
+			alert("Browser does not support XMLHTTP Request")
+			return;
+		}
+		if (str2 == "bizType") {
+			url = "../sortByType.jsp";
+			url += "?bizType=" + str;	
+			
+			//alert(url);
+			xmlHttp.onreadystatechange = filterTypeChange;
+		}
+		xmlHttp.open("GET", url, true);
+		xmlHttp.send(null);
+		 
+	}
+	function filterTypeChange() {
+		//alert("ready State = "+ xmlHttp.readyState);
+		if (xmlHttp.readyState == 4 || xmlHttp.readyState == "complete") {
+			var obj = document.getElementById("filterList");
+			var inner = xmlHttp.responseText;
+			//alert("Inner - "+  inner);
+			//select_innerHTML(obj, inner);
+			$("#filterList").append(inner);
+		}
+	}
+
 	function showChange(str, str2) {
 		//alert(str + "_" + str2);
 		var url = "";
@@ -40,7 +74,7 @@
 			e = document.getElementById("bizGroup");
 			bizGroup = e.options[e.selectedIndex].value;
 			url += "?bizGroup=" + str;
-
+			
 			xmlHttp.onreadystatechange = bizGroupChange;
 		}
 		xmlHttp.open("GET", url, true);
@@ -82,7 +116,7 @@
 		innerHTML = innerHTML.replace(/<option/g, "<span").replace(/<\/option/g, "</span")
 		selTemp.innerHTML = innerHTML
 
-		for ( var i = 0; i < selTemp.childNodes.length; i++) {
+		for (var i = 0; i < selTemp.childNodes.length; i++) {
 			var spantemp = selTemp.childNodes[i];
 
 			if (spantemp.tagName) {
@@ -95,7 +129,7 @@
 				}
 
 				//getting attributes
-				for ( var j = 0; j < spantemp.attributes.length; j++) {
+				for (var j = 0; j < spantemp.attributes.length; j++) {
 					var attrName = spantemp.attributes[j].nodeName;
 					var attrVal = spantemp.attributes[j].nodeValue;
 					if (attrVal) {

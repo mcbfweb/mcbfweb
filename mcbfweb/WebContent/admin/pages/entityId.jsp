@@ -10,10 +10,10 @@
 	</ul>
 
 	<div data-tab="id1">
-		<sjm:textfield id="idtype_0" name="entIds[0].idTyp"
-			value="%{entIds[0].idTyp}" label="ID Type" required="true" />
-		<sjm:textfield id="idnumber_0" name="entIds[0].idCode"
-			value="%{entIds[0].idCode}" label="ID Number" required="true" />
+		<sjm:textfield id="idtype_0" name="entity.ids[0].idTyp"
+			value="%{entity.ids[0].idTyp}" label="ID Type" required="true" />
+		<sjm:textfield id="idnumber_0" name="entity.ids[0].idCode"
+			value="%{entity.ids[0].idCode}" label="ID Number" required="true" />
 	</div>
 	<div data-tab="id2">
 		<sjm:textfield id="idtype_1" name="entIds[1].idTyp"
