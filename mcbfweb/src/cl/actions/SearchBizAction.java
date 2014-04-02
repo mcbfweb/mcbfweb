@@ -43,10 +43,10 @@ public class SearchBizAction extends BaseAction {
 	private static final long serialVersionUID = 1L;
 
 	private List<EntityDetail> clients;
-	public String q;
+
 	public String mode;
 	public EntityDetail entity;
-	public EntityDetail entityR;
+
 	private String clientId;
 	protected List<String> clientArry = new ArrayList<String>();
 
@@ -54,9 +54,8 @@ public class SearchBizAction extends BaseAction {
 	public String execute() throws Exception {
 
 		System.out.println("SearchBizAction Success");
-
 		setArrays();
-
+		getEntityDetailList();
 		return INPUT;
 	}
 
@@ -67,53 +66,22 @@ public class SearchBizAction extends BaseAction {
 		System.out.println(request.getParameter("q"));
 		String query = request.getParameter("q");
 
-		setArrays();
-		@SuppressWarnings("unchecked")
-		List<String> clientList = (List<String>) getServletContex().getAttribute("CLIENT_LIST");
-		String client = "";
-		for (String c : clientList) {
-			client = c.toLowerCase();
-			if (client.startsWith(query.toLowerCase())) {
-				clientArry.add(c);
-			}
-		}
-
 		return SUCCESS;
 	}
 
-	@Action(value = "findBizByName", results = { @Result(name = "success", type = "json") })
+	@Action(value = "findBizByName", results = { @Result(name = "input_m", location = "/search/pages/searchResult_m.jsp") })
 	public String findBizName() throws Exception {
 
 		// System.out.println("findBiz");
-		System.out.println(request.getParameter("q"));
-		String query = request.getParameter("q");
-
-		setArrays();
-		@SuppressWarnings("unchecked")
-		List<String> clientList = (List<String>) getServletContex().getAttribute("CLIENT_LIST");
-		String client = "";
-		for (String c : clientList) {
-			client = c.toLowerCase();
-			if (client.startsWith(query.toLowerCase())) {
-				clientArry.add(c);
-			}
-		}
-
-		return SUCCESS;
-	}
-
-	@Action(value = "getSearchClient", results = { @Result(name = "input_m", location = "/admin/pages/maintClient.jsp"), })
-	public String getClient() {
-
-		setMode("maintain");
-		// setMode((String) getSession().get("mode"));
+		System.out.println(request.getParameter("clientId"));
+		String clientId = request.getParameter("clientId");
+		String mode = request.getParameter("mode");
 		ApplicationContext ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
-		String cid = (String) getSession().get("clientId");
 		BizEntityMgr manager =
 				(BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
 
 		try {
-			entityR = manager.getClientById(new Integer(clientId).intValue());
+			this.entity = manager.getClientById(new Integer(clientId).intValue());
 
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
@@ -126,6 +94,30 @@ public class SearchBizAction extends BaseAction {
 		// return INPUT;
 		return AppConstants.INPUT_MOBILE_VIEW;
 
+	}
+
+	@SuppressWarnings("unchecked")
+	public void getEntityDetailList() {
+
+		clients = (List<EntityDetail>) getServletContex().getAttribute("ENTITY_DETAIL_LIST");
+		if (clients == null) {
+			ApplicationContext ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
+
+			BizEntityMgr manager =
+					(BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
+
+			clients = manager.getAllClients();
+			getServletContex().setAttribute("ENTITY_DETAIL_LIST", clients);
+		}
+
+	}
+
+	public EntityDetail getEntity() {
+		return entity;
+	}
+
+	public void setEntity(EntityDetail entity) {
+		this.entity = entity;
 	}
 
 	public String getMode() {
@@ -145,25 +137,7 @@ public class SearchBizAction extends BaseAction {
 		this.clientArry = clientArry;
 	}
 
-	public void setQ(String query) {
-
-		this.q = query;
-	}
-
 	public void setArrays() {
 		setBizTypeArry(BSTables.instance().getTable(BSTables.BUSINESS_SECTOR, ""));
-
-		// clients = (List<EntityDetail>)
-		// getServletContex().getAttribute("CLIENTS_LIST");
-		// if (clients == null) {
-		// ApplicationContext ctx = (ApplicationContext)
-		// getServletContex().getAttribute("SPRING_CTX");
-
-		// BizEntityMgr manager =
-		// (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
-
-		// clients = manager.getAllClients();
-		// getServletContex().setAttribute("CLIENTS_LIST", clients);
 	}
-
 }

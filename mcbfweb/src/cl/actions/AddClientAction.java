@@ -65,8 +65,6 @@ public class AddClientAction extends BaseAction {
 		if (!init) {
 			setInit(true);
 			loadArrays();
-			
-			
 			entIds = new BizEntId[2];
 			entAdrs = new BizEntAdr[2];
 			entCnts = new BizEntCnt[2];
