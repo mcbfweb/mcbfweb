@@ -8,16 +8,16 @@
 
 	String bizType = request.getParameter("bizType").trim();
 	String buffer = "";
-	String urlTag = "";
+	String urlTag = "../Main/findBizByName.action?mode=view&clientId=";
 	try {
 
 		for (EntityDetail option : clients) {
 			if (option != null && option.getType() != null && option.getBizCode().trim().equalsIgnoreCase(bizType)) {
 				String clientId = new Integer(option.getEntity()).toString();
-
+				
 				String bizName = option.getBizName();
 				
-				buffer = buffer + "<li><a href=''>" + bizName + "</a></li>";
+				buffer = buffer + "<li><a href='"+urlTag+clientId+"'>" + bizName + "</a></li>";
 			}
 		}
 		response.getWriter().println(buffer);

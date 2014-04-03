@@ -15,63 +15,38 @@
 			<div class="errors">
 				<s:actionerror />
 			</div>
-		</s:if>
-
-
-		<s:form id="searchResultForm" method="post">
-		   <s:hidden name="clientId" />
+		</s:if>		 
+			<s:hidden name="clientId" />
 			<fieldset>
 				<legend>
-					<b>Search Info</b>
+					<center><b>Search Info</b></center>
 				</legend>
 				<sjm:div role="fieldcontain">
-					<sjm:textfield id="bizName" name="bizName" value="%{entity.bizName}" label="Business Name"
-						required="true" />
-					<sjm:textfield id="idtype" name="idTyp" value="%{entity.idTyp}" label="ID Type"
-						required="true" />
-					<sjm:textfield id="idnumber" name="idCode"  value="%{entity.idCode}" label="ID Number"
-						required="true" />
-					<sjm:div data-role="collapsible-set" data-inset="false">
-						<sjm:div data-role="collapsible">
-							<h3>Address</h3>
-							<ul data-role="listview" data-inset="false">
-								<li><sjm:textfield id="type" name="addtype"
-										label="Address Type" required="true" /></li>
-								<li><sjm:textfield id="streetNo" name="streetNo"
-										label="Street No." required="true" /></li>
-								<li><sjm:textfield id="streetName" name="streetName"
-										label="Street Name" required="true" /></li>
-								<li><sjm:textfield id="addrLine1" name="addrLine1"
-										label="Address Line 1" required="true" /></li>
-								<li><sjm:textfield id="addrLine2" name="addrLine2"
-										label="Address Line 2" required="true" /></li>
-							</ul>
-						</sjm:div>
-						<sjm:div data-role="collapsible">
-							<h3>Contact</h3>
-							<ul data-role="listview" data-inset="false">
-								<li><sjm:textfield id="email" name="email" label="Email"
-										required="true" /></li>
-								<li><sjm:textfield id="isd" name="isd" label="Country Code"
-										required="true" /></li>
-								<li><sjm:textfield id="areacode" name="areacode"
-										label="Area Code" /></li>
-								<li><sjm:textfield id="phone" name="phone"
-										label="Phone No." required="true" /></li>
-								<li><sjm:textfield id="extention" name="extention"
-										label="Extention" required="true" /></li>
-							</ul>
-						</sjm:div>
 
+					<div>
+						Name :
+						<s:property value="entity.bizName" />
+					</div>
+					<sjm:div>
+						<h4>Address</h4>
+						Street :<s:property value="entity.streetNo" />  <s:property
+							value="entity.streetName" /><br/>
+						Address 1:<s:property value="entity.addrLine1" /><br/>
+						Address 2:<s:property value="entity.addrLine2" /><br/>						 
 					</sjm:div>
-					
-				
+					<sjm:div data-role="collapsible">
+						<h3>Contact</h3>
+						Email :<s:property value="entity.addrLine1" />
+						Phone :<s:property value="entity.isd" />+" "+Address 1:<s:property
+							value="entity.areacode" />+ " "+Address 1:<s:property
+							value="entity.phone" /> 
+						Extention:<s:property value="entity.extension" />
+					</sjm:div>
+
+
 				</sjm:div>
 			</fieldset>
-		</s:form>
-
-
-
+	 
 	</sjm:div>
 	<jsp:include page="/inc.footer.jsp" />
 </sjm:div>
