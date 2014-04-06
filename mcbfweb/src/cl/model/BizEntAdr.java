@@ -26,7 +26,7 @@ public class BizEntAdr implements java.io.Serializable{
 	@Column(name = "ADRDATID",unique = true, nullable = false)
 	private int datid;	
 	
-	@Column(name = "ADRENTITY", unique = true, nullable = false, insertable = false, updatable = false)
+	@Column(name = "ADRENTITY")
 	private int entity;	
 	
 	@Column(name = "ADRTYP")
@@ -69,8 +69,8 @@ public class BizEntAdr implements java.io.Serializable{
 	@Column(name = "ADRVERSION")
 	private Integer version;
 	
-	@ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
-	@JoinColumn(name="ADRENTITY")
+	@ManyToOne( cascade = {CascadeType.ALL, CascadeType.MERGE} )
+	@JoinColumn(name="ADRENTITY" , unique = true, nullable = false, insertable = false, updatable = false)
 	private EntityDetail entitydetail;	 
 	 
 	public BizEntAdr() {

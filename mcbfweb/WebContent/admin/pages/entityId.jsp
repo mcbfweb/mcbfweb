@@ -16,10 +16,10 @@
 			value="%{entity.ids[0].idCode}" label="ID Number" required="true" />
 	</div>
 	<div data-tab="id2">
-		<sjm:textfield id="idtype_1" name="entIds[1].idTyp"
-			value="%{entIds[1].idTyp}" label="ID Type" />
-		<sjm:textfield id="idnumber_1" name="entIds[1].idCode"
-			value="%{entIds[1].idCode}" label="ID Number" />
+		<sjm:textfield id="idtype_1" name="entity.ids[1].idTyp"
+			value="%{entity.ids[1].idTyp}" label="ID Type" />
+		<sjm:textfield id="idnumber_1" name="entity.ids[1].idCode"
+			value="%{entity.ids[1].idCode}" label="ID Number" />
 	</div>
 
 

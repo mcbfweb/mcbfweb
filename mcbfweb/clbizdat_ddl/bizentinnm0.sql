@@ -8,7 +8,7 @@ CREATE TABLE  `cb_clbizdat`.`BIZENTINNM0` (
   `INNLNAME` varchar(50) default NULL COMMENT 'Last Name',
   `INNUNAME` varchar(100) default NULL COMMENT 'Unformatted Name',
   `INNBNAME` varchar(100) default NULL COMMENT 'Business Entity Name',
-  `INNDATID` int(11) NOT NULL COMMENT 'File Unique Id',
+  `INNDATID` int(11) NOT NULL COMMENT auto_increment 'File Unique Id',
   `INNCRTDT` datetime NOT NULL default '2013-12-04 14:19:27' COMMENT 'Create Date',
   `INNCRTUSR` varchar(15) NOT NULL COMMENT 'Created By',
   `INNCHGDT` datetime NOT NULL default '2013-12-04 14:19:27' COMMENT 'Change Date',

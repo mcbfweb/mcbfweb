@@ -19,62 +19,49 @@
 
 
 		<s:form id="maintClientForm" method="post">
-		   <s:hidden name="clientId" />
+			<s:hidden name="clientId" />
 			<fieldset>
 				<legend>
-					<b>Add/Update Client</b>
+					<b>Add Client</b>
 				</legend>
 				<sjm:div role="fieldcontain">
-					<sjm:textfield id="bizName" name="bizName" value="%{entity.bizName}" label="Business Name"
-						required="true" />
-					<sjm:textfield id="idtype" name="idTyp" value="%{entity.idTyp}" label="ID Type"
-						required="true" />
-					<sjm:textfield id="idnumber" name="idCode"  value="%{entity.idCode}" label="ID Number"
-						required="true" />
-					<sjm:div data-role="collapsible-set" data-inset="false">
-						<sjm:div data-role="collapsible">
-							<h3>Address</h3>
-							<ul data-role="listview" data-inset="false">
-								<li><sjm:textfield id="type" name="addtype"
-										label="Address Type" required="true" /></li>
-								<li><sjm:textfield id="streetNo" name="streetNo"
-										label="Street No." required="true" /></li>
-								<li><sjm:textfield id="streetName" name="streetName"
-										label="Street Name" required="true" /></li>
-								<li><sjm:textfield id="addrLine1" name="addrLine1"
-										label="Address Line 1" required="true" /></li>
-								<li><sjm:textfield id="addrLine2" name="addrLine2"
-										label="Address Line 2" required="true" /></li>
-							</ul>
-						</sjm:div>
-						<sjm:div data-role="collapsible">
-							<h3>Contact</h3>
-							<ul data-role="listview" data-inset="false">
-								<li><sjm:textfield id="email" name="email" label="Email"
-										required="true" /></li>
-								<li><sjm:textfield id="isd" name="isd" label="Country Code"
-										required="true" /></li>
-								<li><sjm:textfield id="areacode" name="areacode"
-										label="Area Code" /></li>
-								<li><sjm:textfield id="phone" name="phone"
-										label="Phone No." required="true" /></li>
-								<li><sjm:textfield id="extention" name="extention"
-										label="Extention" required="true" /></li>
-							</ul>
-						</sjm:div>
+					<sjm:textfield id="bizName" name="bizName"
+						value="%{entity.bizName}" label="Business Name" required="true" />
 
-					</sjm:div>
+					<div data-role="collapsible-set" data-inset="false">
+						<div data-role="inlinetabs">
+							<ul>
+								<li data-tab="id">Id</li>
+								<li data-tab="address">Address</li>
+								<li data-tab="contact">Contact</li>
+							</ul>
+
+							<div data-tab="id">
+								<h3>Identity</h3>
+								<s:include value="entityId.jsp"></s:include>
+							</div>
+							<div data-tab="address">
+								<h3>Addresses</h3>
+								<s:include value="address.jsp"></s:include>
+							</div>
+							<div data-tab="contact">
+								<h3>Contacts</h3>
+								<s:include value="contact.jsp"></s:include>
+							</div>
+						</div>
+					</div>
 					<sjm:select id="bizGroup" name="bizGroup" class="bizGroup"
 						label="Group" headerKey="-1" headerValue="--Select a Group--"
-						emptyOption="false" onchange="showChange(this[this.selectedIndex].value, this.id)"
+						emptyOption="false"
+						onchange="showChange(this[this.selectedIndex].value, this.id)"
 						list="bizGroupArry" listKey="code" listValue="label" />
 
 					<sjm:select id="bizType" name="bizType" class="bizType"
 						label="Type" headerKey="-1" headerValue="--Select a Type--"
 						emptyOption="false" list="bizTypeArry" listKey="code"
 						listValue="label" />
-                   
-                  
+
+
 					<s:submit value="Update Client"
 						cssClass="button ui-state-default ui-corner-all"
 						action="updateClient" clearForm="true" />

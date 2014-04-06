@@ -110,9 +110,9 @@ public class MaintClientAction extends BaseAction {
 			setBizName(entityR.getBizName());
 			setClientId(new Integer(entityR.getEntity()).toString());
 			 
-			this.version = entityR.getVersion() + 1;
-			this.idVersion = entityR.getIds().get(0).getVersion() + 1;
-			this.innVersion = entityR.getInnversion() + 1;
+			//this.version = entityR.getVersion() + 1;
+			//this.idVersion = entityR.getIds().get(0).getVersion() + 1;
+			//this.innVersion = entityR.getInnversion() + 1;
 
 			loadArrays();
 			populateBizTypeArry();
@@ -157,13 +157,13 @@ public class MaintClientAction extends BaseAction {
 		entity.setEcoCode(getBizGroup());
 		// entity.setEntity(entid);
 		// entity.setEntTyp("BIZ");
-		entity.getIds().get(0).setChgByUser("");
-		entity.getIds().get(0).setChgDate(current);
-		entity.getIds().get(0).setIdCode(getIdCode());
-		entity.getIds().get(0).setCrtByUser(usrd.getUsername());
-		entity.getIds().get(0).setCrtDate(current);
-		entity.getIds().get(0).setVersion(getIdVersion());
-		entity.getIds().get(0).setIdTyp(getIdTyp());
+		entity.getIds()[0].setChgByUser("");
+		entity.getIds()[0].setChgDate(current);
+		entity.getIds()[0].setIdCode(getIdCode());
+		entity.getIds()[0].setCrtByUser(usrd.getUsername());
+		entity.getIds()[0].setCrtDate(current);
+		entity.getIds()[0].setVersion(getIdVersion());
+		entity.getIds()[0].setIdTyp(getIdTyp());
 		entity.setInnchgByUser("");
 		entity.setInnchgDate(current);
 		entity.setInncrtByUser(usrd.getUsername());

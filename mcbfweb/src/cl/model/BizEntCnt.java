@@ -26,7 +26,7 @@ public class BizEntCnt implements java.io.Serializable{
 	@Column(name = "CNTDATID",unique = true, nullable = false)
 	private int datid;	
 	
-	@Column(name = "CNTENTITY", unique = true, nullable = false, insertable = false, updatable = false)
+	@Column(name = "CNTENTITY")
 	private int entity;	
 	@Column(name = "CNTTYP")
 	private String cntTyp;
@@ -54,14 +54,37 @@ public class BizEntCnt implements java.io.Serializable{
 	@Column(name = "CNTVERSION")
 	private Integer version;
 	
-	@ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
-	@JoinColumn(name="CNTENTITY")
+	@ManyToOne( cascade = {CascadeType.ALL, CascadeType.MERGE} )
+	@JoinColumn(name="CNTENTITY", unique = true, nullable = false, insertable = false, updatable = false)
 	private EntityDetail entitydetail;	 
 	 
 	public BizEntCnt() {
 
 	}
 	
+	public BizEntCnt(int datid, int entity, String cntTyp, String cntName,
+			String cntPos, String cntEmail, String cntIsdCde,
+			String cntAreaCde, String cntPhnNo, Date crtDate, String crtByUser,
+			Date chgDate, String chgByUser, Integer version,
+			EntityDetail entitydetail) {
+		super();
+		this.datid = datid;
+		this.entity = entity;
+		this.cntTyp = cntTyp;
+		this.cntName = cntName;
+		this.cntPos = cntPos;
+		this.cntEmail = cntEmail;
+		this.cntIsdCde = cntIsdCde;
+		this.cntAreaCde = cntAreaCde;
+		this.cntPhnNo = cntPhnNo;
+		this.crtDate = crtDate;
+		this.crtByUser = crtByUser;
+		this.chgDate = chgDate;
+		this.chgByUser = chgByUser;
+		this.version = version;
+		this.entitydetail = entitydetail;
+	}
+
 	public int getDatid() {
 		return datid;
 	}

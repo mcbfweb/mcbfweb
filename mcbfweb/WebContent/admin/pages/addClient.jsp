@@ -18,10 +18,10 @@
 		</s:if>
 
 
-		<s:form id="maintClientForm" method="post">
+		<s:form id="addClientForm" method="post">
 			<fieldset>
 				<legend>
-					<b>Add/Update Client</b>
+					<b>Add Client</b>
 				</legend>
 				<sjm:div role="fieldcontain">
 					<sjm:textfield id="bizName" name="bizName"
@@ -36,22 +36,16 @@
 							</ul>
 
 							<div data-tab="id">
-								<sjm:div data-role="collapsible" id="entityId">
-									<h3>Identity</h3>
-									<s:include value="entityId.jsp"></s:include>
-								</sjm:div>
+								<h3>Identity</h3>
+								<s:include value="entityId.jsp"></s:include>
 							</div>
 							<div data-tab="address">
-								<sjm:div data-role="collapsible" id="address">
-									<h3>Addresses</h3>
-									<s:include value="address.jsp"></s:include>
-								</sjm:div>
+								<h3>Addresses</h3>
+								<s:include value="address.jsp"></s:include>
 							</div>
 							<div data-tab="contact">
-								<sjm:div data-role="collapsible" id="contact">
-									<h3>Contacts</h3>
-									<s:include value="contact.jsp"></s:include>
-								</sjm:div>
+								<h3>Contacts</h3>
+								<s:include value="contact.jsp"></s:include>
 							</div>
 						</div>
 					</div>

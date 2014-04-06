@@ -80,4 +80,18 @@ public class BizEntityMgrImpl implements BizEntityMgr {
 		return bizEntityDAO.getAllClients();
 	
 	}
+	@Override
+	@Transactional
+	public  List <EntityDetail> getAllClientsByCountry(String country) {
+	
+		return bizEntityDAO.getAllClientsByCountry(country);
+	
+	}
+	@Override
+	@Transactional
+	public  List <EntityDetail> getAllClientsByCountryCity(String country, String city) {
+	
+		return bizEntityDAO.getAllClientsByCountryCity(country, city);
+	
+	}
 }

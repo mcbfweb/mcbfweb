@@ -28,14 +28,15 @@ public class BizEntId implements java.io.Serializable{
 	@Column(name = "IDDATID",unique = true, nullable = false)
 	private int datid;	
 	
-	@Column(name = "IDENTITY", unique = true, nullable = false, insertable = false, updatable = false)
+	@Column(name = "IDENTITY")
 	private int entity;	
+	
+	@Column(name = "IDCTRY")
+	private String idCtry;
 	@Column(name = "IDIDTYP")
 	private String idTyp;
-
 	@Column(name = "IDIDCODE")
-	private String idCode;
-	
+	private String idCode;	
 	@Column(name = "IDCRTDT")
 	private Date crtDate;;
 	@Column(name = "IDCRTUSR")
@@ -47,8 +48,8 @@ public class BizEntId implements java.io.Serializable{
 	@Column(name = "IDVERSION")
 	private Integer version;
 	
-	@ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
-	@JoinColumn(name="IDENTITY")
+	@ManyToOne( cascade = {CascadeType.ALL, CascadeType.MERGE} )
+	@JoinColumn(name="IDENTITY", unique = true, nullable = false, insertable = false, updatable = false)
 	private EntityDetail entitydetail;
 	
 	
@@ -73,11 +74,12 @@ public class BizEntId implements java.io.Serializable{
 		this.entitydetail = entitydetail;
 	}
 
-	public BizEntId(int entity, String idTyp, String idCode) {
+	public BizEntId(int entity, String idTyp, String idCode, String idCtry) {
 
 		this.entity = entity;
 		this.idTyp = idTyp;
 		this.idCode = idCode;
+		this.idCtry= idCtry;
 		
 	}
 	
@@ -106,6 +108,15 @@ public class BizEntId implements java.io.Serializable{
 	public void setIdCode(String idCode) {
 		this.idCode = idCode;
 	}
+	
+	public String getIdCtry() {
+		return idCtry;
+	}
+
+	public void setIdCtry(String idCtry) {
+		this.idCtry = idCtry;
+	}
+
 	public Date getCrtDate() {
 		return crtDate;
 	}

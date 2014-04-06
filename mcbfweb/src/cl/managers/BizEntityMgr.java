@@ -24,5 +24,6 @@ public interface BizEntityMgr {
 	EntityDetail getClientById(int client) throws ClientDoesNotExistError;
 
 	List<EntityDetail> getAllClients();
-
+	List<EntityDetail> getAllClientsByCountry(String country);
+	List<EntityDetail> getAllClientsByCountryCity(String country, String city);
 }

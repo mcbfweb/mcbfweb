@@ -41,13 +41,9 @@ public class AddClientAction extends BaseAction {
 	private boolean init;
 	private String clientId;
 	private String bizName;
-	
+
 	private String bizGroup;
 	private String bizType;
-
-	private BizEntId entIds[];
-	private BizEntAdr entAdrs[];
-	private BizEntCnt entCnts[];
 
 	private EntityDetail entity;
 	private int entid;
@@ -65,11 +61,10 @@ public class AddClientAction extends BaseAction {
 		if (!init) {
 			setInit(true);
 			loadArrays();
-			entIds = new BizEntId[2];
-			entAdrs = new BizEntAdr[2];
-			entCnts = new BizEntCnt[2];
-			// this.entid = manager.getNextEntityNumber();
-			this.entid = 2;
+			this.ctx = (ApplicationContext) getServletContex().getAttribute(
+					"SPRING_CTX");
+			this.manager = (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
+			this.entity = (EntityDetail) ctx.getBean("entityDetail");
 
 		}
 
@@ -90,14 +85,14 @@ public class AddClientAction extends BaseAction {
 				.getAttribute("SPRING_CTX");
 
 		manager = (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
-		entity = (EntityDetail) ctx.getBean("entityDetail");
-		// entIds = entity.getIds();
-		// entAdrs = entity.getAddresses();
-		// entCnts = entity.getContacts();
+		entid = manager.getNextEntityNumber();
+		entity.setEntity(entid);
 		usrd = (UserDetails) getSession().get(VedaConstants.USER_KEY);
 		Date current = new Date();
 		Calendar cal = Calendar.getInstance();
-
+		System.out.println(entity.getIds()[0].getIdCode());
+		System.out.println(entity.getAddresses()[0].getAdrLine1());
+		System.out.println(entity.getContacts()[0].getCntEmail());
 		entity.setBizCode(getBizType());
 		entity.setBizName(getBizName());
 		entity.setfName("");
@@ -111,10 +106,26 @@ public class AddClientAction extends BaseAction {
 		entity.setCrtDate(current);
 		entity.setEcoCode(getBizGroup());
 		entity.setEntity(entid);
+		entity.setCtry("CAN");
 		entity.setEntTyp("BIZ");
 
-		for (BizEntId e : entIds) {
-			e.setChgByUser("");
+		BizEntId entIds[] = new BizEntId[1];
+
+		if ((entity.getIds()[0].getIdCode() == null)
+				|| entity.getIds()[1].getIdCode() == null) {
+
+			if ((entity.getIds()[0].getIdCode() == null))
+				entIds[0] = entity.getIds()[1];
+			if ((entity.getIds()[1].getIdCode() == null))
+				entIds[0] = entity.getIds()[0];
+
+			entity.setIds(entIds);
+		}
+
+		for (BizEntId e : entity.getIds()) {
+			e.setIdCtry("CAN");
+			e.setEntity(entid);
+			e.setChgByUser(usrd.getUsername());
 			e.setChgDate(current);
 			e.setCrtByUser(usrd.getUsername());
 			e.setCrtDate(current);
@@ -122,26 +133,61 @@ public class AddClientAction extends BaseAction {
 
 		}
 
-		for (BizEntAdr e : entAdrs) {
-			e.setChgByUser("");
+		BizEntAdr entAdrs[] = new BizEntAdr[1];
+
+		if ((entity.getAddresses()[0].getAdrTyp() == null)
+				|| entity.getAddresses()[1].getAdrTyp() == null) {
+
+			if ((entity.getAddresses()[0].getAdrTyp() == null))
+				entAdrs[0] = entity.getAddresses()[1];
+			if ((entity.getAddresses()[0].getAdrTyp() == null))
+				entAdrs[0] = entity.getAddresses()[0];
+
+			entity.setAddresses(entAdrs);
+		}
+
+		for (BizEntAdr e : entity.getAddresses()) {
+			e.setEntity(entid);
+			e.setAdrCity("TO");
+			e.setAdrCtry("CAN");
+			e.setAdrPstCde("101010A");
+			e.setAdrState("ON");
+			e.setChgByUser(usrd.getUsername());
 			e.setChgDate(current);
 			e.setCrtByUser(usrd.getUsername());
 			e.setCrtDate(current);
 			e.setVersion(1);
+
+		}
+		BizEntCnt entCnts[] = new BizEntCnt[1];
+
+		if ((entity.getContacts()[0].getCntEmail() == null)
+				|| entity.getContacts()[1].getCntEmail() == null) {
+
+			if ((entity.getContacts()[0].getCntEmail() == null))
+				entCnts[0] = entity.getContacts()[1];
+			if ((entity.getContacts()[1].getCntEmail() == null))
+				entCnts[0] = entity.getContacts()[0];
+
+			entity.setContacts(entCnts);
 		}
 
-		for (BizEntCnt e : entCnts) {
-			e.setChgByUser("");
+		for (BizEntCnt e : entity.getContacts()) {
+			// if (e.getCntEmail() == null || e.getCntEmail().length() == 0) {
+			//
+			// } else {
+			e.setCntTyp("EML");
+			e.setCntPos("MGR");
+			e.setEntity(entid);
+			e.setChgByUser(usrd.getUsername());
 			e.setChgDate(current);
 			e.setCrtByUser(usrd.getUsername());
 			e.setCrtDate(current);
 			e.setVersion(1);
-		}
-		entity.setIds(entIds);
-		entity.setAddresses(entAdrs);
-		entity.setContacts(entCnts);
 
-		entity.setIds(entIds);
+			// }
+		}
+
 		entity.setInnchgByUser("");
 		entity.setInnchgDate(current);
 		entity.setInncrtByUser(usrd.getUsername());
@@ -163,30 +209,6 @@ public class AddClientAction extends BaseAction {
 				BSTables.ECONOMIC_SECTOR, "");
 		super.bizTypeArry = new ArrayList<BSOption>();
 		super.bizTypeArry.add(new BSOption("", "", ""));
-	}
-
-	public BizEntId[] getEntIds() {
-		return entIds;
-	}
-
-	public void setEntIds(BizEntId[] entIds) {
-		this.entIds = entIds;
-	}
-
-	public BizEntAdr[] getEntAdrs() {
-		return entAdrs;
-	}
-
-	public void setEntAdrs(BizEntAdr[] entAdrs) {
-		this.entAdrs = entAdrs;
-	}
-
-	public BizEntCnt[] getEntCnts() {
-		return entCnts;
-	}
-
-	public void setEntCnts(BizEntCnt[] entCnts) {
-		this.entCnts = entCnts;
 	}
 
 	public int getEntid() {

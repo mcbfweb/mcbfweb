@@ -1,9 +1,8 @@
 package cl.model;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,8 +16,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Service;
-
-import cl.mainStream.BSOption;
 
 @Entity
 @Table(name = "BIZENTITYM0")
@@ -78,35 +75,16 @@ public class EntityDetail {
 	@Column(table = "BIZENTINNM0", name = "INNVERSION")
 	private Integer innversion;
 
-	// ID
-	/*
-	 * @Column(table = "BIZENTIDM0", name = "IDIDTYP") private String idTyp;
-	 * 
-	 * @Column(table = "BIZENTIDM0", name = "IDIDCODE") private String idCode;
-	 * 
-	 * @Column(table = "BIZENTIDM0", name = "IDCRTDT") private Date idcrtDate;;
-	 * 
-	 * @Column(table = "BIZENTIDM0", name = "IDCRTUSR") private String
-	 * idcrtByUser;
-	 * 
-	 * @Column(table = "BIZENTIDM0", name = "IDCHGDT") private Date idchgDate;;
-	 * 
-	 * @Column(table = "BIZENTIDM0", name = "IDCHGUSR") private String
-	 * idchgByUser;
-	 * 
-	 * @Column(table = "BIZENTIDM0", name = "IDVERSION") private Integer
-	 * idversion;
-	 */
-
-	@OneToMany(mappedBy = "entitydetail")
+	
+	@OneToMany(mappedBy = "entitydetail", cascade = {CascadeType.ALL} )
 	@OrderColumn(name = "IDDATID")
 	private BizEntId ids[] = new BizEntId[2];
 
-	@OneToMany(mappedBy = "entitydetail")
+	@OneToMany(mappedBy = "entitydetail", cascade = {CascadeType.ALL})
 	@OrderColumn(name = "CNTDATID")
 	private BizEntCnt contacts[] = new BizEntCnt[2];
 	
-	@OneToMany(mappedBy = "entitydetail")
+	@OneToMany(mappedBy = "entitydetail", cascade = {CascadeType.ALL})
 	@OrderColumn(name = "ADRDATID")
 	private BizEntAdr addresses[] =  new BizEntAdr[2];
 
@@ -119,11 +97,11 @@ public class EntityDetail {
 		
 		index = 0;
 		for (BizEntCnt contact : contacts) {
-			contacts[index++] = new BizEntCnt();
+			this.contacts[index++] = new BizEntCnt();
 		}
 		index = 0;
 		for (BizEntAdr address : addresses) {
-			addresses[index++] = new BizEntAdr();
+			this.addresses[index++] = new BizEntAdr();
 		}
 		
 		
