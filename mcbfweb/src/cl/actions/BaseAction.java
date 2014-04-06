@@ -32,6 +32,9 @@ public class BaseAction extends ActionSupport implements ServletContextAware,
 	protected HttpServletResponse response = null;
 	protected List<BSOption> bizGroupArry;
 	protected List<BSOption> bizTypeArry;
+	protected List<BSOption> bizIDTypeArry;
+	protected List<BSOption>ISDCdeArry;
+	protected List<BSOption>adrTypeArry;
 	
 	
 
@@ -96,6 +99,12 @@ public class BaseAction extends ActionSupport implements ServletContextAware,
 	}
 	 
 		
+	public List<BSOption> getBizIDTypeArry() {
+		return bizIDTypeArry;
+	}
+	public void setBizIDTypeArry(List<BSOption> bizIDTypeArry) {
+		this.bizIDTypeArry = bizIDTypeArry;
+	}
 	@Override
 	public void setServletContext(ServletContext ctx) {
 		this.context = ctx;
@@ -103,6 +112,20 @@ public class BaseAction extends ActionSupport implements ServletContextAware,
 	}
 
 	
+	public List<BSOption> getISDCdeArry() {
+		return ISDCdeArry;
+	}
+	public void setISDCdeArry(List<BSOption> iSDCdeArry) {
+		ISDCdeArry = iSDCdeArry;
+	}
+	
+	
+	public List<BSOption> getAdrTypeArry() {
+		return adrTypeArry;
+	}
+	public void setAdrTypeArry(List<BSOption> adrTypeArry) {
+		this.adrTypeArry = adrTypeArry;
+	}
 	@JSON(serialize=false)
 	public ServletContext getServletContex() {
 		return this.context;

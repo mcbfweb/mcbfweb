@@ -70,6 +70,8 @@ public class BSTables implements ServiceNames {
 	public final static String SEC_AUTH = "SECAT";
 	public final static String ACC_STS = "INDACCCON";
 	public final static String USR_GRP = "USRGRP";
+	public final static String ISD_CDE = "ISDCDE";
+	public final static String ADR_TYPE = "ADRTYP";
 	private static BSTables bSTables = null;
 
 	public static final String[] applicationTables = new String[] {
@@ -84,7 +86,9 @@ public class BSTables implements ServiceNames {
 			CNT_NUM_TYP,
 			SEC_AUTH,
 			ACC_STS,
-			USR_GRP
+			USR_GRP,
+			ISD_CDE,
+			ADR_TYPE
 	};
 
 	private HashMap<String, List<BSOption>> englishTables;

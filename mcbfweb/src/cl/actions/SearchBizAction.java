@@ -6,8 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import joptsimple.util.KeyValuePair;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
@@ -55,6 +58,9 @@ public class SearchBizAction extends BaseAction {
 
 		System.out.println("SearchBizAction Success");
 		setArrays();
+		
+		//System.out.println((String) request.getParameter("latitude"));
+		//System.out.println((String) request.getParameter("longtitude"));
 		getEntityDetailList();
 		return INPUT;
 	}

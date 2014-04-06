@@ -10,7 +10,7 @@
 	$(function() {
 		
 		var tt = '<%=(String)session.getServletContext().getAttribute("application")%>';
-		alert(tt+ "Done this....");
+		//alert(tt+ "Done this....");
 		/* $('#map_canvas').gmap({
 			'center' : '42.345573,-71.098326'
 		}).bind('init', function(evt, map) {

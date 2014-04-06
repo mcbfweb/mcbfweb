@@ -9,9 +9,14 @@
 	</ul>
 
 	<div data-tab="add1">
-		<sjm:textfield id="type_0" name="entity.addresses[0].adrTyp"
+		<%-- <sjm:textfield id="type_0" name="entity.addresses[0].adrTyp"
 			value="%{entity.addresses[0].adrTyp}" label="Address Type"
-			required="true" />
+			required="true" /> --%>
+		<sjm:select id="type_0" name="entity.addresses[0].adrTyp"
+			class="adrType" label="Address Type" headerKey="-1"
+			headerValue="--Select a Type--" emptyOption="false"
+			list="adrTypeArry" listKey="code" listValue="label" required="true" />
+
 		<sjm:textfield id="streetNo_0" name="entity.addresses[0].adrStrtNo"
 			value="%{entity.addresses[0].adrStrtNo}" label="Street No."
 			required="true" />
@@ -27,8 +32,10 @@
 
 	</div>
 	<div data-tab="add2">
-		<sjm:textfield id="type_1" name="entity.addresses[1].adrTyp"
-			value="%{entity.addresses[1].adrTyp}" label="Address Type" />
+		<sjm:select id="type_1" name="entity.addresses[1].adrTyp"
+			class="adrType" label="Address Type" headerKey="-1"
+			headerValue="--Select a Type--" emptyOption="false"
+			list="adrTypeArry" listKey="code" listValue="label" required="true" />
 		<sjm:textfield id="streetNo_1" name="entity.addresses[1].adrStrtNo"
 			value="%{entity.addresses[1].adrStrtNo}" label="Street No." />
 		<sjm:textfield id="streetName_1" name="entity.addresses[1].adrstrNm"

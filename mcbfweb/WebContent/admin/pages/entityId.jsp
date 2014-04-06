@@ -10,14 +10,18 @@
 	</ul>
 
 	<div data-tab="id1">
-		<sjm:textfield id="idtype_0" name="entity.ids[0].idTyp"
-			value="%{entity.ids[0].idTyp}" label="ID Type" required="true" />
+		<sjm:select id="idtype_0" name="entity.ids[0].idTyp" class="bizIDTyp"
+			label="ID Type" headerKey="-1" headerValue="--Select a ID Type--"
+			emptyOption="false"	list="bizIDTypeArry" listKey="code" listValue="label" required="true"/>
+
 		<sjm:textfield id="idnumber_0" name="entity.ids[0].idCode"
 			value="%{entity.ids[0].idCode}" label="ID Number" required="true" />
 	</div>
 	<div data-tab="id2">
-		<sjm:textfield id="idtype_1" name="entity.ids[1].idTyp"
-			value="%{entity.ids[1].idTyp}" label="ID Type" />
+		<sjm:select id="idtype_1" name="entity.ids[1].idTyp" class="bizIDTyp"
+			label="ID Type" headerKey="-1" headerValue="--Select a ID Type--"
+			emptyOption="false"	list="bizIDTypeArry" listKey="code" listValue="label" required="true"/>
+			
 		<sjm:textfield id="idnumber_1" name="entity.ids[1].idCode"
 			value="%{entity.ids[1].idCode}" label="ID Number" />
 	</div>

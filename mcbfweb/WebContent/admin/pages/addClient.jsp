@@ -18,7 +18,7 @@
 		</s:if>
 
 
-		<s:form id="addClientForm" method="post">
+		<s:form method="post" action="../Main/createClient.action">
 			<fieldset>
 				<legend>
 					<b>Add Client</b>
@@ -60,10 +60,10 @@
 						emptyOption="false" list="bizTypeArry" listKey="code"
 						listValue="label" />
 
-
-					<s:submit value="Add Client"
+					<s:submit id="submitBtn" value="Add Client" align="center" />
+					<%-- <s:submit value="Add Client"
 						cssClass="button ui-state-default ui-corner-all"
-						action="createClient" clearForm="true" />
+						action="createClient" /> --%>
 				</sjm:div>
 			</fieldset>
 		</s:form>

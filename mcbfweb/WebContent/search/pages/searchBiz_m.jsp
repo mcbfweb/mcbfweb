@@ -1,9 +1,8 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib prefix="sjm" uri="/struts-jquery-mobile-tags"%>
 
-
-
 <jsp:include page="/inc.header.jsp" />
+
 <sjm:div role="page" id="searchBizpage" jquerytheme="redmond"
 	data-theme="b" theme="simple">
 
@@ -17,7 +16,8 @@
 		<sjm:div>
 			<s:form id="formSearchBizPage" action="../Main/SearchBiz"
 				class="ui-filterable" method="post">
-					
+				
+				
 				<sjm:select id="bizType" name="bizType" class="bizType" label="Type"
 					headerKey="-1" headerValue="--Select a Type--" emptyOption="false"
 					onchange="filterByType(this[this.selectedIndex].value, this.id)"
