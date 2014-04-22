@@ -1,5 +1,7 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib prefix="sjm" uri="/struts-jquery-mobile-tags"%>
+<%@ page import="cl.mainStream.*"%>
+<%@ page import="java.util.List"%>
 
 <jsp:include page="/inc.header.jsp" />
 <s:url id="remoteurl" action="../Main/populateBizTypeArry.action" />
@@ -18,15 +20,22 @@
 		</s:if>
 
 
-		<s:form id="maintClientForm" method="post">
-			<s:hidden name="clientId" />
+		<s:form method="post" action="../Main/updateClient.action">
+
 			<fieldset>
 				<legend>
-					<b>Add Client</b>
+					<b>Update Client</b>
 				</legend>
 				<sjm:div role="fieldcontain">
-					<sjm:textfield id="bizName" name="bizName"
-						value="%{entity.bizName}" label="Business Name" required="true" />
+
+					<div data-tab="id">
+						<h3>Name</h3>
+						<s:include value="name.jsp"></s:include>
+					</div>
+					<sjm:select id="ctry" name="entity.ctry" class="ctry"
+						label="Country" headerKey=" " headerValue="--Select a Country--"
+						emptyOption="false" list="adrCountryArry" listKey="code"
+						listValue="label" />
 
 					<div data-role="collapsible-set" data-inset="false">
 						<div data-role="inlinetabs">
@@ -35,7 +44,7 @@
 								<li data-tab="address">Address</li>
 								<li data-tab="contact">Contact</li>
 							</ul>
-
+							<s:include value="hidden.jsp"></s:include>
 							<div data-tab="id">
 								<h3>Identity</h3>
 								<s:include value="entityId.jsp"></s:include>
@@ -50,26 +59,32 @@
 							</div>
 						</div>
 					</div>
-					<sjm:select id="bizGroup" name="bizGroup" class="bizGroup"
+					<sjm:select id="bizGroup" name="entity.ecoCode" class="bizGroup"
 						label="Group" headerKey="-1" headerValue="--Select a Group--"
 						emptyOption="false"
 						onchange="showChange(this[this.selectedIndex].value, this.id)"
 						list="bizGroupArry" listKey="code" listValue="label" />
 
-					<sjm:select id="bizType" name="bizType" class="bizType"
+					<sjm:select id="bizType" name="entity.bizCode" class="bizType"
 						label="Type" headerKey="-1" headerValue="--Select a Type--"
-						emptyOption="false" list="bizTypeArry" listKey="code"
-						listValue="label" />
+						emptyOption="false"
+						onchange="showChange(this[this.selectedIndex].value, this.id)"
+						list="bizTypeArry" listKey="code" listValue="label" />
+
+					<sjm:select id="indGrp" name="entity.grpCode" class="indGrp"
+						label="Ind.Group" headerKey="-1" headerValue="--Select a Group--"
+						emptyOption="false"
+						onchange="showChange(this[this.selectedIndex].value, this.id)"
+						list="indGrpArry" listKey="code" listValue="label" />
+
+					<sjm:select id="industry" name="entity.indCode" class="industry"
+						label="Industry" headerKey="-1"
+						headerValue="--Select an Industry--" emptyOption="false"
+						list="industryArry" listKey="code" listValue="label" />
 
 
-					<s:submit value="Update Client"
-						cssClass="button ui-state-default ui-corner-all"
-						action="updateClient" clearForm="true" />
-				
-				   <s:submit value="Delete Client"
-						cssClass="button ui-state-default ui-corner-all"
-						action="deleteClient" clearForm="true" />
-				
+					<s:submit id="submitBtn" value="Update Client" align="center" />
+
 				</sjm:div>
 			</fieldset>
 		</s:form>

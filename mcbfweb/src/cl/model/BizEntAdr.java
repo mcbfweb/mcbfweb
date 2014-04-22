@@ -6,6 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,17 +19,18 @@ import org.springframework.stereotype.Service;
 @Entity
 @Table(name = "BIZENTADRM0")
 @Service
-public class BizEntAdr implements java.io.Serializable{
+public class BizEntAdr implements java.io.Serializable {
 
-	@Id
-	@GeneratedValue(generator = "increment")
-	@GenericGenerator(name = "increment", strategy = "increment")	
-	@Column(name = "ADRDATID",unique = true, nullable = false)
-	private int datid;	
-	
+	@Id  
+	//@GeneratedValue(generator = "increment")
+	//@GenericGenerator(name = "increment", strategy = "increment")
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ADRDATID", unique = true, nullable = false)
+	private Integer datid;
+
 	@Column(name = "ADRENTITY")
-	private int entity;	
-	
+	private Integer entity;
+
 	@Column(name = "ADRTYP")
 	private String adrTyp;
 	@Column(name = "ADRBLDG")
@@ -55,9 +57,7 @@ public class BizEntAdr implements java.io.Serializable{
 	private String adrCtry;
 	@Column(name = "ADRPSTCDE")
 	private String adrPstCde;
-	@Column(name = "ADRGEOID")
-	private String adrGeoId;	
-	
+
 	@Column(name = "ADRCRTDT")
 	private Date crtDate;;
 	@Column(name = "ADRCRTUSR")
@@ -68,21 +68,18 @@ public class BizEntAdr implements java.io.Serializable{
 	private String chgByUser;
 	@Column(name = "ADRVERSION")
 	private Integer version;
-	
-	@ManyToOne( cascade = {CascadeType.ALL, CascadeType.MERGE} )
-	@JoinColumn(name="ADRENTITY" , unique = true, nullable = false, insertable = false, updatable = false)
-	private EntityDetail entitydetail;	 
-	 
-	public BizEntAdr() {
 
+	@ManyToOne(cascade = { CascadeType.ALL, CascadeType.MERGE })
+	@JoinColumn(name = "ADRENTITY", nullable = false, insertable = false, updatable = false, referencedColumnName = "ITYENTITY")
+	private EntityDetail entitydetail;
+
+	public BizEntAdr() {
+      super();
 	}
-	
-	public BizEntAdr(int datid, int entity, String adrTyp, String adrBldg,
-			String adrFlr, String adrAptNo, String adrStrtNo, String adrstrNm,
-			String adrLine1, String adrLine2, String adrLine3, String adrCity,
-			String adrState, String adrCtry, String adrPstCde, String adrGeoId,
-			Date crtDate, String crtByUser, Date chgDate, String chgByUser,
-			Integer version) {
+
+	public BizEntAdr(Integer datid, Integer entity, String adrTyp, String adrBldg, String adrFlr, String adrAptNo, String adrStrtNo,
+			String adrstrNm, String adrLine1, String adrLine2, String adrLine3, String adrCity, String adrState, String adrCtry,
+			String adrPstCde, Date crtDate, String crtByUser, Date chgDate, String chgByUser, Integer version) {
 		super();
 		this.datid = datid;
 		this.entity = entity;
@@ -99,7 +96,7 @@ public class BizEntAdr implements java.io.Serializable{
 		this.adrState = adrState;
 		this.adrCtry = adrCtry;
 		this.adrPstCde = adrPstCde;
-		this.adrGeoId = adrGeoId;
+
 		this.crtDate = crtDate;
 		this.crtByUser = crtByUser;
 		this.chgDate = chgDate;
@@ -107,21 +104,21 @@ public class BizEntAdr implements java.io.Serializable{
 		this.version = version;
 	}
 
-	public int getDatid() {
+	public Integer getDatid() {
 		return datid;
 	}
-	
-	public void setDatid(int datid) {
+
+	public void setDatid(Integer datid) {
 		this.datid = datid;
 	}
-	public int getEntity() {
+
+	public Integer getEntity() {
 		return entity;
 	}
-	public void setEntity(int entity) {
+
+	public void setEntity(Integer entity) {
 		this.entity = entity;
 	}
-	
-	
 
 	public String getAdrTyp() {
 		return adrTyp;
@@ -227,35 +224,34 @@ public class BizEntAdr implements java.io.Serializable{
 		this.adrPstCde = adrPstCde;
 	}
 
-	public String getAdrGeoId() {
-		return adrGeoId;
-	}
-
-	public void setAdrGeoId(String adrGeoId) {
-		this.adrGeoId = adrGeoId;
-	}
-
 	public Date getCrtDate() {
 		return crtDate;
 	}
+
 	public void setCrtDate(Date crtDate) {
 		this.crtDate = crtDate;
 	}
+
 	public String getCrtByUser() {
 		return crtByUser;
 	}
+
 	public void setCrtByUser(String crtByUser) {
 		this.crtByUser = crtByUser;
 	}
+
 	public Date getChgDate() {
 		return chgDate;
 	}
+
 	public void setChgDate(Date chgDate) {
 		this.chgDate = chgDate;
 	}
+
 	public String getChgByUser() {
 		return chgByUser;
 	}
+
 	public void setChgByUser(String chgByUser) {
 		this.chgByUser = chgByUser;
 	}
@@ -275,11 +271,5 @@ public class BizEntAdr implements java.io.Serializable{
 	public void setEntitydetail(EntityDetail entitydetail) {
 		this.entitydetail = entitydetail;
 	}
-	
-
-	
-
-	
-	
 
 }

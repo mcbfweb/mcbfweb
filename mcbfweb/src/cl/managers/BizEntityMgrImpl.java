@@ -11,6 +11,7 @@ import cl.errors.ClientDoesNotExistError;
 import cl.model.BizEntInn;
 import cl.model.BizEntity;
 import cl.model.EntityDetail;
+import cl.model.EntityListDetail;
 
 @Service
 public class BizEntityMgrImpl implements BizEntityMgr {
@@ -59,7 +60,7 @@ public class BizEntityMgrImpl implements BizEntityMgr {
 	
 	@Override
 	@Transactional
-	public int getNextEntityNumber(){
+	public Integer getNextEntityNumber(){
 	
 		return bizEntityDAO.getNextEntityNumber();
 	
@@ -80,6 +81,15 @@ public class BizEntityMgrImpl implements BizEntityMgr {
 		return bizEntityDAO.getAllClients();
 	
 	}
+	
+	@Override
+	@Transactional
+	public  List <EntityListDetail> getListClients() {
+	
+		return bizEntityDAO.getListClients();
+	
+	}
+	
 	@Override
 	@Transactional
 	public  List <EntityDetail> getAllClientsByCountry(String country) {
@@ -92,6 +102,27 @@ public class BizEntityMgrImpl implements BizEntityMgr {
 	public  List <EntityDetail> getAllClientsByCountryCity(String country, String city) {
 	
 		return bizEntityDAO.getAllClientsByCountryCity(country, city);
+	
+	}
+	
+	public Integer getNextAdrDtaid() {
+	
+		return bizEntityDAO.getNextAdrDtaid();
+	
+	}
+	public Integer getNextInnDtaid(){
+	
+		return bizEntityDAO.getNextInnDtaid();
+	
+	}
+	public Integer getNextIdDtaid(){
+	
+		return bizEntityDAO.getNextIdDtaid();
+	
+	}
+	public Integer getNextCntDtaid(){
+	
+		return bizEntityDAO.getNextCntDtaid();
 	
 	}
 }

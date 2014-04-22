@@ -39,10 +39,10 @@ public class EnquiryInterceptor extends AbstractInterceptor {
 		// stack.getContext().put(AppConstants.VIEW_TYPE, viewType);
 		System.out.println("EnquiryInterceptor valuestack root = " + stack.getRoot().toString());
 
-		Map<String, Object> session = invocation.getInvocationContext().getSession();
+		//Map<String, Object> session = invocation.getInvocationContext().getSession();
 
-		Object action = invocation.getAction();
-		Iterator<?> iter = stack.getRoot().iterator();
+		//Object action = invocation.getAction();
+		//Iterator<?> iter = stack.getRoot().iterator();
 		
 
 		return invocation.invoke();

@@ -16,9 +16,9 @@ public class BizEntity {
 
 	@Id
 	@GeneratedValue(generator = "increment")
-	@GenericGenerator(name = "increment", strategy = "increment")
+	@GenericGenerator(name = "increment", strategy = "identity")
 	@Column(name = "ITYENTITY", unique = true, nullable = false)
-	int entity;
+	private Integer entity;
 
 	@Column(name = "ITYENTTYP")
 	String entTyp;
@@ -34,7 +34,7 @@ public class BizEntity {
 	@Column(name = "ITYCRTUSR")
 	String crtByUser;
 	@Column(name = "ITYCHGDT")
-	Date chgDate;;
+	Date chgDate;
 	@Column(name = "ITYCHGUSR")
 	String chgByUser;
 	@Column(name = "ITYVERSION")
@@ -45,7 +45,7 @@ public class BizEntity {
 
 	}
 
-	public BizEntity(int entity, String ecoCode, String bizCode) {
+	public BizEntity(Integer entity, String ecoCode, String bizCode) {
 
 		this.entity = entity;
 		this.ecoCode = ecoCode;
@@ -53,11 +53,11 @@ public class BizEntity {
 		
 	}
 
-	public int getEntity() {
+	public Integer getEntity() {
 		return entity;
 	}
 
-	public void setEntity(int entity) {
+	public void setEntity(Integer entity) {
 		this.entity = entity;
 	}
 

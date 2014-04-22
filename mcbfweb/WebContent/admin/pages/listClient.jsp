@@ -1,6 +1,7 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib prefix="sjm" uri="/struts-jquery-mobile-tags"%>
-
+<%@ page import="cl.model.*"%>
+<%@ page import="java.util.List"%>
 
 <jsp:include page="/inc.header.jsp" />
 <s:url id="remoteurl" action="../Main/populateBizTypeArry.action" />
@@ -17,11 +18,19 @@
 				<s:actionerror />
 			</div>
 		</s:if>
+		<%-- <%
+		List<EntityListDetail> clients  = (List<EntityListDetail>) request.getSession().getAttribute("clients");
+			for (EntityListDetail e : clients) {
+						if (e.getbName() != null && e.getbName().trim().length() > 0)
+							System.out.println(e.getbName());
+					}
+		%> --%>
+
 
 		<sjm:div>
 			<s:form id="getClientListForm" method="post">
 
-				<ul data-role="listview" data-inset="true" data-split-icon="gear" data-autodividers="true"  data-filter="true">
+			  <ul data-role="listview" data-inset="true" data-split-icon="gear" data-autodividers="true"  data-filter="true">
 					<s:iterator value="clients" id="clients">	
 					  <s:if test="%{#clients.bizName != ''}">
 					    <s:url action="../Main/getClient.action" var="urlTag" >
@@ -33,7 +42,6 @@
 						</s:if>	 
 						</s:iterator>
 					</ul>
-		 
 			</s:form>
 		</sjm:div>
 

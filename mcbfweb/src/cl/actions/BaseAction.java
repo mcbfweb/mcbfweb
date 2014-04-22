@@ -32,9 +32,14 @@ public class BaseAction extends ActionSupport implements ServletContextAware,
 	protected HttpServletResponse response = null;
 	protected List<BSOption> bizGroupArry;
 	protected List<BSOption> bizTypeArry;
+	protected List<BSOption> indGrpArry ;
+	protected List<BSOption> industryArry;
 	protected List<BSOption> bizIDTypeArry;
 	protected List<BSOption>ISDCdeArry;
 	protected List<BSOption>adrTypeArry;
+	protected List<BSOption>adrCityArry;
+	protected List<BSOption>adrStateArry;
+	protected List<BSOption>adrCountryArry;
 	
 	
 
@@ -74,12 +79,35 @@ public class BaseAction extends ActionSupport implements ServletContextAware,
 
 		setBizTypeArry(BSTables.instance().getTable(BSTables.BUSINESS_SECTOR, ""));
 		List<BSOption> array = new ArrayList<BSOption>();
-		for (BSOption option : getBizTypeArry()) {
+		for (BSOption option : bizTypeArry) {
 			if (option.getMajCode().trim().equalsIgnoreCase( bizGroup))
 				array.add(option);
 		}
 
 		setBizTypeArry(array);
+	}
+	public void populateGrp(String bizGroup) {
+
+		setIndGrpArry(BSTables.instance().getTable(BSTables.INDUSTRY_GROUP, ""));
+		List<BSOption> array = new ArrayList<BSOption>();
+		for (BSOption option : indGrpArry) {
+			if (option.getMajCode().trim().equalsIgnoreCase( bizGroup))
+				array.add(option);
+		}
+
+		setIndGrpArry(array);
+	}
+	
+	public void populateInd(String bizGroup) {
+
+		setIndustryArry(BSTables.instance().getTable(BSTables.INDUSTRY, ""));
+		List<BSOption> array = new ArrayList<BSOption>();
+		for (BSOption option : industryArry) {
+			if (option.getMajCode().trim().equalsIgnoreCase( bizGroup))
+				array.add(option);
+		}
+
+		setIndustryArry(array);
 	}
 	@JSON(serialize=false)
 	public List<BSOption> getBizGroupArry() {
@@ -105,6 +133,20 @@ public class BaseAction extends ActionSupport implements ServletContextAware,
 	public void setBizIDTypeArry(List<BSOption> bizIDTypeArry) {
 		this.bizIDTypeArry = bizIDTypeArry;
 	}
+		
+	
+	public List<BSOption> getIndGrpArry() {
+		return indGrpArry;
+	}
+	public void setIndGrpArry(List<BSOption> indGrpArry) {
+		this.indGrpArry = indGrpArry;
+	}
+	public List<BSOption> getIndustryArry() {
+		return industryArry;
+	}
+	public void setIndustryArry(List<BSOption> industryArry) {
+		this.industryArry = industryArry;
+	}
 	@Override
 	public void setServletContext(ServletContext ctx) {
 		this.context = ctx;
@@ -125,6 +167,29 @@ public class BaseAction extends ActionSupport implements ServletContextAware,
 	}
 	public void setAdrTypeArry(List<BSOption> adrTypeArry) {
 		this.adrTypeArry = adrTypeArry;
+	}
+	
+	
+	
+	public List<BSOption> getAdrCityArry() {
+		return adrCityArry;
+	}
+	public void setAdrCityArry(List<BSOption> adrCityArry) {
+		this.adrCityArry = adrCityArry;
+	}
+	public List<BSOption> getAdrStateArry() {
+		return adrStateArry;
+	}
+	public void setAdrStateArry(List<BSOption> adrStateArry) {
+		this.adrStateArry = adrStateArry;
+	}
+	
+	
+	public List<BSOption> getAdrCountryArry() {
+		return adrCountryArry;
+	}
+	public void setAdrCountryArry(List<BSOption> adrCountryArry) {
+		this.adrCountryArry = adrCountryArry;
 	}
 	@JSON(serialize=false)
 	public ServletContext getServletContex() {

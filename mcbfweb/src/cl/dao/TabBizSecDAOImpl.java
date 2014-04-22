@@ -33,7 +33,7 @@ public class TabBizSecDAOImpl implements TabBizSecDAO {
 	public TabBizSec getSector(String secName) {
 		Query query = sessionFactory.
 				getCurrentSession().
-				createQuery("from TABECOSECM0 where ECODESC = :secName");
+				createQuery("from TABBIZSECM0 where BIZDESC = :secName");
 		query.setParameter("secName", secName);
 		return (TabBizSec) query.list().get(0);
 	}
@@ -43,7 +43,7 @@ public class TabBizSecDAOImpl implements TabBizSecDAO {
 	public List<TabBizSec> getByMajorSector(String secName) {
 		Query query = sessionFactory.
 				getCurrentSession().
-				createQuery("from TABECOSECM0 where BIZECOCDE = :secName");
+				createQuery("from TABBIZSECM0 where BIZECOCDE = :secName");
 		query.setParameter("secName", secName);
 		return (List<TabBizSec>) query.list();
 	}

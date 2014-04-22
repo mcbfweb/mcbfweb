@@ -92,7 +92,7 @@
 
 
 	<!-- String encryptor for encrypting passwords and other data -->
-	 <bean id="strongEncryptor" class="org.jasypt.encryption.pbe.PooledPBEStringEncryptor">
+	  <bean id="strongEncryptor" class="org.jasypt.encryption.pbe.PooledPBEStringEncryptor">
 		<property name="algorithm">
 			<value>PBEWithMD5AndDES</value>
 		</property>
@@ -102,7 +102,7 @@
 		<property name="poolSize">
 			<value>4</value>
 		</property>
-	</bean>  
+	</bean>    
 
     <bean id="hibernateStringEncryptor"
 		class="org.jasypt.hibernate4.encryptor.HibernatePBEStringEncryptor">

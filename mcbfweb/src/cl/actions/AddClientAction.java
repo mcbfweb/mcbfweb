@@ -3,7 +3,9 @@ package cl.actions;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
@@ -22,7 +24,9 @@ import cl.managers.BizEntityMgr;
 import cl.model.BizEntAdr;
 import cl.model.BizEntCnt;
 import cl.model.BizEntId;
+import cl.model.BizEntInn;
 import cl.model.EntityDetail;
+import cl.model.EntityListDetail;
 
 @ParentPackage(value = "default")
 @Namespace("/Main")
@@ -38,35 +42,33 @@ public class AddClientAction extends BaseAction {
 
 	private boolean init;
 	private String clientId;
-	private String bizName;
-
-	private String bizGroup;
-	private String bizType;
 
 	private EntityDetail entity;
-	private int entid;
+	private Integer entid;
 	private UserDetails usrd;
 	private BizEntityMgr manager;
 	private ApplicationContext ctx;
-	// private final static int MAX_ADDRESSES = 3;
-	private final static int MAX_CONTACTS = 3;
-
+    private Date current;
+    Integer innDatid;
+    Integer idDatid;
+    Integer adrDatid;
+    Integer cntDatid;
 	@Override
 	public String execute() throws Exception {
 
 		System.out.println("AddClientAction");
-
+		ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
+		manager = (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
+		 
+		 
 		if (!init) {
 			setInit(true);
-			loadArrays();
 			this.ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
 			this.manager = (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
 			this.entity = (EntityDetail) ctx.getBean("entityDetail");
-
 		}
 
-		if (getBizGroup() == null || getBizGroup() == "-1" || getBizGroup().trim().length() == 0)
-			return INPUT;
+		loadArrays();
 
 		return INPUT;
 	}
@@ -77,46 +79,55 @@ public class AddClientAction extends BaseAction {
 
 		System.out.println("createClient method Action");
 		ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
-
 		manager = (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
 		entid = manager.getNextEntityNumber();
 		entity.setEntity(entid);
 		usrd = (UserDetails) getSession().get(VedaConstants.USER_KEY);
-		Date current = new Date();
-		Calendar cal = Calendar.getInstance();
-		System.out.println(entity.getIds()[0].getIdCode());
-		System.out.println(entity.getAddresses()[0].getAdrLine1());
-		System.out.println(entity.getContacts()[0].getCntEmail());
-		entity.setBizCode(getBizType());
-		entity.setBizName(getBizName());
-		entity.setfName("");
-		entity.setlName("");
-		entity.setsName("");
-		entity.setuName("");
-		entity.setType("PRMRY");
-		entity.setChgByUser("");
-		entity.setChgDate(current);
-		entity.setCrtByUser(getUsrd().getUsername());
-		entity.setCrtDate(current);
-		entity.setEcoCode(getBizGroup());
-		entity.setEntity(entid);
-		entity.setCtry("CAN");
-		entity.setEntTyp("BIZ");
+		current = new Date();
+		 
+		innDatid = manager.getNextInnDtaid();
+		idDatid = manager.getNextIdDtaid();
+		adrDatid = manager.getNextAdrDtaid();
+		cntDatid = manager.getNextCntDtaid();
 
-		BizEntId entIds[] = new BizEntId[1];
+		Iterator<BizEntId> itr = entity.getIds().iterator();
+		BizEntId eid = null;
+		while(itr.hasNext()){
 
-		if ((entity.getIds()[0].getIdCode() == null) || entity.getIds()[1].getIdCode() == null) {
-
-			if ((entity.getIds()[0].getIdCode() == null))
-				entIds[0] = entity.getIds()[1];
-			if ((entity.getIds()[1].getIdCode() == null))
-				entIds[0] = entity.getIds()[0];
-
-			entity.setIds(entIds);
+		  eid = (BizEntId)itr.next();
+		  if(eid.getIdCode().trim().length() == 0)		 
+		    itr.remove();
 		}
+		Iterator<BizEntAdr> itrA = entity.getAddresses().iterator();
+		BizEntAdr eadr = null;
+		while(itrA.hasNext()){
 
+		  eadr = (BizEntAdr)itrA.next();
+		  if(eadr.getAdrPstCde().trim().length() == 0)		 
+		    itrA.remove();
+		}  
+		
+		Iterator<BizEntCnt> itrC = entity.getContacts().iterator();
+		BizEntCnt ecnt = null;
+		while(itrC.hasNext()){
+
+		  ecnt = (BizEntCnt)itrC.next();
+		  if(ecnt.getCntEmail().trim().length() == 0)		 
+		    itrC.remove();
+		}  
+		
+		Iterator<BizEntInn> itrN = entity.getNames().iterator();
+		BizEntInn enam = null;
+		while(itrN.hasNext()){
+
+		  enam = (BizEntInn)itrN.next();
+		  if(enam.getBizName().trim().length() == 0)		 
+		    itrN.remove();
+		}  
+		
 		for (BizEntId e : entity.getIds()) {
-			e.setIdCtry("CAN");
+
+			e.setDatid(idDatid++);
 			e.setEntity(entid);
 			e.setChgByUser(usrd.getUsername());
 			e.setChgDate(current);
@@ -126,24 +137,10 @@ public class AddClientAction extends BaseAction {
 
 		}
 
-		BizEntAdr entAdrs[] = new BizEntAdr[1];
-
-		if ((entity.getAddresses()[0].getAdrTyp() == null) || entity.getAddresses()[1].getAdrTyp() == null) {
-
-			if ((entity.getAddresses()[0].getAdrTyp() == null))
-				entAdrs[0] = entity.getAddresses()[1];
-			if ((entity.getAddresses()[0].getAdrTyp() == null))
-				entAdrs[0] = entity.getAddresses()[0];
-
-			entity.setAddresses(entAdrs);
-		}
-
+		
 		for (BizEntAdr e : entity.getAddresses()) {
 			e.setEntity(entid);
-			e.setAdrCity("TO");
-			e.setAdrCtry("CAN");
-			e.setAdrPstCde("101010A");
-			e.setAdrState("ON");
+			e.setDatid(adrDatid++);
 			e.setChgByUser(usrd.getUsername());
 			e.setChgDate(current);
 			e.setCrtByUser(usrd.getUsername());
@@ -151,22 +148,10 @@ public class AddClientAction extends BaseAction {
 			e.setVersion(1);
 
 		}
-		BizEntCnt entCnts[] = new BizEntCnt[1];
-
-		if ((entity.getContacts()[0].getCntEmail() == null) || entity.getContacts()[1].getCntEmail() == null) {
-
-			if ((entity.getContacts()[0].getCntEmail() == null))
-				entCnts[0] = entity.getContacts()[1];
-			if ((entity.getContacts()[1].getCntEmail() == null))
-				entCnts[0] = entity.getContacts()[0];
-
-			entity.setContacts(entCnts);
-		}
+		
 
 		for (BizEntCnt e : entity.getContacts()) {
-			// if (e.getCntEmail() == null || e.getCntEmail().length() == 0) {
-			//
-			// } else {
+			e.setDatid(cntDatid++);
 			e.setCntTyp("EML");
 			e.setCntPos("MGR");
 			e.setEntity(entid);
@@ -175,21 +160,41 @@ public class AddClientAction extends BaseAction {
 			e.setCrtByUser(usrd.getUsername());
 			e.setCrtDate(current);
 			e.setVersion(1);
-
-			// }
+			
 		}
 
-		entity.setInnchgByUser("");
-		entity.setInnchgDate(current);
-		entity.setInncrtByUser(usrd.getUsername());
-		entity.setInncrtDate(current);
-		entity.setInnversion(1);
-		entity.setVersion(1);
+		for (BizEntInn e : entity.getNames()) {
+			e.setEntity(entid);
+			e.setDatid(innDatid++);
+			e.setChgByUser("");
+			e.setChgDate(current);
+			e.setCrtByUser(usrd.getUsername());
+			e.setCrtDate(current);
+			e.setVersion(1);
+			e.setFstName("");
+			e.setLstName("");
+			e.setSurName("");
+			e.setUnfName("");
+			e.setType("PRMRY");
+			e.setChgByUser(usrd.getUsername());
+			e.setChgDate(current);
+			e.setVersion(1);
 
+		}
+
+		entity.setVersion(1);
+		entity.setChgByUser("");
+		entity.setChgDate(current);
+		entity.setCrtByUser(getUsrd().getUsername());
+		entity.setCrtDate(current);
+		entity.setEntTyp("BIZ");
+
+		// add
 		manager.insertEntityDetail(entity);
 		// reload clients
-		List<EntityDetail> clients = manager.getAllClients();
-		getServletContex().setAttribute("CLIENTS_LIST", clients);
+
+		List<EntityListDetail> clients = manager.getListClients();
+		getServletContex().setAttribute("ENTITY_DETAIL_LIST", clients);
 
 		return SUCCESS;
 	}
@@ -199,16 +204,23 @@ public class AddClientAction extends BaseAction {
 		super.bizGroupArry = BSTables.instance().getTable(BSTables.ECONOMIC_SECTOR, "");
 		super.bizTypeArry = new ArrayList<BSOption>();
 		super.bizTypeArry.add(new BSOption("", "", ""));
+		super.indGrpArry = new ArrayList<BSOption>();
+		super.indGrpArry.add(new BSOption("", "", ""));
+		super.industryArry = new ArrayList<BSOption>();
+		super.industryArry.add(new BSOption("", "", ""));
 		super.bizIDTypeArry = BSTables.instance().getTable(BSTables.BIZ_ID_TYPE, "");
 		super.ISDCdeArry = BSTables.instance().getTable(BSTables.ISD_CDE, "");
 		super.adrTypeArry = BSTables.instance().getTable(BSTables.ADR_TYPE, "");
+		super.adrCityArry = BSTables.instance().getTable(BSTables.CITIES, "");
+		super.adrStateArry = BSTables.instance().getTable(BSTables.STATES, "");
+		super.adrCountryArry = BSTables.instance().getTable(BSTables.COUNTRIES, "");
 	}
 
-	public int getEntid() {
+	public Integer getEntid() {
 		return entid;
 	}
 
-	public void setEntid(int entid) {
+	public void setEntid(Integer entid) {
 		this.entid = entid;
 	}
 
@@ -250,30 +262,6 @@ public class AddClientAction extends BaseAction {
 
 	public void setClientId(String clientId) {
 		this.clientId = clientId;
-	}
-
-	public String getBizName() {
-		return bizName;
-	}
-
-	public void setBizName(String bizName) {
-		this.bizName = bizName;
-	}
-
-	public String getBizGroup() {
-		return bizGroup;
-	}
-
-	public void setBizGroup(String bizGroup) {
-		this.bizGroup = bizGroup;
-	}
-
-	public String getBizType() {
-		return bizType;
-	}
-
-	public void setBizType(String bizType) {
-		this.bizType = bizType;
 	}
 
 	public boolean isInit() {

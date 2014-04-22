@@ -13,14 +13,13 @@ import org.apache.struts2.convention.annotation.ResultPath;
 import org.springframework.context.ApplicationContext;
 
 import cl.managers.BizEntityMgr;
-import cl.model.EntityDetail;
+import cl.model.EntityListDetail;
 
 @ParentPackage(value = "default")
 @Namespace("/Main")
 @ResultPath(value = "/")
-@InterceptorRefs({
-	@InterceptorRef("loginStack"),
-	
+@InterceptorRefs({ @InterceptorRef("loginStack"),
+
 })
 public class ListClientAction extends BaseAction {
 	/**
@@ -29,12 +28,11 @@ public class ListClientAction extends BaseAction {
 	private static final long serialVersionUID = 1L;
 
 	public String viewFolder = "";
-	private List<EntityDetail> clients;
+	private List<EntityListDetail> clients;
 	static Logger logger = Logger.getLogger(BaseAction.class.getName());
 
 	@SuppressWarnings("unchecked")
-	@Action(value = "ListClient", results = {
-			@Result(name = "success_m", location = "/User/Menu", type = "redirect"),
+	@Action(value = "ListClient", results = { @Result(name = "success_m", location = "/User/Menu", type = "redirect"),
 			@Result(name = "input", location = "/admin/pages/listClient.jsp"),
 			@Result(name = "error", location = "/inValidSession.jsp") })
 	@Override
@@ -42,18 +40,24 @@ public class ListClientAction extends BaseAction {
 
 		System.out.println("List Client Action");
 
-		clients = (List<EntityDetail>) getServletContex().getAttribute("CLIENTS_LIST");
+		this.clients = (List<EntityListDetail>) getServletContex().getAttribute("ENTITY_DETAIL_LIST");
 		if (clients == null) {
 			ApplicationContext ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
-
-			BizEntityMgr manager =
-					(BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
-
-			clients = manager.getAllClients();
-			getServletContex().setAttribute("CLIENTS_LIST", clients);
+			BizEntityMgr manager = (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
+			this.clients = manager.getListClients();
+			getServletContex().setAttribute("ENTITY_DETAIL_LIST", clients);
 		}
 
-		System.out.println(((EntityDetail) clients.get(0)).getBizName());
+		/*List<String> clientArry = new ArrayList<String>();
+		for (EntityDetail e : clients) {
+			if (e.getNames()[0] != null && e.getNames()[0].getbName() != null && e.getNames()[0].getbName().trim().length() > 0
+					&& !e.getNames()[0].getbName().equalsIgnoreCase("null"))
+				clientArry.add(e.getNames()[0].getbName());
+		}*/
+		
+		//getServletContex().setAttribute("CLIENT_LIST", clientArry);
+		//System.out.println(clientArry.size());
+		
 		return INPUT;
 	}
 
@@ -66,11 +70,11 @@ public class ListClientAction extends BaseAction {
 		this.viewFolder = viewFolder;
 	}
 
-	public List<EntityDetail> getClients() {
+	public List<EntityListDetail> getClients() {
 		return clients;
 	}
 
-	public void setClients(List<EntityDetail> clients) {
+	public void setClients(List<EntityListDetail> clients) {
 		this.clients = clients;
 	}
 

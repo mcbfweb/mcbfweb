@@ -77,6 +77,23 @@
 			
 			xmlHttp.onreadystatechange = bizGroupChange;
 		}
+		if (str2 == "bizType") {
+			url = "../indGrp.jsp";
+			e = document.getElementById("bizType");
+			bizGroup = e.options[e.selectedIndex].value;
+			url += "?bizType=" + str;
+			
+			xmlHttp.onreadystatechange = bizTypeChange;
+		}
+		
+		if (str2 == "indGrp") {
+			url = "../industry.jsp";
+			e = document.getElementById("indGrp");
+			bizGroup = e.options[e.selectedIndex].value;
+			url += "?indGrp=" + str;
+			
+			xmlHttp.onreadystatechange = indGrpChange;
+		}
 		xmlHttp.open("GET", url, true);
 		xmlHttp.send(null);
 	}
@@ -86,6 +103,26 @@
 
 			//document.getElementById("district0_en").innerHTML=xmlHttp.responseText; 
 			var obj = document.getElementById("bizType");
+			var inner = xmlHttp.responseText;
+			select_innerHTML(obj, inner);
+
+		}
+	}
+	function bizTypeChange() {
+		if (xmlHttp.readyState == 4 || xmlHttp.readyState == "complete") {
+
+			//document.getElementById("district0_en").innerHTML=xmlHttp.responseText; 
+			var obj = document.getElementById("indGrp");
+			var inner = xmlHttp.responseText;
+			select_innerHTML(obj, inner);
+
+		}
+	}
+	function indGrpChange() {
+		if (xmlHttp.readyState == 4 || xmlHttp.readyState == "complete") {
+
+			//document.getElementById("district0_en").innerHTML=xmlHttp.responseText; 
+			var obj = document.getElementById("industry");
 			var inner = xmlHttp.responseText;
 			select_innerHTML(obj, inner);
 
