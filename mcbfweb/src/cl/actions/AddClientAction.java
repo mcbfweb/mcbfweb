@@ -1,11 +1,9 @@
 package cl.actions;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
@@ -25,6 +23,7 @@ import cl.model.BizEntAdr;
 import cl.model.BizEntCnt;
 import cl.model.BizEntId;
 import cl.model.BizEntInn;
+import cl.model.BizEntSrv;
 import cl.model.EntityDetail;
 import cl.model.EntityListDetail;
 
@@ -53,6 +52,7 @@ public class AddClientAction extends BaseAction {
     Integer idDatid;
     Integer adrDatid;
     Integer cntDatid;
+    Integer srvDatid;
 	@Override
 	public String execute() throws Exception {
 
@@ -89,6 +89,7 @@ public class AddClientAction extends BaseAction {
 		idDatid = manager.getNextIdDtaid();
 		adrDatid = manager.getNextAdrDtaid();
 		cntDatid = manager.getNextCntDtaid();
+		srvDatid = manager.getNextSrvDtaid();
 
 		Iterator<BizEntId> itr = entity.getIds().iterator();
 		BizEntId eid = null;
@@ -116,14 +117,14 @@ public class AddClientAction extends BaseAction {
 		    itrC.remove();
 		}  
 		
-		Iterator<BizEntInn> itrN = entity.getNames().iterator();
-		BizEntInn enam = null;
-		while(itrN.hasNext()){
-
-		  enam = (BizEntInn)itrN.next();
-		  if(enam.getBizName().trim().length() == 0)		 
-		    itrN.remove();
-		}  
+//		Iterator<BizEntInn> itrN = entity.getNames().iterator();
+//		BizEntInn enam = null;
+//		while(itrN.hasNext()){
+//
+//		  enam = (BizEntInn)itrN.next();
+//		  if(enam.getBizName().trim().length() == 0)		 
+//		    itrN.remove();
+//		}  
 		
 		for (BizEntId e : entity.getIds()) {
 
@@ -181,7 +182,18 @@ public class AddClientAction extends BaseAction {
 			e.setVersion(1);
 
 		}
-
+		for (BizEntSrv e : entity.getSrvNames()) {
+			e.setDatid(srvDatid++);
+			e.setEntity(entid);
+			e.setChgByUser(usrd.getUsername());
+			e.setChgDate(current);
+			e.setCrtByUser(usrd.getUsername());
+			e.setCrtDate(current);
+			e.setVersion(1);
+			
+		}
+		
+		
 		entity.setVersion(1);
 		entity.setChgByUser("");
 		entity.setChgDate(current);

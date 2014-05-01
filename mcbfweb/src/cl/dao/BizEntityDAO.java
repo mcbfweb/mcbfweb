@@ -9,7 +9,6 @@ import cl.model.BizEntInn;
 import cl.model.BizEntity;
 import cl.model.EntityDetail;
 import cl.model.EntityListDetail;
-import cl.model.User;
 
 @Transactional
 public interface BizEntityDAO {
@@ -37,4 +36,5 @@ public interface BizEntityDAO {
 	Integer getNextInnDtaid();
 	Integer getNextIdDtaid();
 	Integer getNextCntDtaid();
+	Integer getNextSrvDtaid();
 }

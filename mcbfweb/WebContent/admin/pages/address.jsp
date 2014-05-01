@@ -2,7 +2,7 @@
 <%@ taglib prefix="sjm" uri="/struts-jquery-mobile-tags"%>
 
 
-<div data-role="inlinetabs">
+<div data-role="inlinetabs" data-content-theme="c" data-mini="true">
 	<ul>
 		<li data-tab="add1">Address 1</li>
 		<li data-tab="add2">Address 2</li>

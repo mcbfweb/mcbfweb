@@ -38,11 +38,12 @@
 						listValue="label" />
 
 					<div data-role="collapsible-set" data-inset="false">
-						<div data-role="inlinetabs">
+						<div data-role="inlinetabs" data-content-theme="c" data-mini="true">
 							<ul>
 								<li data-tab="id">Id</li>
 								<li data-tab="address">Address</li>
 								<li data-tab="contact">Contact</li>
+								<li data-tab="srvvname">Services</li>
 							</ul>
 							<s:include value="hidden.jsp"></s:include>
 							<div data-tab="id">
@@ -56,6 +57,10 @@
 							<div data-tab="contact">
 								<h3>Contacts</h3>
 								<s:include value="contact.jsp"></s:include>
+							</div>
+							<div data-tab="srvname">
+								<h3>Services</h3>
+								<s:include value="srvName.jsp"></s:include>
 							</div>
 						</div>
 					</div>

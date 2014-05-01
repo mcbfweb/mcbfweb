@@ -7,9 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
@@ -28,13 +26,13 @@ import org.springframework.stereotype.Service;
 		@SecondaryTable(name = "BIZENTIDM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "IDENTITY", referencedColumnName = "ITYENTITY") }),
 		@SecondaryTable(name = "BIZENTCNTM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "CNTENTITY", referencedColumnName = "ITYENTITY") }),
 		@SecondaryTable(name = "BIZENTADRM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "ADRENTITY", referencedColumnName = "ITYENTITY") }),
-		@SecondaryTable(name = "BIZENTINNM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "INNENTITY", referencedColumnName = "ITYENTITY") }) })
+		@SecondaryTable(name = "BIZENTINNM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "INNENTITY", referencedColumnName = "ITYENTITY") }),
+		@SecondaryTable(name = "BIZENTSRVM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "SRVENTITY", referencedColumnName = "ITYENTITY") }) })
 public class EntityDetail {
 
 	@Id
 	@GeneratedValue(generator = "increment")
 	@GenericGenerator(name = "increment", strategy = "increment")
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ITYENTITY", unique = true, nullable = false)
 	Integer entity;
 	@Column(name = "ITYENTTYP")
@@ -49,6 +47,10 @@ public class EntityDetail {
 	String grpCode;
 	@Column(name = "ITYINDCODE")
 	String indCode;
+	@Column(name = "ITYLOCLAT")
+	String locLat;
+	@Column(name = "ITYLOCLON")
+	String locLon;
 	@Column(name = "ITYCRTDT")
 	Date crtDate;;
 	@Column(name = "ITYCRTUSR")
@@ -61,21 +63,20 @@ public class EntityDetail {
 	Integer version;
 
 	@OneToMany(mappedBy = "entitydetail", cascade = { CascadeType.ALL } )
-	//@OrderColumn(name = "IDDATID")
 	private List<BizEntId> ids;
 
 	@OneToMany(mappedBy = "entitydetail", cascade = { CascadeType.ALL })
-	//@OrderColumn(name = "CNTDATID")
 	private List<BizEntCnt> contacts;
 
 	@OneToMany(mappedBy = "entitydetail", cascade = { CascadeType.ALL })
-	//@OrderColumn(name = "ADRDATID")
 	private List<BizEntAdr> addresses;
 
 	@OneToMany(mappedBy = "entitydetail", cascade = { CascadeType.ALL })
-	//@OrderColumn(name = "INNDATID")
 	private List<BizEntInn> names;
 
+	@OneToMany(mappedBy = "entitydetail", cascade = { CascadeType.ALL })
+	private List<BizEntSrv> srvNames;
+	
 	public EntityDetail() {
 		super();
 		this.addresses = new ArrayList<BizEntAdr>();
@@ -89,6 +90,8 @@ public class EntityDetail {
 		this.contacts = new ArrayList<BizEntCnt>();
 		this.contacts.add(new BizEntCnt());
 		this.contacts.add(new BizEntCnt());
+		this.srvNames = new ArrayList<BizEntSrv>();
+		this.srvNames.add(new BizEntSrv());
 
 	}
 
@@ -122,6 +125,15 @@ public class EntityDetail {
 
 	public void setNames(List<BizEntInn> names) {
 		this.names = names;
+	}
+
+		
+	public List<BizEntSrv> getSrvNames() {
+		return srvNames;
+	}
+
+	public void setSrvNames(List<BizEntSrv> srvNames) {
+		this.srvNames = srvNames;
 	}
 
 	public void setEntity(Integer entity) {
@@ -178,6 +190,24 @@ public class EntityDetail {
 
 	public void setIndCode(String indCode) {
 		this.indCode = indCode;
+	}
+
+	
+	
+	public String getLocLat() {
+		return locLat;
+	}
+
+	public void setLocLat(String locLat) {
+		this.locLat = locLat;
+	}
+
+	public String getLocLon() {
+		return locLon;
+	}
+
+	public void setLocLon(String locLon) {
+		this.locLon = locLon;
 	}
 
 	public Date getCrtDate() {

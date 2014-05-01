@@ -125,4 +125,9 @@ public class BizEntityMgrImpl implements BizEntityMgr {
 		return bizEntityDAO.getNextCntDtaid();
 	
 	}
+	public Integer getNextSrvDtaid(){
+		
+		return bizEntityDAO.getNextSrvDtaid();
+	
+	}
 }

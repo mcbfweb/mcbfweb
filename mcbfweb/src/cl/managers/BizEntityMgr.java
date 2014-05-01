@@ -33,4 +33,5 @@ public interface BizEntityMgr {
 	Integer getNextInnDtaid();
 	Integer getNextIdDtaid();
 	Integer getNextCntDtaid();
+	Integer getNextSrvDtaid();
 }

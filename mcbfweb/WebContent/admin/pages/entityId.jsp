@@ -3,7 +3,7 @@
 
 
 
-<div data-role="inlinetabs">
+<div data-role="inlinetabs" data-content-theme="c" data-mini="true">
 	<ul>
 		<li data-tab="id1">Id 1</li>
 		<li data-tab="id2">Id 2</li>

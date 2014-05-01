@@ -18,15 +18,7 @@
 				<s:actionerror />
 			</div>
 		</s:if>
-		<%-- <%
-		List<EntityListDetail> clients  = (List<EntityListDetail>) request.getSession().getAttribute("clients");
-			for (EntityListDetail e : clients) {
-						if (e.getbName() != null && e.getbName().trim().length() > 0)
-							System.out.println(e.getbName());
-					}
-		%> --%>
-
-
+		
 		<sjm:div>
 			<s:form id="getClientListForm" method="post">
 

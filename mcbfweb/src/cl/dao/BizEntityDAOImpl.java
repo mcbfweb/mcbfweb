@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
@@ -19,16 +17,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cl.errors.ClientDoesNotExistError;
-import cl.errors.UserDoesNotExistError;
 import cl.model.BizEntAdr;
 import cl.model.BizEntCnt;
 import cl.model.BizEntId;
 import cl.model.BizEntInn;
+import cl.model.BizEntSrv;
 import cl.model.BizEntity;
 import cl.model.EntityDetail;
 import cl.model.EntityListDetail;
-import cl.model.TabBizSec;
-import cl.model.User;
 
 /**
  * The Class UserLoginDAOImpl
@@ -64,7 +60,7 @@ public class BizEntityDAOImpl implements BizEntityDAO {
 
 	@Override
 	public void insertEntity(BizEntity entity) {
-		
+
 		sessionFactory.getCurrentSession().saveOrUpdate(entity);
 		sessionFactory.getCurrentSession().flush();
 		sessionFactory.getCurrentSession().refresh(entity);
@@ -111,7 +107,7 @@ public class BizEntityDAOImpl implements BizEntityDAO {
 
 		EntityDetail max = (EntityDetail) results.get(0);
 
-		return  max.getEntity() + 1 ;
+		return max.getEntity() + 1;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -126,11 +122,20 @@ public class BizEntityDAOImpl implements BizEntityDAO {
 		clients = criteria.list();
 		if (clients != null) {
 			EntityDetail client = clients.get(0);
-			client.getAddresses().get(0).getAdrPstCde();
-			client.getNames().get(0).getBizName();
-			client.getIds().get(0).getIdCode();
-			client.getContacts().get(0).getCntEmail();
-			
+			if (client.getAddresses() != null && client.getAddresses().get(0) != null
+					&& client.getAddresses().get(0).getAdrPstCde() != null)
+				client.getAddresses().get(0).getAdrPstCde();
+			if (client.getNames() != null && client.getNames().get(0) != null && client.getNames().get(0).getBizName() != null)
+				client.getNames().get(0).getBizName();
+			if (client.getIds() != null && client.getIds().size() > 0 && client.getIds().get(0) != null
+					&& client.getIds().get(0).getIdCode() != null)
+			//	client.getIds().get(0).getIdCode();
+			if (client.getContacts() != null && client.getContacts().size() > 0 && client.getContacts().get(0) != null
+					&& client.getContacts().get(0).getCntEmail() != null)
+				client.getContacts().get(0).getCntEmail();
+			if (client.getSrvNames() != null && client.getSrvNames().size() > 0 && client.getSrvNames().get(0) != null
+					&& client.getSrvNames().get(0).getSrvName() != null)
+				client.getSrvNames().get(0).getSrvName();
 
 			return client;
 		}
@@ -157,7 +162,7 @@ public class BizEntityDAOImpl implements BizEntityDAO {
 
 		@SuppressWarnings("unchecked")
 		List<EntityListDetail> clients = (List<EntityListDetail>) sessionFactory.getCurrentSession()
-				.createCriteria(EntityListDetail.class).addOrder(Order.asc("ctry"))
+				.createCriteria(EntityListDetail.class).addOrder(Order.asc("bizName")).addOrder(Order.asc("ctry"))
 				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 
 		return clients;
@@ -197,7 +202,7 @@ public class BizEntityDAOImpl implements BizEntityDAO {
 			return new Integer(1);
 		else {
 			Integer max = (Integer) criteria.uniqueResult();
-			return max + 1 ;
+			return max + 1;
 		}
 	}
 
@@ -210,7 +215,7 @@ public class BizEntityDAOImpl implements BizEntityDAO {
 			return new Integer(1);
 		else {
 			Integer max = (Integer) criteria.uniqueResult();
-			return max+ 1 ;
+			return max + 1;
 		}
 	}
 
@@ -224,7 +229,7 @@ public class BizEntityDAOImpl implements BizEntityDAO {
 			return 1;
 		else {
 			Integer max = (Integer) criteria.uniqueResult();
-			return max+ 1 ;
+			return max + 1;
 		}
 	}
 
@@ -238,7 +243,20 @@ public class BizEntityDAOImpl implements BizEntityDAO {
 			return 1;
 		else {
 			Integer max = (Integer) criteria.uniqueResult();
-			return max + 1 ;
+			return max + 1;
+		}
+	}
+
+	@Override
+	public Integer getNextSrvDtaid() {
+
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(BizEntSrv.class)
+				.setProjection(Projections.max("datid"));
+		if ((Integer) criteria.uniqueResult() == null)
+			return new Integer(1);
+		else {
+			Integer max = (Integer) criteria.uniqueResult();
+			return max + 1;
 		}
 	}
 

@@ -9,7 +9,7 @@
 <s:hidden name="entity.chgDate" value="%{entity.chgDate}" />
 <s:hidden name="entity.chgByUser" value="%{entity.chgByUser}" />
 <s:hidden name="entity.version" value="%{entity.version}" />
- 
+
 
 
 <s:hidden name="entity.addresses[0].datid"
@@ -121,3 +121,21 @@
 	value="%{entity.names[0].chgByUser}" />
 <s:hidden name="entity.names[0].version"
 	value="%{entity.names[0].version}" />
+
+
+<s:hidden name="entity.srvNames[0].datid"
+	value="%{entity.srvNames[0].datid}" />
+<s:hidden name="entity.srvNames[0].entity"
+	value="%{entity.srvNames[0].entity}" />
+<s:hidden name="entity.srvNames[0].type"
+	value="%{entity.srvNames[0].type}" />
+<s:hidden name="entity.srvNames[0].crtDate"
+	value="%{entity.srvNames[0].crtDate}" />
+<s:hidden name="entity.srvNames[0].crtByUser"
+	value="%{entity.srvNames[0].crtByUser}" />
+<s:hidden name="entity.srvNames[0].chgDate"
+	value="%{entity.srvNames[0].chgDate}" />
+<s:hidden name="entity.srvNames[0].chgByUser"
+	value="%{entity.srvNames[0].chgByUser}" />
+<s:hidden name="entity.srvNames[0].version"
+	value="%{entity.srvNames[0].version}" />

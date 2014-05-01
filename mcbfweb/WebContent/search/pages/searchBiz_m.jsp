@@ -3,31 +3,33 @@
 
 <jsp:include page="/inc.header.jsp" />
 
-<sjm:div role="page" id="searchBizpage" jquerytheme="redmond"
-	data-theme="b" theme="simple">
+<sjm:div role="page" id="searchBizpage" data-theme="d" theme="simple">
 
-	<sjm:div role="header">
-		<sjm:a button="true" buttonIcon="arrow-l" data-rel="back">Back</sjm:a>
+	<sjm:div role="header" data-theme="d">
+		<sjm:a href="#searchBizMenu" button="true" buttonIcon="arrow-l"
+			data-rel="back">Back</sjm:a>
 		<h1>Search</h1>
-		<sjm:a href="#indexControl" button="true" buttonIcon="home">Back to Start</sjm:a>
+		<sjm:a href="#searchBizMenu" button="true" buttonIcon="home">Back to Start</sjm:a>
 	</sjm:div>
-	<sjm:div role="content">
+	<sjm:div role="content" data-theme="d">
 
 		<sjm:div>
 			<s:form id="formSearchBizPage" action="../Main/SearchBiz"
 				class="ui-filterable" method="post">
-				
-				
+
+
 				<sjm:select id="bizType" name="bizType" class="bizType" label="Type"
 					headerKey="-1" headerValue="--Select a Type--" emptyOption="false"
 					onchange="filterByType(this[this.selectedIndex].value, this.id)"
 					list="bizTypeArry" listKey="code" listValue="label" />
 
 				<br />
-
-
+				<form class="ui-filterable">
+					<input id="filterUsersInput" data-type="search">
+				</form>
 				<ul id="filterList" data-role="listview" data-inset="true"
-					data-split-icon="gear" data-autodividers="true" data-filter="true">
+					data-input="#filterUsersInput" data-split-icon="gear"
+					data-autodividers="true" data-filter="true">
 
 
 				</ul>
