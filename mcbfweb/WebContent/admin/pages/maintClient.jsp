@@ -22,9 +22,11 @@
 
 		<s:form method="post" action="../Main/updateClient.action">
 
-			<div id="id">
+			<div id="name">
 				<h3>Name</h3>
 				<s:include value="name.jsp"></s:include>
+				<sjm:textfield id="name_0" name="entity.url" value="%{entity.url}"
+					label="Website" />
 			</div>
 			<sjm:select id="ctry " name="entity.ctry" class="ctry"
 				label="Country" headerKey=" " headerValue="--Select a Country--"
@@ -59,7 +61,7 @@
 				</div>
 
 
-				<sjm:select id="bizGroup" name="entity.ecoCode" class="bizGroup"
+				  <sjm:select id="bizGroup" name="entity.ecoCode" class="bizGroup"
 					label="Group" headerKey="-1" headerValue="--Select a Group--"
 					emptyOption="false"
 					onchange="showChange(this[this.selectedIndex].value, this.id)"
@@ -75,7 +77,7 @@
 					label="Ind.Group" headerKey="-1" headerValue="--Select a Group--"
 					emptyOption="false"
 					onchange="showChange(this[this.selectedIndex].value, this.id)"
-					list="indGrpArry" listKey="code" listValue="label" />
+					list="indGrpArry" listKey="code" listValue="label" />  
 
 				<sjm:select id="industry" name="entity.indCode" class="industry"
 					label="Industry" headerKey="-1"

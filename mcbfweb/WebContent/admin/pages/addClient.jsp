@@ -3,7 +3,7 @@
 
 <jsp:include page="/inc.header.jsp" />
 <s:url id="remoteurl" action="../Main/populateBizTypeArry.action" />
-<sjm:div role="page" id="maintUser" jquerytheme="redmond" data-theme="b" theme="simple">
+<sjm:div role="page" id="maintUser" data-theme="d"	theme="simple">
 	<sjm:div role="header">
 		<sjm:a button="true" buttonIcon="arrow-l" data-rel="back">Back</sjm:a>
 		<h1>Add Client</h1>
@@ -21,16 +21,18 @@
 			novalidate="novalidate">
 
 
-			<div id="id">
+			<div id="name">
 				<h3>Name</h3>
 				<s:include value="name.jsp"></s:include>
+				<sjm:textfield id="name_0" name="entity.url" value="%{entity.url}"
+					label="Website" />
 			</div>
 			<sjm:select id="ctry " name="entity.ctry" class="ctry"
 				label="Country" headerKey=" " headerValue="--Select a Country--"
 				emptyOption="false" list="adrCountryArry" listKey="code"
 				listValue="label" required="true" />
 
-			<div role="main" class="ui-content">
+			
 				<div data-role="tabs">
 					<div data-role="navbar">
 						<ul>
@@ -82,7 +84,7 @@
 					list="industryArry" listKey="code" listValue="label" />
 
 				<s:submit id="submitBtn" value="Add Client" align="center" />
-			</div>
+			
 
 		</s:form>
 

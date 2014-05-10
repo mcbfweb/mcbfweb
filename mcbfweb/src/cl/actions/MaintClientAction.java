@@ -47,8 +47,7 @@ public class MaintClientAction extends BaseAction implements Preparable {
 	public String mode;
 
 	@Override
-	@Action(value = "MaintClient", results = {
-			@Result(name = "input", location = "/admin/pages/maintClient.jsp"),
+	@Action(value = "MaintClient", results = { @Result(name = "input", location = "/admin/pages/maintClient.jsp"),
 			@Result(name = "error", location = "pages/error.jsp") })
 	public String execute() throws Exception {
 
@@ -63,8 +62,7 @@ public class MaintClientAction extends BaseAction implements Preparable {
 
 	public void loadArrays() {
 
-		super.bizGroupArry = BSTables.instance().getTable(
-				BSTables.ECONOMIC_SECTOR, "");
+		super.bizGroupArry = BSTables.instance().getTable(BSTables.ECONOMIC_SECTOR, "");
 		super.bizTypeArry = new ArrayList<BSOption>();
 		super.bizTypeArry.add(new BSOption("", "", ""));
 		super.indGrpArry = new ArrayList<BSOption>();
@@ -72,14 +70,12 @@ public class MaintClientAction extends BaseAction implements Preparable {
 		super.industryArry = new ArrayList<BSOption>();
 		super.industryArry.add(new BSOption("", "", ""));
 
-		super.bizIDTypeArry = BSTables.instance().getTable(
-				BSTables.BIZ_ID_TYPE, "");
+		super.bizIDTypeArry = BSTables.instance().getTable(BSTables.BIZ_ID_TYPE, "");
 		super.ISDCdeArry = BSTables.instance().getTable(BSTables.ISD_CDE, "");
 		super.adrTypeArry = BSTables.instance().getTable(BSTables.ADR_TYPE, "");
 		super.adrCityArry = BSTables.instance().getTable(BSTables.CITIES, "");
 		super.adrStateArry = BSTables.instance().getTable(BSTables.STATES, "");
-		super.adrCountryArry = BSTables.instance().getTable(BSTables.COUNTRIES,
-				"");
+		super.adrCountryArry = BSTables.instance().getTable(BSTables.COUNTRIES, "");
 
 		System.out.println("Tables Loaded");
 
@@ -93,15 +89,13 @@ public class MaintClientAction extends BaseAction implements Preparable {
 		if (!init)
 			setInit(true);
 
-		ApplicationContext ctx = (ApplicationContext) getServletContex()
-				.getAttribute("SPRING_CTX");
+		ApplicationContext ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
 
 		BizEntityMgr manager = (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
 
 		try {
 
-			this.entity = manager.getClientById(new Integer(clientId)
-					.intValue());
+			this.entity = manager.getClientById(new Integer(clientId).intValue());
 			session.put("org_entity", entity);
 
 			// loadArrays();
@@ -122,15 +116,12 @@ public class MaintClientAction extends BaseAction implements Preparable {
 
 	}
 
-	@Action(value = "updateClient", results = {
-			@Result(name = "input", location = "/admin/pages/maintClient.jsp"),
+	@Action(value = "updateClient", results = { @Result(name = "input", location = "/admin/pages/maintClient.jsp"),
 			@Result(name = "success", location = "/Main/ListClient", type = "redirect") })
 	public String updateClient() {
 
-		UserDetails usrd = (UserDetails) getSession().get(
-				VedaConstants.USER_KEY);
-		ApplicationContext ctx = (ApplicationContext) getServletContex()
-				.getAttribute("SPRING_CTX");
+		UserDetails usrd = (UserDetails) getSession().get(VedaConstants.USER_KEY);
+		ApplicationContext ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
 
 		BizEntityMgr manager = (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
 
@@ -212,13 +203,11 @@ public class MaintClientAction extends BaseAction implements Preparable {
 	@Action(value = "deleteClient", results = { @Result(name = "input_m", location = "/Main/ListClient", type = "redirect"), })
 	public String deleteClient() {
 
-		ApplicationContext ctx = (ApplicationContext) getServletContex()
-				.getAttribute("SPRING_CTX");
+		ApplicationContext ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
 		BizEntityMgr manager = (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
 
 		try {
-			EntityDetail entityR = manager.getClientById(Integer
-					.parseInt(clientId));
+			EntityDetail entityR = manager.getClientById(Integer.parseInt(clientId));
 			manager.deleteEntityDetail(entityR);
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
