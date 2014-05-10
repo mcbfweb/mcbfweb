@@ -18,15 +18,12 @@
 			<li><a href="../pages/dialog.html" data-rel="dialog">Dialog
 					link: data-rel="dialog" (not tracked in history)</a></li>
 			<li data-role="list-divider">External User Menu</li>
+			<li><a href="./Main/SearchBiz">MyCity Business Search</a></li>
 			<li><a href="http://www.jquery.com">MyCity Business Finder
 					Website</a></li>
 			<li><a href="./Main/SearchBiz data-rel="dialog">Make a
 					booking - Popup</a></li>
-			<li><a href="./Main/SearchBiz">MyCity Business Search</a></li>
-			<li><a href="index.jsp" data-ajax="false">link with
-					[data-ajax="false"]</a></li>
-			<li><a href="../../index.html" target="foo">Link with
-					target="foo"</a></li>
+			
 			<li data-role="list-divider">Email links</li>
 			<li><a href="mailto:jdoe@foo.com">Basic email:
 					mailto:jdoe@foo.com</a></li>

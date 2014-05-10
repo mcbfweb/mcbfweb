@@ -3,11 +3,10 @@
 
 <jsp:include page="/inc.header.jsp" />
 <s:url id="remoteurl" action="../Main/populateBizTypeArry.action" />
-<sjm:div role="page" id="maintUser" jquerytheme="cupertino"
-	data-theme="b" theme="simple">
+<sjm:div role="page" id="maintUser" jquerytheme="redmond" data-theme="b" theme="simple">
 	<sjm:div role="header">
 		<sjm:a button="true" buttonIcon="arrow-l" data-rel="back">Back</sjm:a>
-		<h1>Maintain Client</h1>
+		<h1>Add Client</h1>
 		<sjm:a href="#indexPage" button="true" buttonIcon="home">Back to Start</sjm:a>
 	</sjm:div>
 	<sjm:div role="content">
@@ -18,78 +17,73 @@
 		</s:if>
 
 
-		<s:form method="post" action="../Main/createClient.action" novalidate="novalidate" >
-			<fieldset>
-				<legend>
-					<b>Add Client</b>
-				</legend>
-				<sjm:div role="fieldcontain">
-					
-					<div data-tab="id">
-						<h3>Name</h3>
-						<s:include value="name.jsp"></s:include>
+		<s:form method="post" action="../Main/createClient.action"
+			novalidate="novalidate">
+
+
+			<div id="id">
+				<h3>Name</h3>
+				<s:include value="name.jsp"></s:include>
+			</div>
+			<sjm:select id="ctry " name="entity.ctry" class="ctry"
+				label="Country" headerKey=" " headerValue="--Select a Country--"
+				emptyOption="false" list="adrCountryArry" listKey="code"
+				listValue="label" required="true" />
+
+			<div role="main" class="ui-content">
+				<div data-role="tabs">
+					<div data-role="navbar">
+						<ul>
+							<li><a href="#id">Id</a></li>
+							<li><a href="#address">Address</a></li>
+							<li><a href="#contact">Contact</a></li>
+							<li><a href="#srvname">Service</a></li>
+						</ul>
 					</div>
-					<sjm:select id="ctry " name="entity.ctry" class="ctry"
-						label="Country" headerKey=" " headerValue="--Select a Country--"
-						emptyOption="false" list="adrCountryArry" listKey="code"
-						listValue="label" required="true" />
 
-					<div data-role="collapsible-set" data-inset="false">
-						<div data-role="inlinetabs" data-content-theme="c" data-mini="true">
-							<ul>
-								<li data-tab="id">Id</li>
-								<li data-tab="address">Address</li>
-								<li data-tab="contact">Contact</li>
-								<li data-tab="srvname">Services</li>
-							</ul>
 
-							<s:include value="hidden.jsp"></s:include>
-
-							<div data-tab="id">
-								<h3>Identity</h3>
-								<s:include value="entityId.jsp"></s:include>
-							</div>
-							<div data-tab="address">
-								<h3>Addresses</h3>
-								<s:include value="address.jsp"></s:include>
-							</div>
-							<div data-tab="contact">
-								<h3>Contacts</h3>
-								<s:include value="contact.jsp"></s:include>
-							</div>
-							<div data-tab="srvname">
-								<h3>Services</h3>
-								<s:include value="srvName.jsp"></s:include>
-							</div>
-						</div>
+					<s:include value="hidden.jsp"></s:include>
+					<div id="id">
+						<s:include value="entityId.jsp"></s:include>
 					</div>
-					<sjm:select id="bizGroup" name="entity.ecoCode" class="bizGroup"
-						label="Group" headerKey="-1" headerValue="--Select a Group--"
-						emptyOption="false"
-						onchange="showChange(this[this.selectedIndex].value, this.id)"
-						list="bizGroupArry" listKey="code" listValue="label" />
+					<div id="address">
+						<s:include value="address.jsp"></s:include>
+					</div>
+					<div id="contact">
+						<s:include value="contact.jsp"></s:include>
+					</div>
+					<div id="srvname">
+						<s:include value="srvName.jsp"></s:include>
+					</div>
+				</div>
 
-					<sjm:select id="bizType" name="entity.bizCode" class="bizType"
-						label="Type" headerKey="-1" headerValue="--Select a Type--"
-						emptyOption="false"
-						onchange="showChange(this[this.selectedIndex].value, this.id)"
-						list="bizTypeArry" listKey="code" listValue="label" />
 
-					<sjm:select id="indGrp" name="entity.grpCode" class="indGrp"
-						label="Ind.Group" headerKey="-1" headerValue="--Select a Group--"
-						emptyOption="false"
-						onchange="showChange(this[this.selectedIndex].value, this.id)"
-						list="indGrpArry" listKey="code" listValue="label" />
+				<sjm:select id="bizGroup" name="entity.ecoCode" class="bizGroup"
+					label="Group" headerKey="-1" headerValue="--Select a Group--"
+					emptyOption="false"
+					onchange="showChange(this[this.selectedIndex].value, this.id)"
+					list="bizGroupArry" listKey="code" listValue="label" />
 
-					<sjm:select id="industry" name="entity.indCode" class="industry"
-						label="Industry" headerKey="-1"
-						headerValue="--Select an Industry--" emptyOption="false"
-						list="industryArry" listKey="code" listValue="label" />
+				<sjm:select id="bizType" name="entity.bizCode" class="bizType"
+					label="Type" headerKey="-1" headerValue="--Select a Type--"
+					emptyOption="false"
+					onchange="showChange(this[this.selectedIndex].value, this.id)"
+					list="bizTypeArry" listKey="code" listValue="label" />
 
-					<s:submit id="submitBtn" value="Add Client" align="center" />
+				<sjm:select id="indGrp" name="entity.grpCode" class="indGrp"
+					label="Ind.Group" headerKey="-1" headerValue="--Select a Group--"
+					emptyOption="false"
+					onchange="showChange(this[this.selectedIndex].value, this.id)"
+					list="indGrpArry" listKey="code" listValue="label" />
 
-				</sjm:div>
-			</fieldset>
+				<sjm:select id="industry" name="entity.indCode" class="industry"
+					label="Industry" headerKey="-1"
+					headerValue="--Select an Industry--" emptyOption="false"
+					list="industryArry" listKey="code" listValue="label" />
+
+				<s:submit id="submitBtn" value="Add Client" align="center" />
+			</div>
+
 		</s:form>
 
 

@@ -51,6 +51,8 @@ public class EntityDetail {
 	String locLat;
 	@Column(name = "ITYLOCLON")
 	String locLon;
+	@Column(name = "ITYURL")
+	String url;
 	@Column(name = "ITYCRTDT")
 	Date crtDate;;
 	@Column(name = "ITYCRTUSR")
@@ -208,6 +210,15 @@ public class EntityDetail {
 
 	public void setLocLon(String locLon) {
 		this.locLon = locLon;
+	}
+
+	
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public Date getCrtDate() {

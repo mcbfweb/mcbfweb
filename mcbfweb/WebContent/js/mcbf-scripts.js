@@ -52,11 +52,10 @@ function filterTypeChange() {
 
 		var inner = xmlHttp.responseText;
 
-				
 		$("#filterList").empty().append(inner);
 		$("#filterList").listview().listview('refresh');
 		$("#filterList").on("filterablebeforefilter", function(e, data) {
-			e.preventDefault();			
+			e.preventDefault();
 
 		});
 	}
@@ -329,15 +328,16 @@ function goma() {
 
 	var lon = document.getElementById('lon').value;
 
-	// Option 2------------------------------
+	// alert(destinationLatitude + ' '+ destinationLongitude+ ' '+lat + '
+	// '+lon);
 
 	var mapOptions = {
-		zoom : 14,
+		zoom : 12,
 		center : new google.maps.LatLng(lat, lon),
 		disableDefaultUI : true
 	};
 
-	var map = new google.maps.Map(document.getElementById('mappy'),
+	var map = new google.maps.Map(document.getElementById('map_canvas'),
 
 	mapOptions);
 
@@ -347,22 +347,115 @@ function goma() {
 		title : 'Click to zoom'
 	});
 
+	// google.maps.event.addDomListener(window, 'load', initialize);
+
 	/*
-	 * google.maps.event.addListener(map, 'center_changed', function() {
-	 *  // // 3 seconds after the center of the map has changed, pan back to the
+	 * google.maps.event.addListener(map, 'center_changed', function() { // // 3
+	 * seconds after the center of the map has changed, pan back to the
 	 * 
 	 * marker.window.setTimeout(function() { map.panTo(marker.getPosition()); },
 	 * 
 	 * 3000); });
 	 */
-	google.maps.event.addListener(marker, 'click', function() {
+	/*
+	 * google.maps.event.addListener(marker, 'click', function() {
+	 * 
+	 * map.setZoom(8); map.setCenter(marker.getPosition()); });
+	 * 
+	 * google.maps.event.trigger(map, 'resize');
+	 */
 
-		map.setZoom(8);
-		map.setCenter(marker.getPosition());
+}
+
+var map, currentPosition, directionsDisplay, directionsService;
+
+var destinationLatitude;
+var destinationLongitude;
+var directionId;
+var mapPageId;
+
+function initializeMapAndCalculateRoute(lat, lon) {
+	directionsDisplay = new google.maps.DirectionsRenderer();
+	directionsService = new google.maps.DirectionsService();
+
+	destinationLatitude = document.getElementById('lat').value;
+	destinationLongitude = document.getElementById('lon').value;
+
+	//alert(destinationLatitude + ' ' + destinationLongitude + ' ' + lat + ' '
+	//		+ lon);
+
+	currentPosition = new google.maps.LatLng(lat, lon);
+
+	map = new google.maps.Map(document.getElementById('map_canvas'), {
+		zoom : 15,
+		center : currentPosition,
+		mapTypeId : google.maps.MapTypeId.ROADMAP
 	});
 
-	google.maps.event.trigger(map, 'resize');
+	directionsDisplay.setMap(map);
 
+	var currentPositionMarker = new google.maps.Marker({
+		position : currentPosition,
+		map : map,
+		title : "Current position"
+	});
+
+	// calculate Route
+	calculateRoute(destinationLatitude, destinationLongitude);
+}
+
+function locError(error) {
+	// the current position could not be located
+}
+
+function locSuccess(position) {
+	// initialize map with current position and calculate the route
+	initializeMapAndCalculateRoute(position.coords.latitude,
+			position.coords.longitude);
+	var crd = position.coords;
+	console.log('Your current position is:');
+	console.log('Latitude : ' + crd.latitude);
+	console.log('Longitude: ' + crd.longitude);
+	console.log('More or less ' + crd.accuracy + ' meters.');
+}
+
+function calculateRoute(desLat, desLon) {
+	//alert(lat + ' ' + lon + ' ' + desLat + ' ' + desLon);
+
+	var targetDestination = new google.maps.LatLng(desLat, desLon);
+
+	//alert(targetDestination + ' ' + currentPosition);
+
+	if (currentPosition != '' && targetDestination != '') {
+
+		var request = {
+			origin : currentPosition,
+			destination : targetDestination,
+			travelMode : google.maps.DirectionsTravelMode["DRIVING"]
+		};
+
+		directionsService.route(request, function(response, status) {
+			if (status == google.maps.DirectionsStatus.OK) {
+				directionsDisplay.setPanel(document
+						.getElementById("directions"));
+				directionsDisplay.setDirections(response);
+				//alert(status);
+				// alert('map_page' + mapPageId);
+				/*
+				 * var myRoute = response.routes[0].legs[0]; for (var i = 0; i <
+				 * myRoute.steps.length; i++) {
+				 * alert(myRoute.steps[i].instructions); }
+				 */
+				$("#results").show();
+			} else {
+				// alert('map_page' + mapPageId);
+				$("#results").hide();
+			}
+		});
+	} else {
+		// alert('map_page' + document.getElementById("map_page"));
+		$("#results").hide();
+	}
 }
 
 function save_waypoints() {
@@ -489,20 +582,18 @@ function center_map(map) {
 	// map.fitBounds(bounds);
 
 }
-/*
- * function center_mapx(map) { map = new
- * google.maps.Map(document.getElementById('mappy'), { 'zoom' : 4, 'mapTypeId' :
- * google.maps.MapTypeId.ROADMAP, 'center' : new google.maps.LatLng(lat, lon) })
- * ren = new google.maps.DirectionsRenderer({ 'draggable' : true }); }
- * center_map(map); ren.setMap(map); ser = new google.maps.DirectionsService();
- * ser.route({ 'origin' : new google.maps.LatLng(lat, lon), 'destination' : new
- * google.maps.LatLng(44.33949159, -79.67596492), 'travelMode' :
- * google.maps.DirectionsTravelMode.DRIVING }, function(res, sts) { if (sts ==
- * 'OK') ren.setDirections(res); }); var marker = new google.maps.Marker({
- * position : map.getCenter(), map : map,
- * 
- * title : 'Click to zoom' }); google.maps.event.addListener(marker, 'click',
- * function() { map.panTo(marker.getPosition()); }
- * map.setCenter(marker.getPosition()); // sets center without animation // //
- * }); }
- */
+
+function getRealContentHeight() {
+	var header = $.mobile.activePage.find("div[data-role='header']:visible");
+	var footer = $.mobile.activePage.find("div[data-role='footer']:visible");
+	var content = $.mobile.activePage
+			.find("div[data-role='content']:visible:visible");
+	var viewport_height = $(window).height();
+
+	var content_height = viewport_height - header.outerHeight()
+			- footer.outerHeight();
+	if ((content.outerHeight() - header.outerHeight() - footer.outerHeight()) <= viewport_height) {
+		content_height -= (content.outerHeight() - content.height());
+	}
+	return content_height;
+}
