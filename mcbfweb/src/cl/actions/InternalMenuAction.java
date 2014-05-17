@@ -22,7 +22,7 @@ import com.opensymphony.xwork2.ActionSupport;
  })
 
 @Action(value = "Menu", results = {
-		@Result(name = "credit_report", location = "../Main/SearchBiz", type = "redirect"),
+		@Result(name = "load_data", location = "/data/upload/fileUpload.jsp", type = "redirect"),
 		@Result(name = "add_client", location = "../Main/AddClient", type = "redirect"),
 		@Result(name = "maint_client", location = "../Main/ListClient", type = "redirect"),
 		@Result(name = "products", location = "../Main/Product", type = "redirect"),
@@ -51,8 +51,8 @@ public class InternalMenuAction extends ActionSupport {
 		if(getMenuItem() == null || getMenuItem().trim().length() == 0)	 	
 		   return INPUT;
         
-		if(AppConstants.CREDIT_REPORT.equalsIgnoreCase(getMenuItem().trim()))
-				return "credit_report";
+		if(AppConstants.LOAD_DATA.equalsIgnoreCase(getMenuItem().trim()))
+				return "load_data";
 		
 		if(AppConstants.ADD_CLIENT.equalsIgnoreCase(getMenuItem().trim()))
 			return "add_client";

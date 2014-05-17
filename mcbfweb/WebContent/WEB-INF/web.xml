@@ -5,12 +5,11 @@
 	<display-name>clweb2</display-name>
 	<display-name>City Living</display-name>
 
-	
 	<filter>
 		<filter-name>struts2</filter-name>
 		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
 	</filter>
-
+	
 	<filter-mapping>
 		<filter-name>struts2</filter-name>
 		<url-pattern>/*</url-pattern>

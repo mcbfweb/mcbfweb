@@ -23,10 +23,18 @@ package cl.mainStream;
  * 			Initialise ApplicationState from context parameters and place it in application scope
  */
 
+import javax.annotation.Resource;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+
+
+
+
+
+
 
 
 import org.springframework.context.ApplicationContext;
@@ -65,7 +73,9 @@ public class BSInitialise implements ServletContextListener {
 	/**
 	 * @see javax.servlet.ServletContextListener#contextInitialized(ServletContextEvent)
 	 */
+	
 	public void contextInitialized(ServletContextEvent sce) {
+		
 		ServletContext servletContext = sce.getServletContext();
 		//final ServerContainer serverContainer = (ServerContainer) sce.getServletContext()
         //        .getAttribute("javax.websocket.server.ServerContainer");
@@ -83,9 +93,12 @@ public class BSInitialise implements ServletContextListener {
 				//String contextPath =servletContext.getRealPath("");
 				//String contextPath =servletContext.getContextPath();
 				String contextPath = servletContext.getRealPath("/Temp/images");
+				String uploadPath = servletContext.getRealPath("/FTP/Node/upload");
+				String downloadPath = servletContext.getRealPath("/FTP/Node/download");
 				String tempPath= contextPath;
 				servletContext.setAttribute("TMP_FOLDER", tempPath);
-
+				servletContext.setAttribute("FTP_UPLOAD", uploadPath);
+				servletContext.setAttribute("FTP_DOWNLOAD", downloadPath);
 				
 				//try {
 				//	serverContainer.addEndpoint(WordgameServerEndpoint.class);

@@ -3,7 +3,7 @@
 
 <jsp:include page="/inc.header.jsp" />
 
-<sjm:div role="page" id="internalMenuPage" jquerytheme="redmond" data-theme="b" theme="simple">
+<sjm:div role="page" id="internalMenuPage"  data-theme="d" theme="simple">
 	<sjm:div role="header">
 		<sjm:a button="true" buttonIcon="arrow-l" data-rel="back">Back</sjm:a>
 		<h1>Menu</h1>
@@ -16,7 +16,7 @@
 				<sjm:div role="fieldcontain">
 					<fieldset>
 						<sjm:radio id="menuItem" name="menuItem" label="Main Menu"
-							list="{'Credit Report', 'Add Client', 'Maintain Client', 'Maintain User', 'Products'}" />
+							list="{'Upload Data ', 'Add Client', 'Maintain Client', 'Maintain User', 'Products'}" />
 					</fieldset>
 				</sjm:div>
 				<s:submit />

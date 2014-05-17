@@ -299,7 +299,7 @@ public class REQUEST {
         @XmlElement(name = "HEADER", type = REQUEST.HEADER.class),
         @XmlElement(name = "MESSAGE", type = REQUEST.MESSAGE.class)
     })
-    protected List<Object> headerOrMESSAGE;
+	public List<Object> headerOrMESSAGE;
 
     /**
      * Gets the value of the headerOrMESSAGE property.
@@ -360,7 +360,7 @@ public class REQUEST {
     public static class HEADER {
 
         @XmlElement(name = "SERVICE")
-        protected String service;
+		public String service;
         @XmlElement(name = "ACTION")
         protected String action;
 
@@ -1961,7 +1961,7 @@ public class REQUEST {
                         @XmlElement(name = "ADRCTRY")
                         protected String adrctry;
                         @XmlElement(name = "ADRPSTCDE")
-                        protected String adrpstcde;
+						public String adrpstcde;
                         @XmlElement(name = "ADRDATID")
                         protected String adrdatid;
                         @XmlElement(name = "ADRCRTDT")

@@ -7,6 +7,8 @@
 	<constant name="struts.ui.theme" value="simple" />
 	<constant name="struts.custom.i18n.resources" value="global" />
 	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<constant name="struts.multipart.maxSize" value="10485760" />
+	
 	<package name="default" extends="struts-default,json-default"
 		namespace="/">
 
@@ -18,13 +20,11 @@
 		</result-types>
 
 		<interceptors>
-			<!-- <interceptor-stack name="defaultStack"> <interceptor-ref name="params"> 
-				Excludes the jQuery no-cache _ parameter and the Displaytag d-#-X parameter(s) 
-				<param name="excludeParams"> _,d-\d+?-[sop] </param> </interceptor-ref> </interceptor-stack> -->
 
 			<interceptor name="loginCheck" class="cl.interceptors.LoginCheckInterceptor" />
 			<interceptor name="mobileType" class="cl.interceptors.MobileInterceptor" />
 			<interceptor name="macAddr" class="cl.interceptors.MACAddressInterceptor" />
+
 			<interceptor name="cachingHeader"
 				class="cl.interceptors.CachingHeaderInterceptor" />
 			<interceptor name="json"
@@ -37,13 +37,17 @@
 				<interceptor-ref name="macAddr" />
 				<interceptor-ref name="cachingHeader" />
 				<interceptor-ref name="enquiry" />
-				<interceptor-ref name="defaultStack" />
 				<interceptor-ref name="params">
 					<param name="excludeParams">
 						_,d-\d+?-[sop]
 					</param>
 				</interceptor-ref>
-
+				<interceptor-ref name="fileUpload">
+					<param name="allowedTypes">
+						image/png,image/gif,image/jpeg
+					</param>
+				</interceptor-ref>
+				<interceptor-ref name="defaultStack" />
 			</interceptor-stack>
 
 			<interceptor-stack name="securityStack">
@@ -65,8 +69,27 @@
 			<result name="authentication_required">/security/pages/AuthenticationRequired.jsp
 			</result>
 		</global-results>
-	</package>
 
+<!-- <action name="uploadFile" class="com.struts.upload.FileUploadAction"
+            method="doUpload"> -->
+            
+		<action name="uploadFile" class="cl.actions.FileUploadAction">
+			<interceptor-ref name="defaultStack">
+				<param name="fileUpload.allowedTypes">text/plain,image/jpeg</param>
+				<param name="fileUpload.maximumSize">4194304</param>
+			</interceptor-ref>
+			<interceptor-ref name="params" />
+			<interceptor-ref name="validation" />
+			<interceptor-ref name="workflow" />
+
+			<result name="success" type="redirect">data/upload/success.jsp</result>
+			<result name="input">data/upload/fileUpload.jsp</result>
+
+		</action>
+
+
+
+	</package>
 
 
 </struts>

@@ -9,7 +9,7 @@ public class AppConstants {
 	public static final String INPUT_MOBILE_VIEW = "input_m";
 	public static final String USER_KEY = "user";	
 	
-	public static final String CREDIT_REPORT = "Credit Report";
+	public static final String LOAD_DATA = "Upload Data";
 	public static final String CREDIT_MONITOR = "Credit Monitor";
 	public static final String LOAD_IMAGE = "Load Image";
 	public static final String ADD_CLIENT = "Add Client";

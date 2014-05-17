@@ -30,6 +30,7 @@ import cl.model.ProductImage;
 @ResultPath(value = "/")
 @InterceptorRefs({
 	@InterceptorRef("loginStack"),
+	
 	 
 })
 @Action(value = "Product", results = {
