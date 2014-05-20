@@ -47,20 +47,20 @@ public class AddClientAction extends BaseAction {
 	private UserDetails usrd;
 	private BizEntityMgr manager;
 	private ApplicationContext ctx;
-    private Date current;
-    Integer innDatid;
-    Integer idDatid;
-    Integer adrDatid;
-    Integer cntDatid;
-    Integer srvDatid;
+	private Date current;
+	Integer innDatid;
+	Integer idDatid;
+	Integer adrDatid;
+	Integer cntDatid;
+	Integer srvDatid;
+
 	@Override
 	public String execute() throws Exception {
 
 		System.out.println("AddClientAction");
 		ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
 		manager = (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
-		 
-		 
+
 		if (!init) {
 			setInit(true);
 			this.ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
@@ -84,7 +84,7 @@ public class AddClientAction extends BaseAction {
 		entity.setEntity(entid);
 		usrd = (UserDetails) getSession().get(VedaConstants.USER_KEY);
 		current = new Date();
-		 
+
 		innDatid = manager.getNextInnDtaid();
 		idDatid = manager.getNextIdDtaid();
 		adrDatid = manager.getNextAdrDtaid();
@@ -93,39 +93,39 @@ public class AddClientAction extends BaseAction {
 
 		Iterator<BizEntId> itr = entity.getIds().iterator();
 		BizEntId eid = null;
-		while(itr.hasNext()){
+		while (itr.hasNext()) {
 
-		  eid = (BizEntId)itr.next();
-		  if(eid.getIdCode().trim().length() == 0)		 
-		    itr.remove();
+			eid = (BizEntId) itr.next();
+			if (eid.getIdCode().trim().length() == 0)
+				itr.remove();
 		}
 		Iterator<BizEntAdr> itrA = entity.getAddresses().iterator();
 		BizEntAdr eadr = null;
-		while(itrA.hasNext()){
+		while (itrA.hasNext()) {
 
-		  eadr = (BizEntAdr)itrA.next();
-		  if(eadr.getAdrPstCde().trim().length() == 0)		 
-		    itrA.remove();
-		}  
-		
+			eadr = (BizEntAdr) itrA.next();
+			if (eadr.getAdrPstCde().trim().length() == 0)
+				itrA.remove();
+		}
+
 		Iterator<BizEntCnt> itrC = entity.getContacts().iterator();
 		BizEntCnt ecnt = null;
-		while(itrC.hasNext()){
+		while (itrC.hasNext()) {
 
-		  ecnt = (BizEntCnt)itrC.next();
-		  if(ecnt.getCntEmail().trim().length() == 0)		 
-		    itrC.remove();
-		}  
-		
-//		Iterator<BizEntInn> itrN = entity.getNames().iterator();
-//		BizEntInn enam = null;
-//		while(itrN.hasNext()){
-//
-//		  enam = (BizEntInn)itrN.next();
-//		  if(enam.getBizName().trim().length() == 0)		 
-//		    itrN.remove();
-//		}  
-		
+			ecnt = (BizEntCnt) itrC.next();
+			if (ecnt.getCntEmail().trim().length() == 0)
+				itrC.remove();
+		}
+
+		// Iterator<BizEntInn> itrN = entity.getNames().iterator();
+		// BizEntInn enam = null;
+		// while(itrN.hasNext()){
+		//
+		// enam = (BizEntInn)itrN.next();
+		// if(enam.getBizName().trim().length() == 0)
+		// itrN.remove();
+		// }
+
 		for (BizEntId e : entity.getIds()) {
 
 			e.setDatid(idDatid++);
@@ -138,7 +138,6 @@ public class AddClientAction extends BaseAction {
 
 		}
 
-		
 		for (BizEntAdr e : entity.getAddresses()) {
 			e.setEntity(entid);
 			e.setDatid(adrDatid++);
@@ -149,7 +148,6 @@ public class AddClientAction extends BaseAction {
 			e.setVersion(1);
 
 		}
-		
 
 		for (BizEntCnt e : entity.getContacts()) {
 			e.setDatid(cntDatid++);
@@ -161,7 +159,7 @@ public class AddClientAction extends BaseAction {
 			e.setCrtByUser(usrd.getUsername());
 			e.setCrtDate(current);
 			e.setVersion(1);
-			
+
 		}
 
 		for (BizEntInn e : entity.getNames()) {
@@ -190,10 +188,9 @@ public class AddClientAction extends BaseAction {
 			e.setCrtByUser(usrd.getUsername());
 			e.setCrtDate(current);
 			e.setVersion(1);
-			
+
 		}
-		
-		
+
 		entity.setVersion(1);
 		entity.setChgByUser("");
 		entity.setChgDate(current);

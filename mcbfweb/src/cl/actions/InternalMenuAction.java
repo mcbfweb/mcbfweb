@@ -22,7 +22,7 @@ import com.opensymphony.xwork2.ActionSupport;
  })
 
 @Action(value = "Menu", results = {
-		@Result(name = "load_data", location = "/data/upload/fileUpload.jsp", type = "redirect"),
+		@Result(name = "load_data", location = "/Data/LoadData", type = "redirect"),
 		@Result(name = "add_client", location = "../Main/AddClient", type = "redirect"),
 		@Result(name = "maint_client", location = "../Main/ListClient", type = "redirect"),
 		@Result(name = "products", location = "../Main/Product", type = "redirect"),

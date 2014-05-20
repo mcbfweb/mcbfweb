@@ -7,8 +7,8 @@
 	<constant name="struts.ui.theme" value="simple" />
 	<constant name="struts.custom.i18n.resources" value="global" />
 	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
-	<constant name="struts.multipart.maxSize" value="10485760" />
-	
+	<constant name="struts.multipart.maxSize" value="4194304" />
+
 	<package name="default" extends="struts-default,json-default"
 		namespace="/">
 
@@ -44,7 +44,7 @@
 				</interceptor-ref>
 				<interceptor-ref name="fileUpload">
 					<param name="allowedTypes">
-						image/png,image/gif,image/jpeg
+						text/plain,text/xml
 					</param>
 				</interceptor-ref>
 				<interceptor-ref name="defaultStack" />
@@ -70,23 +70,20 @@
 			</result>
 		</global-results>
 
-<!-- <action name="uploadFile" class="com.struts.upload.FileUploadAction"
-            method="doUpload"> -->
-            
-		<action name="uploadFile" class="cl.actions.FileUploadAction">
+		<!-- <action name="uploadFile" class="com.struts.upload.FileUploadAction" 
+			method="doUpload"> -->
+			
+		<action name="uploadFile" class="cl.actions.FileUploadAction" method="uploadFile">
 			<interceptor-ref name="defaultStack">
-				<param name="fileUpload.allowedTypes">text/plain,image/jpeg</param>
+				<param name="fileUpload.allowedTypes">text/plain,text/xml, image/jpeg</param>
 				<param name="fileUpload.maximumSize">4194304</param>
 			</interceptor-ref>
 			<interceptor-ref name="params" />
 			<interceptor-ref name="validation" />
 			<interceptor-ref name="workflow" />
-
 			<result name="success" type="redirect">data/upload/success.jsp</result>
 			<result name="input">data/upload/fileUpload.jsp</result>
-
 		</action>
-
 
 
 	</package>

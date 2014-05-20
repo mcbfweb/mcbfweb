@@ -6,7 +6,7 @@
 <sjm:div role="page" id="uploadFile" data-theme="d" theme="simple">
 	<sjm:div role="header">
 		<sjm:a button="true" buttonIcon="arrow-l" data-rel="back">Back</sjm:a>
-		<h1>Add Client</h1>
+		<h1>Upload File</h1>
 		<sjm:a href="#indexPage" button="true" buttonIcon="home">Back to Start</sjm:a>
 	</sjm:div>
 	<sjm:div role="content">
@@ -17,9 +17,10 @@
 		</s:if>
 
 
-		<h1>Bureau File Upload - 10K max</h1>
+		<h1>Bureau File Upload</h1>
 		<center>
-			<s:form id="fileupload" action="uploadFile" namespace="/" method="POST" enctype="multipart/form-data">
+		<!-- very important to include data-ajax="false" attribute -->
+			<s:form data-ajax="false" id="fileupload" action="uploadFile" namespace="/" method="post" enctype="multipart/form-data">
 
 				<s:file name="fileUpload" label="Select a file to upload" size="30" />
 				<br />
