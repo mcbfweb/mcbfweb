@@ -97,6 +97,8 @@ public class FileUploadAction extends BaseAction {
 			entid = manager.getNextEntityNumber();
 			this.manager = (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
 			this.entity = (EntityDetail) ctx.getBean("entityDetail");
+			usrd = (UserDetails) getSession().get(VedaConstants.USER_KEY);
+			current = new Date();
 
 			File file = new File(uploadPath + "/" + getFileUploadFileName().trim());
 			try {
@@ -122,6 +124,22 @@ public class FileUploadAction extends BaseAction {
 					List<ENTITY> ent = ent2.getENTITY();
 					// writeEntity();
 					for (int j = 0; j < ent.size(); j++) {
+						entity.setBizCode(ent.get(j).getITYBIZCODE());
+						entity.setCtry(ent.get(j).getITYCTRY());
+						entity.setEcoCode(ent.get(j).getITYECOCODE());
+						entity.setGrpCode(ent.get(j).getITYGRPCODE());
+						entity.setIndCode(ent.get(j).getITYINDCODE());
+						entity.setBizCode(ent.get(j).getITYBIZCODE());
+						entity.setLocLat(ent.get(j).getITYLOCLAT());
+						entity.setLocLon(ent.get(j).getITYLOCLON());
+						entity.setEntTyp(ent.get(j).getITYENTTYP());
+						entity.setEntity(entid);
+						entity.setCrtByUser(usrd.getUsername());
+						entity.setCrtDate(current);
+						entity.setChgByUser(usrd.getUsername());
+						entity.setChgDate(current);
+						entity.setVersion(1);
+						
 						List<ADDRESSES> addresses = ent.get(j).getADDRESSES();
 						writeAddress(addresses);
 						List<CONTACTS> contacts = ent.get(j).getCONTACTS();
@@ -291,6 +309,7 @@ public class FileUploadAction extends BaseAction {
 			for (int j = 0; j < id.size(); j++) {
 				System.out.println(id.get(j).getIDIDCODE());
 				idd.setEntity(entid);
+				idd.setIdCtry(id.get(j).getIDCTRY());;
 				idd.setDatid(idDatid++);
 				idd.setCrtDate(current);
 				idd.setCrtByUser(usrd.getUsername());
