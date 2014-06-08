@@ -26,6 +26,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 
 import cl.managers.BizEntityMgr;
@@ -56,9 +57,11 @@ import cl.model.TabState;
  */
 public class BSTables implements ServiceNames {
 
+	public static Logger logger = Logger.getLogger("cl.mainStream");
 	// table names
 	// each table name corresponds to a XML tag name
-
+	
+	
 	public final static String CLIENTS_LIST = "CLIENTS";
 	public final static String ECONOMIC_SECTOR = "TABECOSEC";
 	public final static String BUSINESS_SECTOR = "TABBIZSEC";
@@ -128,6 +131,7 @@ public class BSTables implements ServiceNames {
 				failedTables.append(applicationTables[idx]);
 				failedTables.append(", ");
 				tableFailed = true;
+				logger.error(x.getMessage());
 			}
 		}
 
@@ -155,7 +159,7 @@ public class BSTables implements ServiceNames {
 		if (CLIENTS_LIST.equalsIgnoreCase(tableName)) {
 			BizEntityMgr manager = (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
 			List<EntityListDetail> clients = manager.getListClients();
-			System.out.println(clients.size());
+			logger.info(clients.size());
 			//sce.getServletContext().setAttribute(tableName, clients);
 			sce.getServletContext().setAttribute("ENTITY_DETAIL_LIST", clients);
 
@@ -175,7 +179,7 @@ public class BSTables implements ServiceNames {
 			List<TabEcoSec> ecoSectors = manager.getSectors();
 			// BSOption[] options = new BSOption[ecoSectors.size()];
 			List<BSOption> bizGroupArry = new ArrayList<BSOption>();
-			System.out.println("\nEcoSector list fetched!" + "\nSector count: " + ecoSectors.size());
+			logger.info("\nEcoSector list fetched!" + "\nSector count: " + ecoSectors.size());
 			int i = 0;
 			for (TabEcoSec ecoSector : ecoSectors) {
 				bizGroupArry.add(new BSOption(ecoSector.getEcoCode(), ecoSector.getEcoDesc(), ""));
@@ -189,7 +193,7 @@ public class BSTables implements ServiceNames {
 			List<TabBizSec> bizSectors = manager.getSectors();
 			// BSOption[] options = new BSOption[ecoSectors.size()];
 			List<BSOption> bizArry = new ArrayList<BSOption>();
-			System.out.println("\nEcoSector list fetched!" + "\nSector count: " + bizSectors.size());
+			logger.info("\nBiz Sector list fetched!" + "\nSector count: " + bizSectors.size());
 
 			for (TabBizSec bizSector : bizSectors) {
 				bizArry.add(new BSOption(bizSector.getBizCode(), bizSector.getBizDesc(), bizSector.getBizEcoCde()));
@@ -203,7 +207,7 @@ public class BSTables implements ServiceNames {
 			List<TabIndGrp> bizSectors = manager.getSectors();
 			// BSOption[] options = new BSOption[ecoSectors.size()];
 			List<BSOption> bizArry = new ArrayList<BSOption>();
-			System.out.println("\nEcoSector list fetched!" + "\nSector count: " + bizSectors.size());
+			logger.info("\nInd. Group list fetched!" + "\nSector count: " + bizSectors.size());
 
 			for (TabIndGrp bizSector : bizSectors) {
 				bizArry.add(new BSOption(bizSector.getGrpCode(), bizSector.getGrpDesc(), bizSector.getGrpBizCde()));
@@ -217,7 +221,7 @@ public class BSTables implements ServiceNames {
 			List<TabIndustry> bizSectors = manager.getSectors();
 			// BSOption[] options = new BSOption[ecoSectors.size()];
 			List<BSOption> bizArry = new ArrayList<BSOption>();
-			System.out.println("\nEcoSector list fetched!" + "\nSector count: " + bizSectors.size());
+			logger.info("\nIndustry list fetched!" + "\nSector count: " + bizSectors.size());
 
 			for (TabIndustry bizSector : bizSectors) {
 				bizArry.add(new BSOption(bizSector.getIndCode(), bizSector.getIndDesc(), bizSector.getIndGrpCde()));
@@ -234,10 +238,10 @@ public class BSTables implements ServiceNames {
 			// List<TabGen> tabGen = manager.loadAllCodes();
 			List<BSOption> tabGenArry = new ArrayList<BSOption>();
 
-			System.out.println("\nTabGen list fetched!" + "\nCode count: " + tabGen.size());
+			logger.info("\nTabGen list fetched!" + "\nCode count: " + tabGen.size());
 
 			for (TabGen defs : tabGen) {
-				System.out.println(defs.getGenCodId() + "  " + defs.getGenDesc());
+				logger.info(defs.getGenCodId() + "  " + defs.getGenDesc());
 				tabGenArry.add(new BSOption(defs.getGenCodId(), defs.getGenDesc(), ""));
 
 			}
@@ -249,7 +253,7 @@ public class BSTables implements ServiceNames {
 			TabStateMgr manager = (TabStateMgr) ctx.getBean("tabStateMgrImpl");
 			List<TabState> states = manager.getStates();
 			List<BSOption> statesArry = new ArrayList<BSOption>();
-			System.out.println("\nStates list fetched!" + "\nSector count: " + states.size());
+			logger.info("\nStates list fetched!" + "\nSector count: " + states.size());
 			for (TabState state : states) {
 				statesArry.add(new BSOption(state.getStaCde(), state.getStaName(), ""));
 			}
@@ -261,7 +265,7 @@ public class BSTables implements ServiceNames {
 			TabCityMgr manager = (TabCityMgr) ctx.getBean("tabCityMgrImpl");
 			List<TabCity> cities = manager.getCities();
 			List<BSOption> citiesArry = new ArrayList<BSOption>();
-			System.out.println("\nCity list fetched!" + "\nSector count: " + cities.size());
+			logger.info("\nCity list fetched!" + "\nSector count: " + cities.size());
 			for (TabCity city : cities) {
 				citiesArry.add(new BSOption(city.getCtyCde(), city.getCtyName(), ""));
 			}

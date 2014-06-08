@@ -3910,10 +3910,17 @@ public class REQUEST {
                      *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
                      *       &lt;sequence>
                      *         &lt;element name="PRDENTITY" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
-                     *         &lt;element name="PRDNAME" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
-                     *         &lt;element name="PRDCDE" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
-                     *         &lt;element name="PRDID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+                     *         &lt;element name="PRDCODE" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+                     *         &lt;element name="PRDTITLE" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
                      *         &lt;element name="PRDDESC" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+                     *         &lt;element name="PRDPRICE" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+                     *         &lt;element name="PRDCTGY" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+                     *         &lt;element name="PRDMODEL" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+                     *         &lt;element name="PRDCOLOR" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+                     *         &lt;element name="PRDSIZE" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+                     *         &lt;element name="PRDQTYAVL" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+                     *         &lt;element name="PRDREOLVL" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>  
+                     *         &lt;element name="PRDSUPPLIER" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>       
                      *         &lt;element name="PRDDATID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
                      *         &lt;element name="PRDCRTDT" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
                      *         &lt;element name="PRDCRTUSR" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
@@ -3931,10 +3938,17 @@ public class REQUEST {
                     @XmlAccessorType(XmlAccessType.FIELD)
                     @XmlType(name = "", propOrder = {
                         "prdentity",
-                        "prdname",
-                        "prdcde",
-                        "prdid",
+                        "prdcode",
+                        "prdtitle",
                         "prddesc",
+                        "prdprice",
+                        "prdctgy",
+                        "prdmodel",
+                        "prdcolor",
+                        "prdsize",
+                        "prdqtyavl",
+                        "prdreolvl",
+                        "prdsupplier",
                         "prddatid",
                         "prdcrtdt",
                         "prdcrtusr",
@@ -3946,14 +3960,30 @@ public class REQUEST {
 
                         @XmlElement(name = "PRDENTITY")
                         protected String prdentity;
-                        @XmlElement(name = "PRDNAME")
-                        protected String prdname;
-                        @XmlElement(name = "PRDCDE")
-                        protected String prdcde;
-                        @XmlElement(name = "PRDID")
-                        protected String prdid;
+                        @XmlElement(name = "PRDCODE")
+                        protected String prdcode;
+                        @XmlElement(name = "PRDTITLE")
+                        protected String prdtitle;
                         @XmlElement(name = "PRDDESC")
-                        protected String prddesc;
+                        protected String prddesc ;
+                        @XmlElement(name = "PRDPRICE")
+                        protected String prdprice;
+                        
+                        @XmlElement(name = "PRDCTGY")
+                        protected String prdctgy;
+                        @XmlElement(name = "PRDMODEL")
+                        protected String prdmodel;
+                        @XmlElement(name = "PRDCOLOR")
+                        protected String prdcolor;
+                        @XmlElement(name = "PRDSIZE")
+                        protected String prdsize;
+                        @XmlElement(name = "PRDQTYAVL")
+                        protected String prdqtyavl;
+                        @XmlElement(name = "PRDREOLVL")
+                        protected String prdreolvl;
+                        @XmlElement(name = "PRDSUPPLIER")
+                        protected String prdsupplier;
+                        
                         @XmlElement(name = "PRDDATID")
                         protected String prddatid;
                         @XmlElement(name = "PRDCRTDT")
@@ -3999,8 +4029,8 @@ public class REQUEST {
                          *     {@link String }
                          *     
                          */
-                        public String getPRDNAME() {
-                            return prdname;
+                        public String getPRDCODE() {
+                            return prdcode;
                         }
 
                         /**
@@ -4011,59 +4041,93 @@ public class REQUEST {
                          *     {@link String }
                          *     
                          */
-                        public void setPRDNAME(String value) {
-                            this.prdname = value;
+                        public void setPRDCODE(String value) {
+                            this.prdcode = value;
                         }
 
-                        /**
-                         * Gets the value of the prdcde property.
-                         * 
-                         * @return
-                         *     possible object is
-                         *     {@link String }
-                         *     
-                         */
-                        public String getPRDCDE() {
-                            return prdcde;
-                        }
+                       
+						public String getPRDTITLE() {
+							return prdtitle;
+						}
 
-                        /**
-                         * Sets the value of the prdcde property.
-                         * 
-                         * @param value
-                         *     allowed object is
-                         *     {@link String }
-                         *     
-                         */
-                        public void setPRDCDE(String value) {
-                            this.prdcde = value;
-                        }
+						public void setPRDTITLE(String prdtitle) {
+							this.prdtitle = prdtitle;
+						}
 
-                        /**
-                         * Gets the value of the prdid property.
-                         * 
-                         * @return
-                         *     possible object is
-                         *     {@link String }
-                         *     
-                         */
-                        public String getPRDID() {
-                            return prdid;
-                        }
+						public String getPRDPRICE() {
+							return prdprice;
+						}
 
-                        /**
-                         * Sets the value of the prdid property.
-                         * 
-                         * @param value
-                         *     allowed object is
-                         *     {@link String }
-                         *     
-                         */
-                        public void setPRDID(String value) {
-                            this.prdid = value;
-                        }
+						public void setPRDPRICE(String prdprice) {
+							this.prdprice = prdprice;
+						}
 
-                        /**
+						public String getPRDCTGY() {
+							return prdctgy;
+						}
+
+						public void setPRDCTGY(String prdctgy) {
+							this.prdctgy = prdctgy;
+						}
+
+						public String getPRDMODEL() {
+							return prdmodel;
+						}
+
+						public void setPRDMODEL(String prdmodel) {
+							this.prdmodel = prdmodel;
+						}
+
+						public String getPRDCOLOR() {
+							return prdcolor;
+						}
+
+						public void setPRDCOLOR(String prdcolor) {
+							this.prdcolor = prdcolor;
+						}
+
+						public String getPRDSIZE() {
+							return prdsize;
+						}
+
+						public void setPRDSIZE(String prdsize) {
+							this.prdsize = prdsize;
+						}
+
+						public String getPRDQTYAVL() {
+							return prdqtyavl;
+						}
+
+						public void setPRDQTYAVL(String prdqtyavl) {
+							this.prdqtyavl = prdqtyavl;
+						}
+
+						public String getPRDREOLVL() {
+							return prdreolvl;
+						}
+
+						public void setPRDREOLVL(String prdreolvl) {
+							this.prdreolvl = prdreolvl;
+						}
+
+						public String getPRDSUPPLIER() {
+							return prdsupplier;
+						}
+
+						public void setPRDSUPPLIER(String prdsupplier) {
+							this.prdsupplier = prdsupplier;
+						}
+
+						public String getPrddatid() {
+							return prddatid;
+						}
+
+						public void setPrddatid(String prddatid) {
+							this.prddatid = prddatid;
+						}
+
+						
+						/**
                          * Gets the value of the prddesc property.
                          * 
                          * @return

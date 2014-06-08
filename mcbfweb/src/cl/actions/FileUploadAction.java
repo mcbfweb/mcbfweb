@@ -43,6 +43,8 @@ import com.mcbf.REQUEST.MESSAGE.ENTITIES.ENTITY.IDS;
 import com.mcbf.REQUEST.MESSAGE.ENTITIES.ENTITY.IDS.ID;
 import com.mcbf.REQUEST.MESSAGE.ENTITIES.ENTITY.NAMES;
 import com.mcbf.REQUEST.MESSAGE.ENTITIES.ENTITY.NAMES.NAME;
+import com.mcbf.REQUEST.MESSAGE.ENTITIES.ENTITY.PRODUCTS;
+import com.mcbf.REQUEST.MESSAGE.ENTITIES.ENTITY.PRODUCTS.PRODUCT;
 import com.mcbf.REQUEST.MESSAGE.ENTITIES.ENTITY.SERVICES;
 import com.mcbf.REQUEST.MESSAGE.ENTITIES.ENTITY.SERVICES.SERVICE;
 
@@ -126,10 +128,11 @@ public class FileUploadAction extends BaseAction {
 					for (int j = 0; j < ent.size(); j++) {
 						entity.setBizCode(ent.get(j).getITYBIZCODE());
 						entity.setCtry(ent.get(j).getITYCTRY());
-						entity.setEcoCode(ent.get(j).getITYECOCODE());
-						entity.setGrpCode(ent.get(j).getITYGRPCODE());
+						entity.setEcoCode(ent.get(j).getITYINDCODE().substring(0, 2));
+						entity.setBizCode(ent.get(j).getITYINDCODE().substring(0, 4));
+						entity.setGrpCode(ent.get(j).getITYINDCODE().substring(0, 6));
 						entity.setIndCode(ent.get(j).getITYINDCODE());
-						entity.setBizCode(ent.get(j).getITYBIZCODE());
+						
 						entity.setLocLat(ent.get(j).getITYLOCLAT());
 						entity.setLocLon(ent.get(j).getITYLOCLON());
 						entity.setEntTyp(ent.get(j).getITYENTTYP());
@@ -150,6 +153,8 @@ public class FileUploadAction extends BaseAction {
 						writeNames(names);
 						List<IDS> ids = ent.get(j).getIDS();
 						writeIds(ids);
+						List<PRODUCTS> products = ent.get(j).getPRODUCTS();
+						writeProducts(products);
 					}
 
 				}
@@ -267,6 +272,34 @@ public class FileUploadAction extends BaseAction {
 		entity.setSrvNames(srvs);
 	}
 
+	private void writeProducts(List<PRODUCTS> products) {
+
+		Integer cntDatid = manager.getNextSrvDtaid();
+		usrd = (UserDetails) getSession().get(VedaConstants.USER_KEY);
+		current = new Date();
+		List<BizEntSrv> srvs = new ArrayList<BizEntSrv>();
+		for (int i = 0; i < products.size(); i++) {
+
+			List<PRODUCT> service = (List<PRODUCT>) products.get(i).getPRODUCT();
+			BizEntSrv srv = new BizEntSrv();
+			for (int j = 0; j < service.size(); j++) {
+				System.out.println(service.get(j).getPRDTITLE());
+				srv.setEntity(entid);
+				srv.setDatid(cntDatid++);
+				srv.setCrtDate(current);
+				srv.setCrtByUser(usrd.getUsername());
+				srv.setSrvName(service.get(j).getPRDTITLE());
+				srv.setVersion(1);
+				srvs.add(srv);
+				
+			}
+
+		}
+		
+		entity.setSrvNames(srvs);
+	}
+
+	
 	private void writeNames(List<NAMES> names) {
 
 		Integer innDatid = manager.getNextInnDtaid();

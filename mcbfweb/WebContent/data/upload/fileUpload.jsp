@@ -28,7 +28,7 @@
 
 			</s:form>
 		</center>
-		<h1>File Upload with Struts 2</h1>
+		
 		
 
 	</sjm:div>

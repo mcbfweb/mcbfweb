@@ -30,20 +30,27 @@
 
 			</legend>
 
-			<div>
-				Name :
-				<s:property value="entity.names[0].bizName" />
-				<br /> Address :
-				<s:property value="%{entity.addresses[0].adrStrtNo}" />
-				<s:property value="%{entity.addresses[0].adrStrtNm}" />
-				<s:property value="%{entity.addresses[0].adrLine1}" />
-				<s:property value="%{entity.addresses[0].adrLine2}" />
-
-				<br /> Contact :(
-				<s:property value="%{entity.contacts[0].cntAreaCde}" />
-				)
-				<s:property value="%{entity.contacts[0].cntPhnNo}" />
-
+			<div class="ui-grid-d" data-theme="a">
+				<div class="ui-block-a">Name :</div>
+				<div class="ui-block-b">
+					<s:property value="entity.names[0].bizName" />
+				</div>
+				<div class="ui-block-a">Address :</div>
+				<div class="ui-block-b">
+					<s:property value="%{entity.addresses[0].adrStrtNo}" />
+					<s:property value="%{entity.addresses[0].adrStrtNm}" />
+					<s:property value="%{entity.addresses[0].adrLine1}" />
+				</div>
+				<div class="ui-block-b">
+					<s:property value="%{entity.addresses[0].adrLine2}" />
+				</div>
+				<div class="ui-block-a">Contact :</div>
+				<div class="ui-block-b">
+					(
+					<s:property value="%{entity.contacts[0].cntAreaCde}" />
+					)
+					<s:property value="%{entity.contacts[0].cntPhnNo}" />
+				</div>
 			</div>
 			<div data-role="main" class="ui-content" data-content-theme="d">
 

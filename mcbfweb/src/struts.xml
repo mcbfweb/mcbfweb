@@ -72,10 +72,11 @@
 
 		<!-- <action name="uploadFile" class="com.struts.upload.FileUploadAction" 
 			method="doUpload"> -->
-			
-		<action name="uploadFile" class="cl.actions.FileUploadAction" method="uploadFile">
+
+		<action name="uploadFile" class="cl.actions.FileUploadAction"
+			method="uploadFile">
 			<interceptor-ref name="defaultStack">
-				<param name="fileUpload.allowedTypes">text/plain,text/xml, image/jpeg</param>
+				<param name="fileUpload.allowedTypes">text/plain,text/xml,image/png,image/gif,image/jpeg</param>
 				<param name="fileUpload.maximumSize">4194304</param>
 			</interceptor-ref>
 			<interceptor-ref name="params" />
@@ -83,6 +84,19 @@
 			<interceptor-ref name="workflow" />
 			<result name="success" type="redirect">data/upload/success.jsp</result>
 			<result name="input">data/upload/fileUpload.jsp</result>
+		</action>
+
+		<action name="productUpload" class="cl.actions.ProductAction"
+			method="productUpload">
+			<interceptor-ref name="defaultStack">
+				<param name="fileUpload.allowedTypes">text/plain,text/xml,image/png,image/gif,image/jpeg</param>
+				<param name="fileUpload.maximumSize">4194304</param>
+			</interceptor-ref>
+			<interceptor-ref name="params" />
+			<interceptor-ref name="validation" />
+			<interceptor-ref name="workflow" />
+			<result name="success" type="redirect">/User/Menu</result>
+			<result name="input">products/pages/prdImage_m.jsp</result>
 		</action>
 
 

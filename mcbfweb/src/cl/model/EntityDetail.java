@@ -27,7 +27,9 @@ import org.springframework.stereotype.Service;
 		@SecondaryTable(name = "BIZENTCNTM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "CNTENTITY", referencedColumnName = "ITYENTITY") }),
 		@SecondaryTable(name = "BIZENTADRM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "ADRENTITY", referencedColumnName = "ITYENTITY") }),
 		@SecondaryTable(name = "BIZENTINNM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "INNENTITY", referencedColumnName = "ITYENTITY") }),
-		@SecondaryTable(name = "BIZENTSRVM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "SRVENTITY", referencedColumnName = "ITYENTITY") }) })
+		@SecondaryTable(name = "BIZENTSRVM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "SRVENTITY", referencedColumnName = "ITYENTITY") }), 
+		@SecondaryTable(name = "BIZENTPRDM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "PRDENTITY", referencedColumnName = "ITYENTITY") })
+		})
 public class EntityDetail {
 
 	@Id
@@ -79,6 +81,9 @@ public class EntityDetail {
 	@OneToMany(mappedBy = "entitydetail", cascade = { CascadeType.ALL })
 	private List<BizEntSrv> srvNames;
 	
+	@OneToMany(mappedBy = "entitydetail", cascade = { CascadeType.ALL })
+	private List<BizEntPrd> products;
+	
 	public EntityDetail() {
 		super();
 		this.addresses = new ArrayList<BizEntAdr>();
@@ -94,6 +99,8 @@ public class EntityDetail {
 		this.contacts.add(new BizEntCnt());
 		this.srvNames = new ArrayList<BizEntSrv>();
 		this.srvNames.add(new BizEntSrv());
+		this.products = new ArrayList<BizEntPrd>();
+		this.products.add(new BizEntPrd());
 
 	}
 
@@ -136,6 +143,16 @@ public class EntityDetail {
 
 	public void setSrvNames(List<BizEntSrv> srvNames) {
 		this.srvNames = srvNames;
+	}
+
+	
+	
+	public List<BizEntPrd> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<BizEntPrd> products) {
+		this.products = products;
 	}
 
 	public void setEntity(Integer entity) {
