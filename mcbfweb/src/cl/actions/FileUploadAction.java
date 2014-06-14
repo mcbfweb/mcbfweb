@@ -29,6 +29,7 @@ import cl.model.BizEntAdr;
 import cl.model.BizEntCnt;
 import cl.model.BizEntId;
 import cl.model.BizEntInn;
+import cl.model.BizEntPrd;
 import cl.model.BizEntSrv;
 import cl.model.EntityDetail;
 
@@ -277,26 +278,36 @@ public class FileUploadAction extends BaseAction {
 		Integer cntDatid = manager.getNextSrvDtaid();
 		usrd = (UserDetails) getSession().get(VedaConstants.USER_KEY);
 		current = new Date();
-		List<BizEntSrv> srvs = new ArrayList<BizEntSrv>();
+		List<BizEntPrd> prds = new ArrayList<BizEntPrd>();
 		for (int i = 0; i < products.size(); i++) {
 
-			List<PRODUCT> service = (List<PRODUCT>) products.get(i).getPRODUCT();
-			BizEntSrv srv = new BizEntSrv();
-			for (int j = 0; j < service.size(); j++) {
-				System.out.println(service.get(j).getPRDTITLE());
-				srv.setEntity(entid);
-				srv.setDatid(cntDatid++);
-				srv.setCrtDate(current);
-				srv.setCrtByUser(usrd.getUsername());
-				srv.setSrvName(service.get(j).getPRDTITLE());
-				srv.setVersion(1);
-				srvs.add(srv);
+			List<PRODUCT> product = (List<PRODUCT>) products.get(i).getPRODUCT();
+			BizEntPrd prd = new BizEntPrd();
+			for (int j = 0; j < product.size(); j++) {
+				System.out.println(product.get(j).getPRDTITLE());
+				prd.setEntity(entid);
+				prd.setDatid(cntDatid++);
+				prd.setCrtDate(current);
+				prd.setCrtByUser(usrd.getUsername());
+				prd.setPrdTitle(product.get(j).getPRDTITLE());
+				prd.setPrdCode(product.get(j).getPRDCODE());
+				prd.setPrdColor(product.get(j).getPRDCOLOR());
+				prd.setPrdSize(new Double(product.get(j).getPRDSIZE()));
+				prd.setPrdCtgy(product.get(j).getPRDCTGY());
+				prd.setPrdDesc(product.get(j).getPRDDESC());
+				prd.setPrdModel(product.get(j).getPRDMODEL());
+				prd.setPrdPrice(new Double(product.get(j).getPRDPRICE()));
+				prd.setPrdQtyAvl(new Double(product.get(j).getPRDQTYAVL()));
+				prd.setPrdReoLvl(new Double(product.get(j).getPRDREOLVL()));
+				prd.setPrdSupplier(product.get(j).getPRDSUPPLIER());				
+				prd.setVersion(1);
+				prds.add(prd);
 				
 			}
 
 		}
 		
-		entity.setSrvNames(srvs);
+		entity.setProducts(prds);
 	}
 
 	
