@@ -69,6 +69,7 @@ public class FileUploadAction extends BaseAction {
 	private Integer adrDatid;
 	private Integer cntDatid;
 	private Integer srvDatid;
+	private int prdDatid;
 
 	private File fileUpload;
 	private String fileUploadFileName;
@@ -99,7 +100,8 @@ public class FileUploadAction extends BaseAction {
 			manager = (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
 			entid = manager.getNextEntityNumber();
 			this.manager = (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
-			this.entity = (EntityDetail) ctx.getBean("entityDetail");
+			//this.entity = (EntityDetail) ctx.getBean("entityDetail");
+			
 			usrd = (UserDetails) getSession().get(VedaConstants.USER_KEY);
 			current = new Date();
 
@@ -122,11 +124,11 @@ public class FileUploadAction extends BaseAction {
 				List<ENTITIES> entities = message.getENTITIES();
 
 				for (int i = 0; i < entities.size(); i++) {
-					@SuppressWarnings("unchecked")
 					REQUEST.MESSAGE.ENTITIES ent2 = (REQUEST.MESSAGE.ENTITIES) entities.get(i);
 					List<ENTITY> ent = ent2.getENTITY();
 					// writeEntity();
 					for (int j = 0; j < ent.size(); j++) {
+						this.entity = (EntityDetail) ctx.getBean("entityDetail");
 						entity.setBizCode(ent.get(j).getITYBIZCODE());
 						entity.setCtry(ent.get(j).getITYCTRY());
 						entity.setEcoCode(ent.get(j).getITYINDCODE().substring(0, 2));
@@ -156,12 +158,15 @@ public class FileUploadAction extends BaseAction {
 						writeIds(ids);
 						List<PRODUCTS> products = ent.get(j).getPRODUCTS();
 						writeProducts(products);
+						
+						// add
+						manager.insertEntityDetail(entity);
+						entid = manager.getNextEntityNumber();
 					}
 
 				}
 
-				// add
-				manager.insertEntityDetail(entity);
+				
 
 			}
 
@@ -178,18 +183,19 @@ public class FileUploadAction extends BaseAction {
 	
 	private void writeAddress(List<ADDRESSES> addresses) {
 
-		Integer adrDatid = manager.getNextAdrDtaid();
+		adrDatid = manager.getNextAdrDtaid();
 		usrd = (UserDetails) getSession().get(VedaConstants.USER_KEY);
 		current = new Date();
-		List<BizEntAdr> addrs = new ArrayList<BizEntAdr>();
+		List<BizEntAdr> addrs = entity.getAddresses();
 		for (int i = 0; i < addresses.size(); i++) {
 
 			List<ADDRESS> address = (List<ADDRESS>) addresses.get(i).getADDRESS();
-			BizEntAdr adr = new BizEntAdr();
+			
 			for (int j = 0; j < address.size(); j++) {
+				BizEntAdr adr = new BizEntAdr();
 				System.out.println(address.get(j).getADRPSTCDE());
 				adr.setEntity(entid);
-				adr.setDatid(adrDatid++);
+				adr.setDatid(adrDatid);
 				adr.setCrtDate(current);
 				adr.setCrtByUser(usrd.getUsername());
 				adr.setAdrAptNo(address.get(j).getADRAPTNO());
@@ -207,6 +213,7 @@ public class FileUploadAction extends BaseAction {
 				adr.setAdrTyp(address.get(j).getADRTYP());
 				adr.setVersion(1);
 				addrs.add(adr);
+				adrDatid++;
 			}
 
 		}
@@ -216,18 +223,19 @@ public class FileUploadAction extends BaseAction {
 
 	private void writeContact(List<CONTACTS> contacts) {
 
-		Integer cntDatid = manager.getNextCntDtaid();
+		cntDatid = manager.getNextCntDtaid();
 		usrd = (UserDetails) getSession().get(VedaConstants.USER_KEY);
 		current = new Date();
-		List<BizEntCnt> conts = new ArrayList<BizEntCnt>();
+		List<BizEntCnt> conts = entity.getContacts();
 		for (int i = 0; i < contacts.size(); i++) {
 
 			List<CONTACT> contact = (List<CONTACT>) contacts.get(i).getCONTACT();
-			BizEntCnt cnt = new BizEntCnt();
+			
 			for (int j = 0; j < contact.size(); j++) {
+				BizEntCnt cnt = new BizEntCnt();
 				System.out.println(contact.get(j).getCNTAREACDE());
 				cnt.setEntity(entid);
-				cnt.setDatid(cntDatid++);
+				cnt.setDatid(cntDatid);
 				cnt.setCrtDate(current);
 				cnt.setCrtByUser(usrd.getUsername());
 				cnt.setCntAreaCde(contact.get(j).getCNTAREACDE());
@@ -239,6 +247,7 @@ public class FileUploadAction extends BaseAction {
 				cnt.setCntTyp(contact.get(j).getCNTTYP());
 				cnt.setVersion(1);
 				conts.add(cnt);
+				cntDatid++;
 			}
 
 		}
@@ -248,23 +257,25 @@ public class FileUploadAction extends BaseAction {
 
 	private void writeServices(List<SERVICES> services) {
 
-		Integer cntDatid = manager.getNextSrvDtaid();
+		srvDatid = manager.getNextSrvDtaid();
 		usrd = (UserDetails) getSession().get(VedaConstants.USER_KEY);
 		current = new Date();
-		List<BizEntSrv> srvs = new ArrayList<BizEntSrv>();
+		List<BizEntSrv> srvs = entity.getSrvNames();
 		for (int i = 0; i < services.size(); i++) {
 
 			List<SERVICE> service = (List<SERVICE>) services.get(i).getSERVICE();
-			BizEntSrv srv = new BizEntSrv();
+			
 			for (int j = 0; j < service.size(); j++) {
+				BizEntSrv srv = new BizEntSrv();
 				System.out.println(service.get(j).getSRVNAME());
 				srv.setEntity(entid);
-				srv.setDatid(cntDatid++);
+				srv.setDatid(srvDatid);
 				srv.setCrtDate(current);
 				srv.setCrtByUser(usrd.getUsername());
 				srv.setSrvName(service.get(j).getSRVNAME());
 				srv.setVersion(1);
 				srvs.add(srv);
+				srvDatid++;
 				
 			}
 
@@ -275,18 +286,19 @@ public class FileUploadAction extends BaseAction {
 
 	private void writeProducts(List<PRODUCTS> products) {
 
-		Integer cntDatid = manager.getNextSrvDtaid();
+		prdDatid = manager.getNextSrvDtaid().intValue();
 		usrd = (UserDetails) getSession().get(VedaConstants.USER_KEY);
 		current = new Date();
-		List<BizEntPrd> prds = new ArrayList<BizEntPrd>();
+		List<BizEntPrd> prds = entity.getProducts();
 		for (int i = 0; i < products.size(); i++) {
 
 			List<PRODUCT> product = (List<PRODUCT>) products.get(i).getPRODUCT();
-			BizEntPrd prd = new BizEntPrd();
+			
 			for (int j = 0; j < product.size(); j++) {
+				BizEntPrd prd = new BizEntPrd();
 				System.out.println(product.get(j).getPRDTITLE());
 				prd.setEntity(entid);
-				prd.setDatid(cntDatid++);
+				prd.setDatid(prdDatid);
 				prd.setCrtDate(current);
 				prd.setCrtByUser(usrd.getUsername());
 				prd.setPrdTitle(product.get(j).getPRDTITLE());
@@ -302,6 +314,7 @@ public class FileUploadAction extends BaseAction {
 				prd.setPrdSupplier(product.get(j).getPRDSUPPLIER());				
 				prd.setVersion(1);
 				prds.add(prd);
+				prdDatid++;
 				
 			}
 
@@ -313,18 +326,19 @@ public class FileUploadAction extends BaseAction {
 	
 	private void writeNames(List<NAMES> names) {
 
-		Integer innDatid = manager.getNextInnDtaid();
+		innDatid = manager.getNextInnDtaid();
 		usrd = (UserDetails) getSession().get(VedaConstants.USER_KEY);
 		current = new Date();
-		List<BizEntInn> inns = new ArrayList<BizEntInn>();
+		List<BizEntInn> inns = entity.getNames();
 		for (int i = 0; i < names.size(); i++) {
 
 			List<NAME> name = (List<NAME>) names.get(i).getNAME();
-			BizEntInn nam = new BizEntInn();
+			
 			for (int j = 0; j < name.size(); j++) {
+				BizEntInn nam = new BizEntInn();
 				System.out.println(name.get(j).getINNBNAME());
 				nam.setEntity(entid);
-				nam.setDatid(innDatid++);
+				nam.setDatid(innDatid);
 				nam.setCrtDate(current);
 				nam.setCrtByUser(usrd.getUsername());
 				nam.setBizName(name.get(j).getINNBNAME());
@@ -333,6 +347,7 @@ public class FileUploadAction extends BaseAction {
 				nam.setFstName(name.get(j).getINNFNAME());
 				nam.setVersion(1);		
 				inns.add(nam);
+				innDatid++;
 			}
 
 		}
@@ -342,25 +357,27 @@ public class FileUploadAction extends BaseAction {
 	
 	private void writeIds(List<IDS> ids) {
 
-		Integer idDatid = manager.getNextIdDtaid();
+		idDatid = manager.getNextIdDtaid();
 		usrd = (UserDetails) getSession().get(VedaConstants.USER_KEY);
 		current = new Date();
-		List<BizEntId> idds = new ArrayList<BizEntId>();
+		List<BizEntId> idds = entity.getIds();
 		for (int i = 0; i < ids.size(); i++) {
 
 			List<ID> id = (List<ID>) ids.get(i).getID();
-			BizEntId idd = new BizEntId();
+			
 			for (int j = 0; j < id.size(); j++) {
+				BizEntId idd = new BizEntId();
 				System.out.println(id.get(j).getIDIDCODE());
 				idd.setEntity(entid);
 				idd.setIdCtry(id.get(j).getIDCTRY());;
-				idd.setDatid(idDatid++);
+				idd.setDatid(idDatid);
 				idd.setCrtDate(current);
 				idd.setCrtByUser(usrd.getUsername());
 				idd.setIdCode(id.get(j).getIDIDCODE());
 				idd.setIdTyp(id.get(j).getIDIDTYP());
 				idd.setVersion(1);		
 				idds.add(idd);
+				idDatid++;
 			}
 
 		}

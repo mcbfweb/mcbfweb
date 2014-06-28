@@ -2,13 +2,18 @@ package cl.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -17,6 +22,9 @@ import javax.persistence.SecondaryTables;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.IndexColumn;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.stereotype.Service;
 
 @Entity
@@ -27,14 +35,13 @@ import org.springframework.stereotype.Service;
 		@SecondaryTable(name = "BIZENTCNTM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "CNTENTITY", referencedColumnName = "ITYENTITY") }),
 		@SecondaryTable(name = "BIZENTADRM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "ADRENTITY", referencedColumnName = "ITYENTITY") }),
 		@SecondaryTable(name = "BIZENTINNM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "INNENTITY", referencedColumnName = "ITYENTITY") }),
-		@SecondaryTable(name = "BIZENTSRVM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "SRVENTITY", referencedColumnName = "ITYENTITY") }), 
-		@SecondaryTable(name = "BIZENTPRDM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "PRDENTITY", referencedColumnName = "ITYENTITY") })
-		})
+		@SecondaryTable(name = "BIZENTSRVM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "SRVENTITY", referencedColumnName = "ITYENTITY") }),
+		@SecondaryTable(name = "BIZENTPRDM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "PRDENTITY", referencedColumnName = "ITYENTITY") }) })
 public class EntityDetail {
 
 	@Id
-	@GeneratedValue(generator = "increment")
-	@GenericGenerator(name = "increment", strategy = "increment")
+	// @GeneratedValue(generator = "increment")
+	// @GenericGenerator(name = "increment", strategy = "increment")
 	@Column(name = "ITYENTITY", unique = true, nullable = false)
 	Integer entity;
 	@Column(name = "ITYENTTYP")
@@ -66,41 +73,47 @@ public class EntityDetail {
 	@Column(name = "ITYVERSION")
 	Integer version;
 
-	@OneToMany(mappedBy = "entitydetail", cascade = { CascadeType.ALL } )
-	private List<BizEntId> ids;
+	@OneToMany(mappedBy = "entitydetail", cascade = { CascadeType.ALL })
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<BizEntId> ids = new ArrayList<BizEntId>();
 
 	@OneToMany(mappedBy = "entitydetail", cascade = { CascadeType.ALL })
-	private List<BizEntCnt> contacts;
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<BizEntCnt> contacts = new ArrayList<BizEntCnt>();
 
 	@OneToMany(mappedBy = "entitydetail", cascade = { CascadeType.ALL })
-	private List<BizEntAdr> addresses;
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<BizEntAdr> addresses = new ArrayList<BizEntAdr>();
 
 	@OneToMany(mappedBy = "entitydetail", cascade = { CascadeType.ALL })
-	private List<BizEntInn> names;
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<BizEntInn> names = new ArrayList<BizEntInn>();
+
+	@OneToMany(mappedBy = "entitydetail", cascade = CascadeType.ALL)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<BizEntSrv> srvNames = new ArrayList<BizEntSrv>();
 
 	@OneToMany(mappedBy = "entitydetail", cascade = { CascadeType.ALL })
-	private List<BizEntSrv> srvNames;
-	
-	@OneToMany(mappedBy = "entitydetail", cascade = { CascadeType.ALL })
-	private List<BizEntPrd> products;
-	
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<BizEntPrd> products = new ArrayList<BizEntPrd>();
+
 	public EntityDetail() {
 		super();
-		this.addresses = new ArrayList<BizEntAdr>();
-		this.addresses.add(new BizEntAdr());
-		this.addresses.add(new BizEntAdr());
-		this.names = new ArrayList<BizEntInn>();
-		this.names.add(new BizEntInn());
-		this.ids = new ArrayList<BizEntId>();
-		this.ids.add(new BizEntId());
-		this.ids.add(new BizEntId());
-		this.contacts = new ArrayList<BizEntCnt>();
-		this.contacts.add(new BizEntCnt());
-		this.contacts.add(new BizEntCnt());
-		this.srvNames = new ArrayList<BizEntSrv>();
-		this.srvNames.add(new BizEntSrv());
-		this.products = new ArrayList<BizEntPrd>();
-		this.products.add(new BizEntPrd());
+		// this.addresses = new ArrayList<BizEntAdr>();
+		// this.addresses.add(new BizEntAdr());
+		// this.addresses.add(new BizEntAdr());
+		// this.names = new ArrayList<BizEntInn>();
+		// this.names.add(new BizEntInn());
+		// this.ids = new ArrayList<BizEntId>();
+		// this.ids.add(new BizEntId());
+		// this.ids.add(new BizEntId());
+		// this.contacts = new ArrayList<BizEntCnt>();
+		// this.contacts.add(new BizEntCnt());
+		// this.contacts.add(new BizEntCnt());
+		// this.srvNames = new ArrayList<BizEntSrv>();
+		// this.srvNames.add(new BizEntSrv());
+		// this.products = new ArrayList<BizEntPrd>();
+		// this.products.add(new BizEntPrd());
 
 	}
 
@@ -136,7 +149,6 @@ public class EntityDetail {
 		this.names = names;
 	}
 
-		
 	public List<BizEntSrv> getSrvNames() {
 		return srvNames;
 	}
@@ -145,8 +157,6 @@ public class EntityDetail {
 		this.srvNames = srvNames;
 	}
 
-	
-	
 	public List<BizEntPrd> getProducts() {
 		return products;
 	}
@@ -211,8 +221,6 @@ public class EntityDetail {
 		this.indCode = indCode;
 	}
 
-	
-	
 	public String getLocLat() {
 		return locLat;
 	}
@@ -229,7 +237,6 @@ public class EntityDetail {
 		this.locLon = locLon;
 	}
 
-	
 	public String getUrl() {
 		return url;
 	}

@@ -5,6 +5,9 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,9 +21,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class BizEntPrd implements java.io.Serializable {
 
-	@Id  
+	@Id 
 	@Column(name = "PRDDATID", unique = true, nullable = false)	
-	private Integer datid;
+	private int datid;
 
 	@Column(name = "PRDENTITY")
 	private Integer entity;
@@ -59,7 +62,7 @@ public class BizEntPrd implements java.io.Serializable {
 	@Column(name = "PRDVERSION")
 	private Integer version;
 
-	@ManyToOne(cascade = { CascadeType.ALL, CascadeType.MERGE })
+	@ManyToOne(cascade = { CascadeType.ALL }, fetch=FetchType.EAGER)
 	@JoinColumn(name = "PRDENTITY", nullable = false, insertable = false, updatable = false, referencedColumnName = "ITYENTITY")
 	private EntityDetail entitydetail;
 
@@ -256,11 +259,11 @@ public class BizEntPrd implements java.io.Serializable {
 
 
 
-	public Integer getDatid() {
+	public int getDatid() {
 		return datid;
 	}
 
-	public void setDatid(Integer datid) {
+	public void setDatid(int datid) {
 		this.datid = datid;
 	}
 

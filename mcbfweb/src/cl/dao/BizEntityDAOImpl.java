@@ -70,7 +70,7 @@ public class BizEntityDAOImpl implements BizEntityDAO {
 	@Override
 	public void insertEntityDetail(EntityDetail entity) {
 		sessionFactory.getCurrentSession().flush();
-		sessionFactory.getCurrentSession().save(entity);
+		sessionFactory.getCurrentSession().saveOrUpdate(entity);
 
 	}
 
