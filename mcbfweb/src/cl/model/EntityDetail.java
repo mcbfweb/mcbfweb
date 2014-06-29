@@ -2,33 +2,26 @@ package cl.model;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
 import javax.persistence.SecondaryTables;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.IndexColumn;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 @Entity
 @Table(name = "BIZENTITYM0")
+@Scope("prototype")
 @Service
 @SecondaryTables({
 		@SecondaryTable(name = "BIZENTIDM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "IDENTITY", referencedColumnName = "ITYENTITY") }),
@@ -99,22 +92,6 @@ public class EntityDetail {
 
 	public EntityDetail() {
 		super();
-		// this.addresses = new ArrayList<BizEntAdr>();
-		// this.addresses.add(new BizEntAdr());
-		// this.addresses.add(new BizEntAdr());
-		// this.names = new ArrayList<BizEntInn>();
-		// this.names.add(new BizEntInn());
-		// this.ids = new ArrayList<BizEntId>();
-		// this.ids.add(new BizEntId());
-		// this.ids.add(new BizEntId());
-		// this.contacts = new ArrayList<BizEntCnt>();
-		// this.contacts.add(new BizEntCnt());
-		// this.contacts.add(new BizEntCnt());
-		// this.srvNames = new ArrayList<BizEntSrv>();
-		// this.srvNames.add(new BizEntSrv());
-		// this.products = new ArrayList<BizEntPrd>();
-		// this.products.add(new BizEntPrd());
-
 	}
 
 	public List<BizEntId> getIds() {

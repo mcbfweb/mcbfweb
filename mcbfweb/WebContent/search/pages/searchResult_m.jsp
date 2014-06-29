@@ -59,13 +59,13 @@
 
 			<div class="ui-grid-d" data-theme="a">
 
-				<div class="ui-block-a" style="width: 40%">
+				<div class="ui-block-a" style="width: 35%">
 
 					<div class="ui-bar ui-bar-d">Name :</div>
 
 				</div>
 
-				<div class="ui-block-b" style="width: 60%">
+				<div class="ui-block-b" style="width: 65%">
 
 					<div class="ui-bar ui-bar-d">
 
@@ -75,51 +75,58 @@
 
 				</div>
 
-				<div class="ui-block-a" style="width: 40%">
+				<div class="ui-block-a" style="width: 35%">
 
 					<div class="ui-bar ui-bar-d">Address :</div>
 
 				</div>
+				<s:iterator value="%{entity.addresses}" var="address" id="adr"
+					status="idx">
 
-				<div class="ui-block-b" style="width: 60%">
 
-					<s:iterator value="%{entity.addresses}" var="address" id="adr"
-						status="idx">
 
+					<div class="ui-block-b" style="width: 65%">
 						<div class="ui-bar ui-bar-d">
 
 							<s:property value="adrStrtNo" />
 
-							<s:property value="adrStrtNm" />
-
-							<br />
-
+							<s:property value="adrstrNm" />
+							,
 							<s:property value="%{adrLine1}" />
+							,
 
-							<s:property value="%{adrLine2}" />
-
-							<br />
-
+							<s:property value="%{adrCity}" />
+							,
+							<s:property value="%{adrState}" />
 							<s:property value="%{adrPstCde}" />
 
 						</div>
+					</div>
 
-					</s:iterator>
+				</s:iterator>
 
 
 
-				</div>
+				<s:iterator value="%{entity.contacts}" var="contact" id="cnt"
+					status="idx">
 
-				<div class="ui-block-a" style="width: 40%">
+					<s:if test="#idx.first == true">
 
-					<div class="ui-bar ui-bar-d">Contact :</div>
+						<div class="ui-block-a" style="width: 35%">
 
-				</div>
+							<div class="ui-bar ui-bar-d">Contact :</div>
 
-				<div class="ui-block-b" style="width: 60%">
+						</div>
+					</s:if>
+					<s:if test="#idx.first == false">
+						<div class="ui-block-a" style="width: 35%">
 
-					<s:iterator value="%{entity.contacts}" var="contact" id="cnt"
-						status="idx">
+							<div class="ui-bar ui-bar-d">&nbsp;</div>
+
+						</div>
+					</s:if>
+
+					<div class="ui-block-b" style="width: 65%">
 
 						<div class="ui-bar ui-bar-d">
 
@@ -133,43 +140,87 @@
 
 						</div>
 
-					</s:iterator>
+					</div>
+				</s:iterator>
 
 
+
+
+				<div class="ui-block-a" style="width: 35%">
+
+					<div class="ui-bar ui-bar-d">Services :</div>
 
 				</div>
+
+				<div class="ui-block-b" style="width: 65%">
+					<div class="ui-bar ui-bar-d">
+
+						<s:iterator value="%{entity.srvNames}" var="service" id="ser"
+							status="idx">
+
+							<s:property value="srvName" />
+
+							<s:if test="#idx.last == false">
+							,
+							</s:if>
+						</s:iterator>
+
+					</div>
+				</div>
+
+
+				<div class="ui-block-a" style="width: 35%">
+
+					<div class="ui-bar ui-bar-d">Products :</div>
+
+				</div>
+
+				<div class="ui-block-b" style="width: 65%">
+					<div class="ui-bar ui-bar-d">
+
+						<s:iterator value="%{entity.products}" var="product" id="prd"
+							status="idx">
+
+							<s:property value="prdDesc" />
+
+							<s:if test="#idx.last == false">
+							,
+							</s:if>
+						</s:iterator>
+
+					</div>
+				</div>
+
 
 			</div>
 
 
-
 			<div data-role="main" class="ui-content" data-content-theme="d">
 
+				<div class="ui-grid-d" data-theme="a">
 
+					<div class="ui-bar ui-bar-d">
 
-				<a href="#popupProducts" data-rel="popup" data-position-to="window"
-					data-transition="fade"
-					class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Products</a> <a
-					href="#popupServices" data-rel="popup" data-position-to="window"
-					data-transition="fade"
-					class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Services</a> <a
-					href="#appointment" data-rel="popup" data-position-to="window"
-					data-transition="fade"
-					class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Email/SMS</a>
+						
+						<div class="ui-block-a">
+							<a href="#appointment" data-rel="popup" data-position-to="window"
+								data-transition="fade"
+								class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Email/SMS</a>
+						</div>
 
+						<div class="ui-block-b">
+							<a href="#popupMap" data-rel="popup" data-position-to="window"
+								data-transition="fade"
+								class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Map</a>
+						</div>
 
+					</div>
 
-				<a href="#popupMap" data-rel="popup" data-position-to="window"
-					data-transition="fade"
-					class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Map</a>
-
-
-
-				<!-- <a href="#popupVideo" data-rel="popup" data-position-to="window"
+					<!-- <a href="#popupVideo" data-rel="popup" data-position-to="window"
 
                                   data-transition="fade" class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Video</a> -->
 
-
+				</div>
 
 
 
@@ -194,12 +245,8 @@
 
 							<br />
 
-							<br />
-
 							<a href=tel: <s:property value="cntAreaCde" />
 								<s:property value="cntPhnNo" />>Phone</a>
-
-							<br />
 
 							<br />
 
@@ -310,15 +357,6 @@
 
 
 			</div>
-
-
-
-
-
-
-
-
-
 		</fieldset>
 
 	</sjm:div>

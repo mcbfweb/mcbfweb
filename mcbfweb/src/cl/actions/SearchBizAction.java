@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import joptsimple.util.KeyValuePair;
 
+import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
@@ -44,7 +45,7 @@ import cl.model.EntityDetail;
 public class SearchBizAction extends BaseAction {
 
 	private static final long serialVersionUID = 1L;
-
+	static Logger logger = Logger.getLogger(SearchBizAction.class);
 	private List<EntityDetail> clients;
 
 	public String mode;
@@ -56,7 +57,7 @@ public class SearchBizAction extends BaseAction {
 	@Override
 	public String execute() throws Exception {
 
-		System.out.println("SearchBizAction Success");
+		logger.info("SearchBizAction Success");
 		setArrays();
 		
 		//System.out.println((String) request.getParameter("latitude"));
@@ -69,7 +70,7 @@ public class SearchBizAction extends BaseAction {
 	public String findBizByType() throws Exception {
 
 		// System.out.println("findBiz");
-		System.out.println(request.getParameter("q"));
+		logger.info(request.getParameter("q"));
 		String query = request.getParameter("q");
 
 		return SUCCESS;
@@ -79,7 +80,7 @@ public class SearchBizAction extends BaseAction {
 	public String findBizName() throws Exception {
 
 		// System.out.println("findBiz");
-		System.out.println(request.getParameter("clientId"));
+		logger.info(request.getParameter("clientId"));
 		String clientId = request.getParameter("clientId");
 		String mode = request.getParameter("mode");
 		ApplicationContext ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");

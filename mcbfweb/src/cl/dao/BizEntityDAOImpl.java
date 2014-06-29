@@ -122,26 +122,10 @@ public class BizEntityDAOImpl implements BizEntityDAO {
 		clients = criteria.list();
 		if (clients != null) {
 			EntityDetail client = clients.get(0);
-			if (client.getAddresses() != null && client.getAddresses().get(0) != null
-					&& client.getAddresses().get(0).getAdrPstCde() != null)
-				client.getAddresses().get(0).getAdrPstCde();
-			if (client.getNames() != null && client.getNames().get(0) != null && client.getNames().get(0).getBizName() != null)
-				client.getNames().get(0).getBizName();
-			if (client.getIds() != null && client.getIds().size() > 0 && client.getIds().get(0) != null
-					&& client.getIds().get(0).getIdCode() != null)
-			//	client.getIds().get(0).getIdCode();
-			if (client.getContacts() != null && client.getContacts().size() > 0 && client.getContacts().get(0) != null
-					&& client.getContacts().get(0).getCntEmail() != null)
-				client.getContacts().get(0).getCntEmail();
-			if (client.getSrvNames() != null && client.getSrvNames().size() > 0 && client.getSrvNames().get(0) != null
-					&& client.getSrvNames().get(0).getSrvName() != null)
-				client.getSrvNames().get(0).getSrvName();
-
+			
 			return client;
 		}
-		// if (clients != null)
-		// return clients.get(0);
-
+		else
 		throw new ClientDoesNotExistError("Did not find client id");
 
 	}

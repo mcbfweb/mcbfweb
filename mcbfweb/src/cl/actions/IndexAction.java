@@ -47,8 +47,8 @@ public class IndexAction extends BaseAction {
 		//((SessionMap)this.session).invalidate();
 		Map<String, Object> sessionMap = getSession();
 
-		System.out.print("index.jsp - " + sessionMap.get("application"));
-		System.out.print('\n' + "index.jsp - " + sessionMap.get("partner") + '\n');
+		logger.info("index.jsp - " + sessionMap.get("application"));
+		logger.info('\n' + "index.jsp - " + sessionMap.get("partner") + '\n');
 
 		if (viewFolder.equalsIgnoreCase(AppConstants.MOBILE_VIEW))
 			return "success_m";

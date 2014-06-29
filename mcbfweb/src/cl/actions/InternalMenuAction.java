@@ -1,6 +1,7 @@
 package cl.actions;
 
 
+import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
@@ -33,7 +34,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 public class InternalMenuAction extends ActionSupport {    
 	
-	//static Logger logger = Logger.getLogger(PublicUserMenuAction.class);
+	static Logger logger = Logger.getLogger(InternalMenuAction.class);
 	
 	//static Logger log = Logger.getLogger(ServerProperty.class.getName());
 	
@@ -46,7 +47,7 @@ public class InternalMenuAction extends ActionSupport {
     @Override
     public String execute() throws Exception {
     	
-		System.out.println("Public Menu Success");
+		logger.info("Public Menu Success");
 		
 		if(getMenuItem() == null || getMenuItem().trim().length() == 0)	 	
 		   return INPUT;
@@ -66,7 +67,7 @@ public class InternalMenuAction extends ActionSupport {
 		if(AppConstants.PRODUCTS.equalsIgnoreCase(getMenuItem().trim()))
 			return "products";
 		
-		System.out.println(getMenuItem().trim());
+		logger.info(getMenuItem().trim());
 		
 		return SUCCESS;
     }

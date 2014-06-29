@@ -97,10 +97,8 @@ public class FileUploadAction extends BaseAction {
 		try {
 			String uploadPath = (String) getServletContex().getAttribute("FTP_UPLOAD");
 			this.ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
-			manager = (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
-			entid = manager.getNextEntityNumber();
 			this.manager = (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
-			//this.entity = (EntityDetail) ctx.getBean("entityDetail");
+			
 			
 			usrd = (UserDetails) getSession().get(VedaConstants.USER_KEY);
 			current = new Date();
@@ -128,6 +126,7 @@ public class FileUploadAction extends BaseAction {
 					List<ENTITY> ent = ent2.getENTITY();
 					// writeEntity();
 					for (int j = 0; j < ent.size(); j++) {
+						this.entid = manager.getNextEntityNumber();
 						this.entity = (EntityDetail) ctx.getBean("entityDetail");
 						entity.setBizCode(ent.get(j).getITYBIZCODE());
 						entity.setCtry(ent.get(j).getITYCTRY());
@@ -161,7 +160,7 @@ public class FileUploadAction extends BaseAction {
 						
 						// add
 						manager.insertEntityDetail(entity);
-						entid = manager.getNextEntityNumber();
+						
 					}
 
 				}
