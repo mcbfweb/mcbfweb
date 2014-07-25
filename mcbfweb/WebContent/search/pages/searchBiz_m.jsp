@@ -1,9 +1,11 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib prefix="sjm" uri="/struts-jquery-mobile-tags"%>
 
+
+
 <jsp:include page="/inc.header.jsp" />
 
-<sjm:div role="page" id="searchBizpage" data-theme="d" theme="simple">
+<sjm:div role="page" id="searchBizpage" data-theme="d" theme="simple" data-dom-cache="true">
 
 	<sjm:div role="header" data-theme="d">
 		<sjm:a href="#searchBizMenu" button="true" buttonIcon="arrow-l"

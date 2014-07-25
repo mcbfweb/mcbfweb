@@ -3,38 +3,36 @@
 
 
 
-<div role="main" class="ui-content">
-	<div data-role="tabs">
-		<div data-role="navbar">
-			<ul>
-				<li><a href="#id1">Id 1</a></li>
-				<li><a href="#id2">Id 2</a></li>
-			</ul>
-		</div>
+<sjm:div role="main" class="ui-content">
+	<sjm:div data-role="collapsible-set" data-type="tabs" data-tabs="2"
+		data-theme="d" data-content-theme="d">
 
-		<div id="id1">
-			<sjm:select id="idtype_0" name="entity.ids[0].idTyp" class="bizIDTyp"
-				label="ID Type" headerKey="-1" headerValue="--Select a ID Type--"
-				emptyOption="false" list="bizIDTypeArry" listKey="code"
-				listValue="label" />
+		<sjm:div data-role="collapsible" data-collapsed="false" data-mini="true">
+			<h4>Id1</h4>
+			<sjm:div id="id1">
+				<sjm:select id="idtype_0" name="entity.ids[0].idTyp"
+					class="bizIDTyp" label="ID Type" headerKey="-1"
+					headerValue="--Select a ID Type--" emptyOption="false"
+					list="bizIDTypeArry" listKey="code" listValue="label" />
 
-			<sjm:textfield id="idnumber_0" name="entity.ids[0].idCode"
-				value="%{entity.ids[0].idCode}" label="ID Number" />
+				<sjm:textfield id="idnumber_0" name="entity.ids[0].idCode"
+					value="%{entity.ids[0].idCode}" label="ID Number" />
 
+			</sjm:div>
+		</sjm:div>
 
-		</div>
-		<div id="id2">
-			<sjm:select id="idtype_1" name="entity.ids[1].idTyp" class="bizIDTyp"
-				label="ID Type" headerKey="-1" headerValue="--Select a ID Type--"
-				emptyOption="false" list="bizIDTypeArry" listKey="code"
-				listValue="label" />
+		<sjm:div data-role="collapsible" data-collapsed="true" data-mini="true">
+			<h4>Id2</h4>
+			<sjm:div id="id2">
+				<sjm:select id="idtype_1" name="entity.ids[1].idTyp"
+					class="bizIDTyp" label="ID Type" headerKey="-1"
+					headerValue="--Select a ID Type--" emptyOption="false"
+					list="bizIDTypeArry" listKey="code" listValue="label" />
 
-			<sjm:textfield id="idnumber_1" name="entity.ids[1].idCode"
-				value="%{entity.ids[1].idCode}" label="ID Number" />
+				<sjm:textfield id="idnumber_1" name="entity.ids[1].idCode"
+					value="%{entity.ids[1].idCode}" label="ID Number" />
+		</sjm:div>
+	</sjm:div>
 
-
-		</div>
-
-
-	</div>
-</div>
+</sjm:div>
+</sjm:div>

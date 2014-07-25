@@ -7,7 +7,7 @@
 <s:url id="remoteurl" action="../Main/populateBizTypeArry.action" />
 <sjm:div role="page" id="maintUser" jquerytheme="cupertino"
 	data-theme="b" theme="simple">
-	<sjm:div role="header">
+	<sjm:div role="header" data-position="fixed">
 		<sjm:a button="true" buttonIcon="arrow-l" data-rel="back">Back</sjm:a>
 		<h1>Select Client</h1>
 		<sjm:a href="#indexPage" button="true" buttonIcon="home">Back to Start</sjm:a>

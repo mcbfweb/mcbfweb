@@ -3,10 +3,8 @@
 
 
 
-
-
-<div id="srvname1">
+<sjm:div id="srvname1">
 	<sjm:textarea id="srvname_0" name="entity.srvNames[0].srvName"
 		value="%{entity.srvNames[0].srvName}" label="Services" />
 
-</div>
+</sjm:div>

@@ -21,14 +21,18 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.ResultPath;
 import org.apache.struts2.json.annotations.JSON;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import cl.errors.ClientDoesNotExistError;
 import cl.mainStream.AppConstants;
 import cl.mainStream.BSOption;
 import cl.mainStream.BSTables;
+import cl.mainStream.VedaConstants;
+import cl.managers.AdmUsrMgr;
 import cl.managers.BizEntityMgr;
 import cl.model.BizEntInn;
 import cl.model.EntityDetail;
+import cl.model.User;
 
 @ParentPackage(value = "default")
 @Namespace("/Main")
@@ -89,6 +93,7 @@ public class SearchBizAction extends BaseAction {
 
 		try {
 			this.entity = manager.getClientById(new Integer(clientId).intValue());
+			getServletContex().setAttribute("ENTITY_DETAIL", entity);
 
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
@@ -119,6 +124,19 @@ public class SearchBizAction extends BaseAction {
 
 	}
 
+	@Action(value = "getProductList", results = { @Result(name = "input_m", location = "/Main/Product", type = "redirect"), })
+	public String getProductList() {
+		
+
+		System.out.println("getProdList");
+		
+
+		
+		return AppConstants.INPUT_MOBILE_VIEW;
+	}
+
+	
+	
 	public EntityDetail getEntity() {
 		return entity;
 	}

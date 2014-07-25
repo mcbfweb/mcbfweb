@@ -5,7 +5,7 @@
 <sjm:div role="page" id="searchBizMenu" data-theme="d" theme="simple"
 	data-position="inline">
 
-	<sjm:div role="header" data-theme="d">
+	<sjm:div role="header" data-theme="d" data-position="fixed">
 		<sjm:a button="true" buttonIcon="arrow-l" data-rel="back">Back</sjm:a>
 		<h1>Main Menu</h1>
 		<sjm:a href="#indexControl" button="true" buttonIcon="home">Back to Start</sjm:a>
