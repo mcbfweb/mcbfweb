@@ -124,18 +124,7 @@ public class SearchBizAction extends BaseAction {
 
 	}
 
-	@Action(value = "getProductList", results = { @Result(name = "input_m", location = "/Main/Product", type = "redirect"), })
-	public String getProductList() {
 		
-
-		System.out.println("getProdList");
-		
-
-		
-		return AppConstants.INPUT_MOBILE_VIEW;
-	}
-
-	
 	
 	public EntityDetail getEntity() {
 		return entity;

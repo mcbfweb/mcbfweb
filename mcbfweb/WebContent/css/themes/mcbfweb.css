@@ -96,3 +96,38 @@ p {
 	width: 50px;
 	display: inline-block;
 }
+
+.floatleft {
+    float:left;
+ }
+.floatright {
+    float:right;
+ }
+.forceinline{  /* Prevent fieldcontain from doing a BLOCK thing */
+    display:inline !important;
+}
+.textwidth80 {  /* limit width of input fields */
+    width:80px;
+}
+.textwidth120 {  /* limit width of input fields */
+    width:120px;
+}
+.textwidth160 {  /* limit width of input fields */
+    width:160px;
+}
+.closespacing { /* controls spacing between elements */
+    margin:0px 5px 0px 0px;
+ }
+.bigselect {   /* centers select with big buttons */
+    padding: 0px;
+    margin:2px 5px 0px 0px;
+ }
+.biginputheight {   /* matches text input height to big buttons */
+    padding-top:10px !important;
+    padding-bottom:12px !important;
+}
+.miniinputheight { /* matches text input height to minibuttons */
+    padding-top:5px !important;
+    padding-bottom:5px !important;
+}
+

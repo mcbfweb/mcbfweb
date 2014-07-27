@@ -3,14 +3,6 @@
 
 <%@ taglib prefix="sjm" uri="/struts-jquery-mobile-tags"%>
 
-<script>
-	$(document).ready(function() {
-		$('a.back').click(function() {
-			parent.history.back();
-			return false;
-		});
-	});
-</script>
 
 <jsp:include page="/inc.header.jsp" />
 
@@ -18,8 +10,7 @@
 
 
 
-<sjm:div role="page" id="searchResultPage" jquerytheme="cupertino"
-	data-theme="d" theme="simple">
+<sjm:div role="page" id="searchResultPage" data-theme="d" theme="simple">
 
 	<sjm:div role="header" data-theme="d">
 
@@ -49,21 +40,13 @@
 
 			<s:hidden id="lon" name="entity.locLon" value="%{entity.locLon}" />
 
-
-
 			<fieldset>
 
 				<legend>
 
-
-
 					<b>Search Info</b>
 
-
-
 				</legend>
-
-
 
 				<div class="ui-grid-d" data-theme="a">
 
@@ -202,37 +185,29 @@
 
 				</div>
 
+				<br />
+				<div data-role="fieldcontain" class='forceinline'>
+					<div class='floatleft closespacing'>
 
-				<div data-role="main" class="ui-content" data-content-theme="d">
-
-					<div class="ui-grid-d" data-theme="a">
-
-						<div class="ui-bar ui-bar-d">
+						<fieldset data-role="controlgroup" data-type="horizontal"
+							data-mini='true'>
 
 
-							<div class="ui-block-a">
-								<a href="#appointment" data-rel="popup"
-									data-position-to="window" data-transition="fade"
-									class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Email/SMS</a>
-							</div>
+							<a href="#appointment" data-rel="popup" data-position-to="window"
+								data-transition="fade"
+								class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Email/SMS</a>
 
-							<div class="ui-block-b">
-								<a href="#popupMap" data-rel="popup" data-position-to="window"
-									data-transition="fade"
-									class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Map</a>
-							</div>
 
-							<div class="ui-block-c">
-								<s:submit value="Products"
-									cssClass="button ui-state-default ui-corner-all"
-									action="getProductList" clearForm="true" />
-							</div>
 
-						</div>
+							<a href="#popupMap" data-rel="popup" data-position-to="window"
+								data-transition="fade"
+								class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Map</a>
+								
+							 <a	href="../Main/ProductList.action?mode=view&clientId='' "
+								class='ui-btn'>Product List</a>
 
-						<!-- <a href="#popupVideo" data-rel="popup" data-position-to="window"
 
-                                  data-transition="fade" class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Video</a> -->
+						</fieldset>
 
 					</div>
 
@@ -312,60 +287,6 @@
 						</div>
 
 					</div>
-
-
-
-					<!--calendar -->
-
-					<div data-role='popup' id='popupCalendar' data-dismissible="false"
-						data-overlay-theme='d' data-theme='d' data-corners='false'
-						data-tolerance='15,15' style="width: 300px;">
-
-						<div data-role="header">
-
-							<h1>Map</h1>
-
-						</div>
-
-						<s:include value='calendar.jsp'></s:include>
-
-						<br /> <a href='#' data-rel='back' data-role='button'
-							data-theme='d' data-icon='delete' data-iconpos='notext'
-							class='ui-btn-right'>Close</a>
-
-						<div data-role="footer" data-position="fixed">
-
-							<h1>Schedule</h1>
-
-						</div>
-
-					</div>
-
-
-
-					<!-- Video -->
-
-					<div data-role="popup" id="popupVideo" data-dismissible="false"
-						data-overlay-theme='d' data-theme='d' data-corners='false'
-						data-tolerance='15,15'>
-
-
-
-						<iframe src="http://player.vimeo.com/video/41135183" width="497"
-							height="298" seamless></iframe>
-
-
-
-						<br /> <a href='#' data-rel='back' data-role='button'
-							data-theme='b' data-icon='delete' data-iconpos='notext'
-							class='ui-btn-right'>Close</a>
-
-					</div>
-
-
-
-
-
 
 
 

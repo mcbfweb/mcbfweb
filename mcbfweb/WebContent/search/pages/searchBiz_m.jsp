@@ -19,16 +19,17 @@
 			<s:form id="formSearchBizPage" action="../Main/SearchBiz"
 				class="ui-filterable" method="post">
 
-
 				<sjm:select id="bizType" name="bizType" class="bizType" label="Type"
 					headerKey="-1" headerValue="--Select a Type--" emptyOption="false"
 					onchange="filterByType(this[this.selectedIndex].value, this.id)"
 					list="bizTypeArry" listKey="code" listValue="label" />
 
 				<br />
+				
 				<form class="ui-filterable">
 					<input id="filterUsersInput" data-type="search">
 				</form>
+				
 				<ul id="filterList" data-role="listview" data-inset="true"
 					data-input="#filterUsersInput" data-split-icon="gear"
 					data-autodividers="true" data-filter="true">
