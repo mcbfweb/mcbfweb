@@ -2,6 +2,7 @@ package cl.managers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import cl.dao.BizEntPrdDAO;
 import cl.model.BizEntPrd;
@@ -13,7 +14,8 @@ public class BizEntPrdMgrImpl implements BizEntPrdMgr {
 	private BizEntPrdDAO bizEntPrd;	
 
 	@Override
-	public BizEntPrd getPrdById(String client,  String prdCode) {
+	@Transactional
+	public BizEntPrd getPrdById(int client,  int prdCode) {
 
 		return bizEntPrd.getPrdById(client, prdCode) ;
 	}

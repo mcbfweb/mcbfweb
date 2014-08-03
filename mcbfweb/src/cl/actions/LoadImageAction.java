@@ -2,14 +2,9 @@ package cl.actions;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
-import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
@@ -17,38 +12,27 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.ResultPath;
+import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import cl.errors.IdNotFoundError;
-import cl.errors.UserDoesNotExistError;
 import cl.mainStream.AppConstants;
-import cl.mainStream.BSOption;
-import cl.mainStream.BSTables;
-import cl.managers.AdmUsrMgr;
+import cl.mainStream.VedaConstants;
+import cl.managers.BizEntPrdMgr;
 import cl.managers.ProductImageMgr;
+import cl.model.BizEntPrd;
 import cl.model.ProductImage;
-import cl.model.User;
 
 @ParentPackage(value = "default")
-@Namespace("/Main")
+@Namespace("/Data")
 @ResultPath(value = "/")
-@InterceptorRefs({
-	@InterceptorRef("loginStack"),
-	 
-})
-@Action(value = "LoadImage", results = {
-		@Result(name = "success", location = "/User/MaintUser", type = "redirect"),
-		@Result(name = "input", location = "/products/pages/prdImage_m.jsp"),
-		@Result(name = "error", location = "pages/error.jsp")
+@InterceptorRefs({ @InterceptorRef("loginStack"),
+
 })
 public class LoadImageAction extends BaseAction {
 
-	// static Logger logger = Logger.getLogger(PublicUserMenuAction.class);
+	 static Logger logger = Logger.getLogger(LoadImageAction.class);
 
 	// static Logger log = Logger.getLogger(ServerProperty.class.getName());
 
@@ -60,7 +44,98 @@ public class LoadImageAction extends BaseAction {
 	private File fileUpload;
 	private String fileUploadContentType;
 	private String fileUploadFileName;
+	private String clientId;
+	private String productId;
 	private String destPath;
+
+	@SkipValidation
+	@Override
+	@Action(value = "LoadImage", results = { @Result(name = "success", location = "/user/pages/login_m.jsp", type = "redirect"),
+			@Result(name = "input", location = "/products/pages/prdImage_m.jsp"),
+			@Result(name = "error", location = "pages/error.jsp") })
+	public String execute() throws Exception {
+
+		return INPUT;
+	}
+
+	public String display() {
+		return NONE;
+	}
+
+	public String uploadImageFile() {
+		UserDetails usrd = (UserDetails) getSession().get(VedaConstants.USER_KEY);
+		ApplicationContext ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
+		BizEntPrdMgr manager = (BizEntPrdMgr) ctx.getBean("bizEntPrdMgrImpl");
+		
+		logger.info("Src File name: " + fileUpload);
+		logger.info("product: " + productId);
+		
+		if (fileUpload != null) 
+			try {
+				BizEntPrd product = manager.getPrdById(Integer.parseInt(clientId.trim()), Integer.parseInt(productId.trim()));
+				if (product != null) {					
+					FileInputStream inputStream = new FileInputStream(fileUpload);
+					byte[] imageData = new byte[(int) fileUpload.length()];
+					inputStream.read(imageData);
+					addUpdateImage(imageData, (int) fileUpload.length(), product);
+					inputStream.close();
+				}
+
+			} catch (IOException e) {
+				e.printStackTrace();
+				return ERROR;
+			}
+		
+
+		return SUCCESS;
+	}
+
+	public String addUpdateImage(byte[] imageData, int size,  BizEntPrd product) {
+		ProductImage image = null;
+		boolean doUpdate = false;
+		UserDetails usrd = (UserDetails) getSession().get("USER_DETAILS");
+		ApplicationContext ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
+
+		ProductImageMgr manager = (ProductImageMgr) ctx.getBean("productImageMgrImpl");
+
+		int prdId = product.getDatid();
+
+		try {
+			image = manager.getImgByPrdId(prdId);
+		} catch (IdNotFoundError e) {
+			// TODO Auto-generated catch block
+			// e.printStackTrace();
+			addActionError("New Product Added!");
+		}
+
+		if (image == null) {
+			doUpdate = false;
+			image = (ProductImage) ctx.getBean("productImage");
+			image.setImage(imageData);
+			image.setPrdId(prdId);
+			image.setName(product.getPrdTitle());
+			image.setCategory(product.getPrdCtgy());
+			image.setSize(size);
+			image.setTitle(product.getPrdDesc());
+			image.setVersion(1);
+		} else {
+			image.setVersion(image.getVersion() + 1);
+			image.setImage(imageData);
+			image.setPrdId(prdId);
+			image.setName(product.getPrdTitle());
+			image.setCategory(product.getPrdCtgy());
+			image.setSize(size);
+			image.setTitle(product.getPrdDesc());
+		}
+
+		if (!doUpdate)
+			manager.insertImg(image);
+		// else
+		// manager.updatUser(user);
+
+		// return INPUT;
+		return AppConstants.INPUT_MOBILE_VIEW;
+	}
 
 	public String getFileUploadContentType() {
 		return fileUploadContentType;
@@ -86,78 +161,28 @@ public class LoadImageAction extends BaseAction {
 		this.fileUpload = fileUpload;
 	}
 
-	@Override
-	public String execute() throws Exception {
-
-		if (fileUpload != null) {
-			try {
-				System.out.println("Src File name: " + fileUpload);
-
-				FileInputStream inputStream = new FileInputStream(fileUpload);
-				byte[] imageData = new byte[(int) fileUpload.length()];
-				inputStream.read(imageData);
-				addUpdateImage(imageData, (int) fileUpload.length());
-				inputStream.close();
-
-			} catch (IOException e) {
-				e.printStackTrace();
-				return ERROR;
-			}
-		}
-		return INPUT;
+	public String getClientId() {
+		return clientId;
 	}
 
-	public String display() {
-		return NONE;
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
 	}
 
-	public String addUpdateImage(byte[] imageData, int size) {
-		ProductImage image = null;
-		boolean doUpdate = false;
-		UserDetails usrd = (UserDetails) getSession().get("USER_DETAILS");
-		ApplicationContext ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
+	public String getProductId() {
+		return productId;
+	}
 
-		ProductImageMgr manager =
-				(ProductImageMgr) ctx.getBean("productImageMgrImpl");
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
 
-		int prdId = 3;
+	public String getDestPath() {
+		return destPath;
+	}
 
-		try {
-			image = manager.getImgByPrdId(prdId);
-		} catch (IdNotFoundError e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
-			addActionError("New Product Added!");
-		}
-
-		if (image == null) {
-			doUpdate = false;
-			image = (ProductImage) ctx.getBean("productImage");
-			image.setImage(imageData);
-			image.setPrdId(prdId);
-			image.setName("Merlion2");
-			image.setCategory("Travel");
-			image.setSize(size);
-			image.setTitle("Merlion2 Singapore ");
-			image.setVersion(1);
-		}
-		else {
-			image.setVersion(image.getVersion() + 1);
-			image.setImage(imageData);
-			image.setPrdId(prdId);
-			image.setName("Pen");
-			image.setCategory("Stationery");
-			image.setSize(size);
-			image.setTitle("BIC Pen");
-		}
-		
-		if (!doUpdate)
-			manager.insertImg(image);
-		//else
-		//	manager.updatUser(user);
-		
-		// return INPUT;
-		return AppConstants.INPUT_MOBILE_VIEW;
+	public void setDestPath(String destPath) {
+		this.destPath = destPath;
 	}
 
 }

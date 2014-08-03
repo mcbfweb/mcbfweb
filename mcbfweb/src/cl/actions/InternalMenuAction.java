@@ -24,6 +24,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 @Action(value = "Menu", results = {
 		@Result(name = "load_data", location = "/Data/LoadData", type = "redirect"),
+		@Result(name = "load_image", location = "/Data/LoadImage", type = "redirect"),
 		@Result(name = "add_client", location = "../Main/AddClient", type = "redirect"),
 		@Result(name = "maint_client", location = "../Main/ListClient", type = "redirect"),
 		@Result(name = "products", location = "../Main/Product", type = "redirect"),
@@ -54,6 +55,9 @@ public class InternalMenuAction extends ActionSupport {
         
 		if(AppConstants.LOAD_DATA.equalsIgnoreCase(getMenuItem().trim()))
 				return "load_data";
+		
+		if(AppConstants.LOAD_IMAGE.equalsIgnoreCase(getMenuItem().trim()))
+			return "load_image";
 		
 		if(AppConstants.ADD_CLIENT.equalsIgnoreCase(getMenuItem().trim()))
 			return "add_client";

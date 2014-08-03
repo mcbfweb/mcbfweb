@@ -26,26 +26,31 @@
 
 					<s:iterator value="%{entity.products}" var="product" id="prd"
 						status="idx">
+		 				  
+						<li><s:iterator value="%{prdImages}" var="img" id="img"	status="idx2">
+			 			  		 	    
+								<s:if test="%{prdCode == prdId}" > 
+																		  
+									<a href="#"> 
+									<IMG SRC="<s:property value="imagePath" />" />
+									</a>
+									
+								</s:if>
+							</s:iterator>
 
+							<h2>
+								<s:property value="prdDesc" />
+							</h2>
 
-						<li><a href="#"> <img src="../products/images/1_Pen.png">
-								<h2>
-									<s:property value="prdDesc" />
-								</h2>
+							<p>
+								Item # -
+								<s:property value="prdCode" />
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Price -
+								<s:property value="prdPrice" />
 
-								<p>
-									Item # -
-									<s:property value="prdCode" />
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Price -
-									<s:property value="prdPrice" />
-
-								</p>
-
-
-
-						</a> <a href="#purchase_<s:property value="prdCode" />"
+							</p>   <a href="#purchase_<s:property value="prdCode" />"
 							data-rel="popup" data-position-to="window" data-transition="pop">Image</a></li>
-							
+
 						<%-- <input type="number"
 							class='textwidth80  floatright forceinline miniinputheight'
 							name="quantity" id="<s:property value="prdCode" />" /> --%>

@@ -41,7 +41,7 @@ public class ProductImageDAOImpl implements ProductImageDAO {
 		if (query.list().size() > 0)
 			return (ProductImage) query.list().get(0);
 
-		throw new IdNotFoundError("Did not find Product Id");
+		throw new IdNotFoundError("Did not find Product Id - " + prdId);
 		
 		
 	}

@@ -77,7 +77,20 @@
 			method="uploadFile">
 			<interceptor-ref name="defaultStack">
 				<param name="fileUpload.allowedTypes">text/plain,text/xml,image/png,image/gif,image/jpeg</param>
-				<param name="fileUpload.maximumSize">4194304</param>
+				<param name="fileUpload.maximumSize">500304</param>
+			</interceptor-ref>
+			<interceptor-ref name="params" />
+			<interceptor-ref name="validation" />
+			<interceptor-ref name="workflow" />
+			<result name="success" type="redirect">data/upload/success.jsp</result>
+			<result name="input">data/upload/fileUpload.jsp</result>
+		</action>
+
+		<action name="uploadImageFile" class="cl.actions.LoadImageAction"
+			method="uploadImageFile">
+			<interceptor-ref name="defaultStack">
+				<param name="fileUpload.allowedTypes">image/png,image/gif,image/jpeg</param>
+				<param name="fileUpload.maximumSize">500304</param>
 			</interceptor-ref>
 			<interceptor-ref name="params" />
 			<interceptor-ref name="validation" />

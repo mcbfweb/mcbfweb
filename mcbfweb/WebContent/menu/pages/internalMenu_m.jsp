@@ -16,7 +16,7 @@
 				<sjm:div role="fieldcontain">
 					<fieldset>
 						<sjm:radio id="menuItem" name="menuItem" label="Main Menu"
-							list="{'Upload Data ', 'Add Client', 'Maintain Client', 'Maintain User', 'Products'}" />
+							list="{'Upload Data ', 'Load Image', 'Add Client', 'Maintain Client', 'Maintain User', 'Products'}" />
 					</fieldset>
 				</sjm:div>
 				<s:submit />

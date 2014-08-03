@@ -4,6 +4,6 @@ import cl.model.BizEntPrd;
 
 public interface BizEntPrdDAO {
 
-	BizEntPrd getPrdById(String client, String prdCode);
+	BizEntPrd getPrdById(int client, int prdCode);
 
 }

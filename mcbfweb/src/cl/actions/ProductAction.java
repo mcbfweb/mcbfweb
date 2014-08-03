@@ -1,8 +1,5 @@
 package cl.actions;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
@@ -12,16 +9,11 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.ResultPath;
 import org.springframework.context.ApplicationContext;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import cl.errors.UserDoesNotExistError;
 import cl.mainStream.AppConstants;
-import cl.mainStream.VedaConstants;
-import cl.managers.AdmUsrMgr;
 import cl.managers.BizEntPrdMgr;
 import cl.model.BizEntPrd;
 import cl.model.EntityDetail;
-import cl.model.User;
 
 @ParentPackage(value = "default")
 @Namespace("/Main")
@@ -68,7 +60,7 @@ public class ProductAction extends BaseAction{
 				(BizEntPrdMgr) ctx.getBean("bizEntPrdMgrImpl");
 		
 		
-		BizEntPrd	product = (BizEntPrd) manager.getPrdById(request.getParameter("clientId"), request.getParameter("prdId"));
+		BizEntPrd	product = (BizEntPrd) manager.getPrdById(Integer.parseInt(request.getParameter("clientId").trim()), Integer.parseInt(request.getParameter("prdId").trim()));
 		System.out.println(product.getPrdTitle() + " "+ product.getPrdPrice());
 		
 		return AppConstants.INPUT_MOBILE_VIEW;

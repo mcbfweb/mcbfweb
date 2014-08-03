@@ -6,7 +6,7 @@
 <sjm:div role="page" id="productUpload" data-theme="d" theme="simple"	data-position="inline">
 	<sjm:div role="header" data-theme="d">
 		<sjm:a button="true" buttonIcon="arrow-l" data-rel="back">Back</sjm:a>
-		<h1>Product upload</h1>
+		<h1>Product Image upload</h1>
 		<sjm:a href="#indexPage" button="true" buttonIcon="home">Back to Start</sjm:a>
 	</sjm:div>
 	<sjm:div role="content">
@@ -16,7 +16,9 @@
 			</div>
 		</s:if>
 		<sjm:div>
-			<s:form data-ajax="false" id= "productUpload" action="productUpload" namespace="/Main" method="post" enctype="multipart/form-data">
+			<s:form data-ajax="false" id= "imageUpload" action="uploadImageFile" namespace="/" method="post" enctype="multipart/form-data">
+				<sjm:textfield id="clientId" name="clientId" value=" " label="Client ID" />
+				<sjm:textfield id="productId" name="productId" value=" " label="Product ID" />
 				<s:file name="fileUpload" label="File" />
 				<s:submit />
 			</s:form>

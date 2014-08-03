@@ -24,11 +24,11 @@ package cl.mainStream;
  */
 
 import javax.annotation.Resource;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+
 
 
 
@@ -95,11 +95,13 @@ public class BSInitialise implements ServletContextListener {
 				String contextPath = servletContext.getRealPath("/Temp/images");
 				String uploadPath = servletContext.getRealPath("/FTP/Node/upload");
 				String downloadPath = servletContext.getRealPath("/FTP/Node/download");
+				String imgTempPath = (String) servletContext.getContextPath() + "/Temp/images";
+				
 				String tempPath= contextPath;
 				servletContext.setAttribute("TMP_FOLDER", tempPath);
 				servletContext.setAttribute("FTP_UPLOAD", uploadPath);
 				servletContext.setAttribute("FTP_DOWNLOAD", downloadPath);
-				
+				servletContext.setAttribute("IMG_TMP_FOLDER", imgTempPath);
 				//try {
 				//	serverContainer.addEndpoint(WordgameServerEndpoint.class);
 				//} catch (DeploymentException e1) {
