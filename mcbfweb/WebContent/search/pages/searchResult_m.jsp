@@ -33,14 +33,16 @@
 			</div>
 
 		</s:if>
-		<s:form method="post">
+		<s:form method="post"
+			action="../Main/ProductList.action?mode=view&clientId='' ">
+
 			<s:hidden name="clientId" />
 
 			<s:hidden id="lat" name="entity.locLat" value="%{entity.locLat}" />
 
 			<s:hidden id="lon" name="entity.locLon" value="%{entity.locLon}" />
 
-			<fieldset>
+			<fieldset class="ui-grid-a">
 
 				<legend>
 
@@ -48,7 +50,7 @@
 
 				</legend>
 
-				<div class="ui-grid-d" data-theme="a">
+				<div data-theme="a">
 
 					<div class="ui-block-a" style="width: 35%">
 
@@ -66,18 +68,18 @@
 
 					</div>
 
-					<div class="ui-block-a" style="width: 35%">
 
-						<div class="ui-bar ui-bar-d">Address :</div>
+
+					<div class="ui-block-a" style="width: 35%;">
+
+						<div class="ui-bar ui-bar-d" style="height: 45px;">Address :</div>
 
 					</div>
 					<s:iterator value="%{entity.addresses}" var="address" id="adr"
 						status="idx">
 
-
-
 						<div class="ui-block-b" style="width: 65%">
-							<div class="ui-bar ui-bar-d">
+							<div class="ui-bar ui-bar-d" style="height: 45px;">
 
 								<s:property value="adrStrtNo" />
 
@@ -139,12 +141,13 @@
 
 					<div class="ui-block-a" style="width: 35%">
 
-						<div class="ui-bar ui-bar-d">Services :</div>
+						<div class="ui-bar ui-bar-d" style="height: 45px;">Services
+							:</div>
 
 					</div>
 
 					<div class="ui-block-b" style="width: 65%">
-						<div class="ui-bar ui-bar-d">
+						<div class="ui-bar ui-bar-d" style="height: 45px;">
 
 							<s:iterator value="%{entity.srvNames}" var="service" id="ser"
 								status="idx">
@@ -162,12 +165,13 @@
 
 					<div class="ui-block-a" style="width: 35%">
 
-						<div class="ui-bar ui-bar-d">Products :</div>
+						<div class="ui-bar ui-bar-d" style="height: 45px;">Products
+							:</div>
 
 					</div>
 
 					<div class="ui-block-b" style="width: 65%">
-						<div class="ui-bar ui-bar-d">
+						<div class="ui-bar ui-bar-d" style="height: 45px;">
 
 							<s:iterator value="%{entity.products}" var="product" id="prd"
 								status="idx">
@@ -181,118 +185,102 @@
 
 						</div>
 					</div>
-
-
-				</div>
-
-				<br />
-				<div data-role="fieldcontain" class='forceinline'>
-					<div class='floatleft closespacing'>
-
-						<fieldset data-role="controlgroup" data-type="horizontal"
-							data-mini='true'>
-
-
-							<a href="#appointment" data-rel="popup" data-position-to="window"
-								data-transition="fade"
-								class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Email/SMS</a>
-
-
-
-							<a href="#popupMap" data-rel="popup" data-position-to="window"
-								data-transition="fade"
-								class="ui-btn ui-corner-all ui-shadow ui-btn-inline">Map</a>
-								
-							 <a	href="../Main/ProductList.action?mode=view&clientId='' "
-								class='ui-btn'>Product List</a>
-
-
-						</fieldset>
-
-					</div>
-
-
-
-					<!-- SMS/Email -->
-
-					<div data-role="popup" id="appointment" data-dismissible="false"
-						data-overlay-theme='d' data-theme='d' data-corners='false'
-						data-tolerance='15,15' style="width: 300px;">
-
-						<div data-role="header">
-
-							<h1>Appointment</h1>
-
-						</div>
-
-						<div data-role="main" class="ui-content">
-
-							<s:iterator value="%{entity.contacts}" var="contact" id="cnt"
-								status="idx">
-
-								<a href=mailto: <s:property value="cntEmail" />>Email</a>
-
-								<br />
-
-								<a href=tel: <s:property value="cntAreaCde" />
-									<s:property value="cntPhnNo" />>Phone</a>
-
-								<br />
-
-								<a href=sms: <s:property value="cntAreaCde" />
-									<s:property value="cntPhnNo" />>SMS</a>
-
-								<br />
-
-							</s:iterator>
-
-						</div>
-
-						<br /> <a href='#' data-rel='back' data-role='button'
-							data-theme='b' data-icon='delete' data-iconpos='notext'
-							class='ui-btn-right'>Close</a>
-
-						<div data-role="footer" data-theme="d">
-
-							<h1>SMS / Email</h1>
-
-						</div>
-
-					</div>
-
-
-
-					<!-- Map -->
-
-					<div data-role='popup' id='popupMap' data-dismissible="false"
-						data-overlay-theme='d' data-theme='d' data-corners='false'
-						data-tolerance='15,15' style="width: 300px;">
-
-						<div data-role="header">
-
-							<h1>Map</h1>
-
-						</div>
-
-						<s:include value='map.jsp'></s:include>
-
-						<br /> <a href='#' data-rel='back' data-role='button'
-							data-theme='d' data-icon='delete' data-iconpos='notext'
-							class='ui-btn-right'>Close</a>
-
-						<div data-role="footer" data-position="fixed">
-
-							<h1>Map</h1>
-
-						</div>
-
-					</div>
-
-
-
-
 				</div>
 			</fieldset>
+
+
+
+			<br />
+			
+
+			<ul data-role="controlgroup" data-type="horizontal" data-mini="true">
+				<li><a data-role="button" href="#appointment" data-rel="popup"
+					data-transition="fade" data-theme="c">Cont</a></li>
+				<li><a data-role="button" href="#popupMap" data-rel="popup"
+					data-transition="fade" data-theme="c">Map</a></li>
+				<li><a data-role="button"
+					href="../Main/ProductList.action?mode=view&clientId='' "
+					data-transition="fade" data-theme="c">Prod</a></li>
+			</ul>
+
+ 
+
+			<!-- SMS/Email -->
+
+			<div data-role="popup" id="appointment" data-dismissible="false"
+				data-overlay-theme='d' data-theme='d' data-corners='false'
+				data-tolerance='15,15' style="width: 300px;">
+
+				<div data-role="header">
+
+					<h1>Appointment</h1>
+
+				</div>
+
+				<div data-role="main" class="ui-content">
+
+					<s:iterator value="%{entity.contacts}" var="contact" id="cnt"
+						status="idx">
+						<s:if test="#idx.first == true">Office</s:if>
+						<s:if test="#idx.first == false">Mobile</s:if>
+						<br />
+						<a href=mailto: <s:property value="cntEmail" />>Email</a>
+
+						<br />
+
+						<a href=tel: <s:property value="cntAreaCde" />
+							<s:property value="cntPhnNo" />>Phone</a>
+
+						<br />
+
+						<a href=sms: <s:property value="cntAreaCde" />
+							<s:property value="cntPhnNo" />>SMS</a>
+
+						<br />
+
+					</s:iterator>
+
+				</div>
+
+				<br /> <a href='#' data-rel='back' data-role='button'
+					data-theme='b' data-icon='delete' data-iconpos='notext'
+					class='ui-btn-right'>Close</a>
+
+				<div data-role="footer" data-theme="d">
+
+					<h1>SMS / Email</h1>
+
+				</div>
+
+			</div>
+
+
+
+			<!-- Map -->
+
+			<div data-role='popup' id='popupMap' data-dismissible="false"
+				data-overlay-theme='d' data-theme='d' data-corners='false'
+				data-tolerance='15,15' style="width: 300px;">
+
+				<div data-role="header">
+
+					<h1>Map</h1>
+
+				</div>
+
+				<s:include value='map.jsp'></s:include>
+
+				<br /> <a href='#' data-rel='back' data-role='button'
+					data-theme='d' data-icon='delete' data-iconpos='notext'
+					class='ui-btn-right'>Close</a>
+
+				<div data-role="footer" data-position="fixed">
+
+					<h1>Map</h1>
+
+				</div>
+
+			</div>
 		</s:form>
 	</sjm:div>
 

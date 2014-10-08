@@ -3,8 +3,7 @@
 
 <jsp:include page="/inc.header.jsp" />
 
-<sjm:div role="page" id="productSearch" data-theme="d" theme="simple"
-	data-dom-cache="true">
+<sjm:div role="page" id="productSearch" data-theme="d" theme="simple">
 
 	<sjm:div role="header" data-theme="d">
 		<sjm:a href="#" button="true" buttonIcon="arrow-l" data-rel="back">Back</sjm:a>
@@ -21,45 +20,52 @@
 					value="%{'../Main/findProductById.action?mode=view&clientId=#clientId'}"></s:set>
 				<s:set var="prdTag" value="%{'&prdId='}"></s:set>
 
-				<ul data-role="listview" data-split-icon="gear" data-split-theme="d"
+				<h2>Product List</h2>
+
+				<ul id="product-list" data-role="listview" data-theme="d"
 					data-inset="true">
 
 					<s:iterator value="%{entity.products}" var="product" id="prd"
 						status="idx">
-		 				  
-						<li><s:iterator value="%{prdImages}" var="img" id="img"	status="idx2">
-			 			  		 	    
-								<s:if test="%{prdCode == prdId}" > 
-																		  
-									<a href="#"> 
-									<IMG SRC="<s:property value="imagePath" />" />
-									</a>
-									
-								</s:if>
-							</s:iterator>
 
-							<h2>
-								<s:property value="prdDesc" />
-							</h2>
+						<li><a href="#purchase_<s:property value="prdCode" />"
+							data-rel="popup" data-position-to="window" data-transition="pop">
 
-							<p>
-								Item # -
-								<s:property value="prdCode" />
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Price -
-								<s:property value="prdPrice" />
 
-							</p>   <a href="#purchase_<s:property value="prdCode" />"
-							data-rel="popup" data-position-to="window" data-transition="pop">Image</a></li>
+								<s:iterator value="%{prdImages}" var="img" id="img"
+									status="idx2">
 
-						<%-- <input type="number"
-							class='textwidth80  floatright forceinline miniinputheight'
-							name="quantity" id="<s:property value="prdCode" />" /> --%>
+									<s:if test="%{datid == prdId}">
+
+										<img src="<s:property value="imagePath" />"
+											alt="<s:property value="prdCode" />" />
+
+									</s:if>
+								</s:iterator>
+								<h2>
+									Name - &nbsp;
+									<s:property value="prdDesc" />
+								</h2>
+								<h4>
+									Code - &nbsp;
+									<s:property value="prdCode" />
+								</h4>
+
+								<p>
+									Price - &nbsp; <span class="inline"><s:property
+											value="prdPrice" /></span>
+								</p>
+
+						</a></li>
+
+
 
 
 					</s:iterator>
 
-
 				</ul>
+
+
 				<s:iterator value="%{entity.products}" var="product" id="prd"
 					status="idx">
 					<div data-role="popup" id="purchase_<s:property value="prdCode" />"
@@ -78,8 +84,12 @@
 					</div>
 				</s:iterator>
 
-				<a href="../Main/ProductSelected.action?mode=view&clientId='' "
-					class='ui-btn'>Checkout</a>
+				<div>
+					<a data-role="button" data-mini="true"
+						href="../Main/ProductSelected.action?mode=view&clientId='' "
+						data-position-to="window" data-transition="fade" data-theme="c"
+						class='ui-btn ui-corner-all ui-shadow ui-btn-inline'>Checkout</a>
+				</div>
 			</s:form>
 		</sjm:div>
 	</sjm:div>

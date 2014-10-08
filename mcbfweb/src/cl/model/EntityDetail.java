@@ -87,7 +87,6 @@ public class EntityDetail {
 	private List<BizEntSrv> srvNames = new ArrayList<BizEntSrv>();
 
 	@OneToMany(mappedBy = "entitydetail", cascade = { CascadeType.ALL })
-	@Column(unique = true)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<BizEntPrd> products = new ArrayList<BizEntPrd>();
 

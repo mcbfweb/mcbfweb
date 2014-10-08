@@ -122,11 +122,10 @@ public class BizEntityDAOImpl implements BizEntityDAO {
 		clients = criteria.list();
 		if (clients != null) {
 			EntityDetail client = clients.get(0);
-			
+
 			return client;
-		}
-		else
-		throw new ClientDoesNotExistError("Did not find client id");
+		} else
+			throw new ClientDoesNotExistError("Did not find client id");
 
 	}
 
@@ -146,7 +145,7 @@ public class BizEntityDAOImpl implements BizEntityDAO {
 
 		@SuppressWarnings("unchecked")
 		List<EntityListDetail> clients = (List<EntityListDetail>) sessionFactory.getCurrentSession()
-				.createCriteria(EntityListDetail.class).addOrder(Order.asc("bizName")).addOrder(Order.asc("ctry"))
+				.createCriteria(EntityListDetail.class).addOrder(Order.asc("cityCode")).addOrder(Order.asc("bizName"))
 				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 
 		return clients;
@@ -167,10 +166,22 @@ public class BizEntityDAOImpl implements BizEntityDAO {
 	@Override
 	public List<EntityDetail> getAllClientsByCountryCity(String country, String city) {
 
+		List<EntityDetail> cityClients = new ArrayList<EntityDetail>();
+
 		@SuppressWarnings("unchecked")
 		List<EntityDetail> clients = (List<EntityDetail>) sessionFactory.getCurrentSession().createCriteria(EntityDetail.class)
-				.add(Restrictions.like("ctry", country)).add(Restrictions.like("addresses.adrCity", city))
-				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+				.add(Restrictions.eq("ctry", country)).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+
+		for (EntityDetail e : clients) {
+			List<BizEntAdr> addresses = e.getAddresses();
+
+			for (BizEntAdr adr : addresses) {
+				if (adr.getAdrCity().equalsIgnoreCase(city.trim())) {
+					cityClients.add(e);
+					break;
+				}
+			}
+		}
 
 		return clients;
 

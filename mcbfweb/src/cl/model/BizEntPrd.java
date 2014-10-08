@@ -9,22 +9,27 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.springframework.stereotype.Service;
 
 @SuppressWarnings("serial")
-@Entity(name = "BIZENTPRDM0")
+@Entity
+@Table(name = "BIZENTPRDM0", uniqueConstraints = {
+		@UniqueConstraint(columnNames = "PRDENTITY"),
+		@UniqueConstraint(columnNames = "PRDCODE") })
 @Service
 public class BizEntPrd implements java.io.Serializable {
 
 	@Id 
 	@Column(name = "PRDDATID", unique = true, nullable = false)	
-	private int datid;
+	private Integer datid;
 
 	@Column(name = "PRDENTITY")
 	private Integer entity;
 	
-	@Column(name = "PRDCODE")
+	@Column(name = "PRDCODE", unique = true, nullable = false)	
 	private String prdCode;	
 	@Column(name = "PRDTITLE")
 	private String prdTitle;	
@@ -61,13 +66,11 @@ public class BizEntPrd implements java.io.Serializable {
 	@ManyToOne(cascade = { CascadeType.ALL }, fetch=FetchType.EAGER)
 	@JoinColumn(name = "PRDENTITY", nullable = false, insertable = false, updatable = false, referencedColumnName = "ITYENTITY")
 	private EntityDetail entitydetail;
+	
 
 	public BizEntPrd() {
      super();
 	}
-
-	
-	
 
 	public BizEntPrd(Integer datid, Integer entity, String prdCode, String prdTitle, String prdDesc, Double prdPrice,
 			String prdCtgy, String prdModel, String prdColor, Double prdSize, Double prdQtyAvl, Double prdReoLvl,
@@ -95,6 +98,30 @@ public class BizEntPrd implements java.io.Serializable {
 		this.entitydetail = entitydetail;
 	}
 
+	public BizEntPrd(Integer datid, Integer entity, String prdCode, String prdTitle, String prdDesc, Double prdPrice,
+			String prdCtgy, String prdModel, String prdColor, Double prdSize, Double prdQtyAvl, Double prdReoLvl,
+			String prdSupplier, Date crtDate, String crtByUser, Date chgDate, String chgByUser, Integer version) {
+		super();
+		this.datid = datid;
+		this.entity = entity;
+		this.prdCode = prdCode;
+		this.prdTitle = prdTitle;
+		this.prdDesc = prdDesc;
+		this.prdPrice = prdPrice;
+		this.prdCtgy = prdCtgy;
+		this.prdModel = prdModel;
+		this.prdColor = prdColor;
+		this.prdSize = prdSize;
+		this.prdQtyAvl = prdQtyAvl;
+		this.prdReoLvl = prdReoLvl;
+		this.prdSupplier = prdSupplier;
+		this.crtDate = crtDate;
+		this.crtByUser = crtByUser;
+		this.chgDate = chgDate;
+		this.chgByUser = chgByUser;
+		this.version = version;
+		 
+	}
 
 
 
@@ -255,11 +282,11 @@ public class BizEntPrd implements java.io.Serializable {
 
 
 
-	public int getDatid() {
+	public Integer getDatid() {
 		return datid;
 	}
 
-	public void setDatid(int datid) {
+	public void setDatid(Integer datid) {
 		this.datid = datid;
 	}
 

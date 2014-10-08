@@ -37,6 +37,7 @@ import cl.managers.TabGenMgr;
 import cl.managers.TabIndGrpMgr;
 import cl.managers.TabIndustryMgr;
 import cl.managers.TabStateMgr;
+import cl.model.BizEntAdr;
 import cl.model.EntityDetail;
 import cl.model.EntityListDetail;
 import cl.model.TabBizSec;
@@ -60,8 +61,7 @@ public class BSTables implements ServiceNames {
 	public static Logger logger = Logger.getLogger("cl.mainStream");
 	// table names
 	// each table name corresponds to a XML tag name
-	
-	
+
 	public final static String CLIENTS_LIST = "CLIENTS";
 	public final static String ECONOMIC_SECTOR = "TABECOSEC";
 	public final static String BUSINESS_SECTOR = "TABBIZSEC";
@@ -83,6 +83,9 @@ public class BSTables implements ServiceNames {
 	public final static String CITIES = "CITIES";
 	public final static String STATES = "STATES";
 	private static BSTables bSTables = null;
+
+	private List<EntityDetail> CAN_TOR_clients;
+	private List<EntityDetail> SGP_SGP_clients;
 
 	public static final String[] applicationTables = new String[] {
 
@@ -156,22 +159,51 @@ public class BSTables implements ServiceNames {
 
 	private void addTable(HashMap<String, List<BSOption>> englishTables, String tableName, ApplicationContext ctx,
 			ServletContextEvent sce) throws BSException {
+		List<EntityListDetail> clients = null;
 		if (CLIENTS_LIST.equalsIgnoreCase(tableName)) {
 			BizEntityMgr manager = (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
-			List<EntityListDetail> clients = manager.getListClients();
+			clients = manager.getListClients();
 			logger.info(clients.size());
-			//sce.getServletContext().setAttribute(tableName, clients);
 			sce.getServletContext().setAttribute("ENTITY_DETAIL_LIST", clients);
 
-			// Map<String,String> clientArry = new HashMap<String,String>();
-			//List<String> clientArry = new ArrayList<String>();
+			List<EntityListDetail> cityClients = null;
 
-			//for (EntityListDetail e : clients) {
-			//	if (e.getbName() != null && e.getbName().trim().length() > 0)
-			//		System.out.println(e.getbName());
-			//}
-			//System.out.println(clientArry.size());
-			//sce.getServletContext().setAttribute("CLIENT_LIST", clientArry);
+			TabCityMgr citymanager = (TabCityMgr) ctx.getBean("tabCityMgrImpl");
+			List<TabCity> cities = citymanager.getCities();
+			for (TabCity e : cities) {
+				String ctyCode = e.getCtyCde();
+				String citylist = ctyCode.trim().concat("_CLIENT_LIST");
+				cityClients = new ArrayList<EntityListDetail>();
+				for (EntityListDetail cl : clients) {
+					if (ctyCode.equalsIgnoreCase(cl.getCityCode())) {
+						cityClients.add(cl);
+
+					}
+				}
+
+				if (!cityClients.isEmpty())
+					sce.getServletContext().setAttribute(citylist, cityClients);
+
+				List<EntityListDetail> citySectorClients = null;
+				TabBizSecMgr secmanager = (TabBizSecMgr) ctx.getBean("tabBizSecMgrImpl");
+				List<TabBizSec> sectors = secmanager.getSectors();
+				for (TabBizSec bizsec : sectors) {
+					String bcode = bizsec.getBizCode();
+					String seclist = ctyCode.trim().concat("_").concat(bcode).concat("_CLIENT_LIST");
+					citySectorClients = new ArrayList<EntityListDetail>();
+					for (EntityListDetail ccl : cityClients) {
+						if (bcode.equalsIgnoreCase(ccl.getBizCode())) {
+							citySectorClients.add(ccl);
+
+						}
+					}
+
+					if (!citySectorClients.isEmpty())
+						sce.getServletContext().setAttribute(seclist, citySectorClients);
+				}
+
+			}
+
 		}
 
 		if (ECONOMIC_SECTOR.equalsIgnoreCase(tableName)) {
@@ -272,6 +304,10 @@ public class BSTables implements ServiceNames {
 
 			englishTables.put(tableName, citiesArry);
 		}
+
+	}
+
+	private void addCityTable(String tableName, ApplicationContext ctx, ServletContextEvent sce) throws BSException {
 
 	}
 

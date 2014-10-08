@@ -30,27 +30,30 @@ import cl.mainStream.BSTables;
 import cl.mainStream.VedaConstants;
 import cl.managers.AdmUsrMgr;
 import cl.managers.BizEntityMgr;
+import cl.managers.TabBizSecMgr;
+import cl.managers.TabCityMgr;
 import cl.model.BizEntInn;
 import cl.model.EntityDetail;
+import cl.model.EntityListDetail;
+import cl.model.TabBizSec;
+import cl.model.TabCity;
 import cl.model.User;
 
 @ParentPackage(value = "default")
 @Namespace("/Main")
 @ResultPath(value = "/")
-@InterceptorRefs({
-		@InterceptorRef("defaultStack"),
-		@InterceptorRef("mobileType")
-})
-@Action(value = "SearchBiz", results = {
-		@Result(name = "success", location = "/User/MaintUser", type = "redirect"),
+@InterceptorRefs({ @InterceptorRef("defaultStack"), @InterceptorRef("mobileType") })
+@Action(value = "SearchBiz", results = { @Result(name = "success", location = "/User/MaintUser", type = "redirect"),
 		@Result(name = "input", location = "/search/pages/searchBiz_m.jsp"),
-		@Result(name = "error", location = "pages/error.jsp")
-})
+		@Result(name = "error", location = "pages/error.jsp") })
 public class SearchBizAction extends BaseAction {
 
 	private static final long serialVersionUID = 1L;
 	static Logger logger = Logger.getLogger(SearchBizAction.class);
 	private List<EntityDetail> clients;
+	private List<EntityDetail> CAN_TOR_clients;
+	private List<EntityDetail> SGP_SGP_clients;
+	private List<EntityDetail> CAN_BRM_clients;
 
 	public String mode;
 	public EntityDetail entity;
@@ -62,11 +65,14 @@ public class SearchBizAction extends BaseAction {
 	public String execute() throws Exception {
 
 		logger.info("SearchBizAction Success");
+		logger.info("City - " + request.getParameter("city"));
+		String ctrCity = request.getParameter("city").trim();
 		setArrays();
-		
-		//System.out.println((String) request.getParameter("latitude"));
-		//System.out.println((String) request.getParameter("longtitude"));
-		getEntityDetailList();
+
+		// System.out.println((String) request.getParameter("latitude"));
+		// System.out.println((String) request.getParameter("longtitude"));
+		getSession().put("SELECTED_CITY", ctrCity);
+		getEntityDetailList(ctrCity);
 		return INPUT;
 	}
 
@@ -88,8 +94,7 @@ public class SearchBizAction extends BaseAction {
 		String clientId = request.getParameter("clientId");
 		String mode = request.getParameter("mode");
 		ApplicationContext ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
-		BizEntityMgr manager =
-				(BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
+		BizEntityMgr manager = (BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
 
 		try {
 			this.entity = manager.getClientById(new Integer(clientId).intValue());
@@ -109,23 +114,28 @@ public class SearchBizAction extends BaseAction {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void getEntityDetailList() {
+	public void getEntityDetailList(String ctrCity) {
 
 		clients = (List<EntityDetail>) getServletContex().getAttribute("ENTITY_DETAIL_LIST");
-		if (clients == null) {
-			ApplicationContext ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
+		getSession().put("ENTITY_DETAIL_LIST", clients);
 
-			BizEntityMgr manager =
-					(BizEntityMgr) ctx.getBean("bizEntityMgrImpl");
+		ApplicationContext ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
 
-			clients = manager.getAllClients();
-			getServletContex().setAttribute("ENTITY_DETAIL_LIST", clients);
+		List<EntityListDetail> citySectorClients = null;
+		TabBizSecMgr secmanager = (TabBizSecMgr) ctx.getBean("tabBizSecMgrImpl");
+		List<TabBizSec> sectors = secmanager.getSectors();
+		for (TabBizSec bizsec : sectors) {
+			String bcode = bizsec.getBizCode();
+			String seclist = ctrCity.trim().concat("_").concat(bcode).concat("_CLIENT_LIST");
+
+			citySectorClients = (List<EntityListDetail>) getServletContex().getAttribute(seclist);
+
+			if (citySectorClients != null && !citySectorClients.isEmpty())
+				getSession().put(seclist, citySectorClients);
 		}
 
 	}
 
-		
-	
 	public EntityDetail getEntity() {
 		return entity;
 	}

@@ -12,7 +12,7 @@ import org.springframework.context.ApplicationContext;
 
 import cl.mainStream.AppConstants;
 import cl.managers.BizEntPrdMgr;
-import cl.model.BizEntPrd;
+import cl.model.BizEntPrd2;
 import cl.model.EntityDetail;
 
 @ParentPackage(value = "default")
@@ -60,7 +60,7 @@ public class ProductAction extends BaseAction{
 				(BizEntPrdMgr) ctx.getBean("bizEntPrdMgrImpl");
 		
 		
-		BizEntPrd	product = (BizEntPrd) manager.getPrdById(Integer.parseInt(request.getParameter("clientId").trim()), Integer.parseInt(request.getParameter("prdId").trim()));
+		BizEntPrd2 	product = (BizEntPrd2) manager.getPrdById( (request.getParameter("clientId").trim()),  (request.getParameter("prdId").trim()));
 		System.out.println(product.getPrdTitle() + " "+ product.getPrdPrice());
 		
 		return AppConstants.INPUT_MOBILE_VIEW;

@@ -22,6 +22,7 @@ import cl.mainStream.VedaConstants;
 import cl.managers.BizEntPrdMgr;
 import cl.managers.ProductImageMgr;
 import cl.model.BizEntPrd;
+import cl.model.BizEntPrd2;
 import cl.model.ProductImage;
 
 @ParentPackage(value = "default")
@@ -72,7 +73,7 @@ public class LoadImageAction extends BaseAction {
 		
 		if (fileUpload != null) 
 			try {
-				BizEntPrd product = manager.getPrdById(Integer.parseInt(clientId.trim()), Integer.parseInt(productId.trim()));
+				BizEntPrd2  product = manager.getPrdById( clientId.trim(),  productId.trim());
 				if (product != null) {					
 					FileInputStream inputStream = new FileInputStream(fileUpload);
 					byte[] imageData = new byte[(int) fileUpload.length()];
@@ -90,7 +91,7 @@ public class LoadImageAction extends BaseAction {
 		return SUCCESS;
 	}
 
-	public String addUpdateImage(byte[] imageData, int size,  BizEntPrd product) {
+	public String addUpdateImage(byte[] imageData, int size,  BizEntPrd2 product) {
 		ProductImage image = null;
 		boolean doUpdate = false;
 		UserDetails usrd = (UserDetails) getSession().get("USER_DETAILS");

@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 @SecondaryTables({
 		@SecondaryTable(name = "BIZENTIDM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "IDENTITY", referencedColumnName = "ITYENTITY") }),
 		//@SecondaryTable(name = "BIZENTCNTM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "CNTENTITY", referencedColumnName = "ITYENTITY") }),
-		//@SecondaryTable(name = "BIZENTADRM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "ADRENTITY", referencedColumnName = "ITYENTITY") }),
+		@SecondaryTable(name = "BIZENTADRM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "ADRENTITY", referencedColumnName = "ITYENTITY") }),
 		@SecondaryTable(name = "BIZENTINNM0", pkJoinColumns = { @PrimaryKeyJoinColumn(name = "INNENTITY", referencedColumnName = "ITYENTITY") }) })
 public class EntityListDetail {
 
@@ -55,13 +55,16 @@ public class EntityListDetail {
 	@Column(table = "BIZENTINNM0", name = "INNBNAME")
 	private String bizName;
 
+	@Column(table = "BIZENTADRM0", name = "ADRCITY")
+	private String cityCode;
+	
 	public EntityListDetail() {
 		super();
 
 	}
 
 	public EntityListDetail(int entity, String entTyp, String ctry, String ecoCode, String bizCode, String grpCode,
-			String indCode, Date crtDate, String crtByUser, Date chgDate, String chgByUser, Integer version, String bizName) {
+			String indCode, Date crtDate, String crtByUser, Date chgDate, String chgByUser, Integer version, String bizName, String cityCode) {
 		super();
 		this.entity = entity;
 		this.entTyp = entTyp;
@@ -76,6 +79,7 @@ public class EntityListDetail {
 		this.chgByUser = chgByUser;
 		this.version = version;
 		this.bizName = bizName;
+		this.cityCode = cityCode;
 	}
 	
 
@@ -85,6 +89,16 @@ public class EntityListDetail {
 
 	public void setBizName(String bizName) {
 		this.bizName = bizName;
+	}
+
+	
+	
+	public String getCityCode() {
+		return cityCode;
+	}
+
+	public void setCityCode(String cityCode) {
+		this.cityCode = cityCode;
 	}
 
 	public int getEntity() {

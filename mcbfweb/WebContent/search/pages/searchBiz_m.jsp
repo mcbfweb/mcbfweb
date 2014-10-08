@@ -5,7 +5,8 @@
 
 <jsp:include page="/inc.header.jsp" />
 
-<sjm:div role="page" id="searchBizpage" data-theme="d" theme="simple" data-dom-cache="true">
+<sjm:div role="page" id="searchBizpage" data-theme="d" theme="simple"
+	data-dom-cache="true">
 
 	<sjm:div role="header" data-theme="d">
 		<sjm:a href="#searchBizMenu" button="true" buttonIcon="arrow-l"
@@ -25,11 +26,11 @@
 					list="bizTypeArry" listKey="code" listValue="label" />
 
 				<br />
-				
+
 				<form class="ui-filterable">
 					<input id="filterUsersInput" data-type="search">
 				</form>
-				
+
 				<ul id="filterList" data-role="listview" data-inset="true"
 					data-input="#filterUsersInput" data-split-icon="gear"
 					data-autodividers="true" data-filter="true">

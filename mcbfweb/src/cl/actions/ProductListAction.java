@@ -2,8 +2,8 @@ package cl.actions;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,54 +33,57 @@ import cl.model.ProductImage;
 @InterceptorRefs({ @InterceptorRef("defaultStack"),
 
 @InterceptorRef("mobileType") })
-@Action(value = "ProductList", results = {
-@Result(name = "success", location = "/products/pages/prdList_m.jsp" ),
-@Result(name = "input", location = "/products/pages/prdList_m.jsp"),
-@Result(name = "error", location = "pages/error.jsp") })
-
+@Action(value = "ProductList", results = { @Result(name = "success", location = "/products/pages/prdList_m.jsp"),
+		@Result(name = "input", location = "/products/pages/prdList_m.jsp"),
+		@Result(name = "error", location = "pages/error.jsp") })
 public class ProductListAction extends BaseAction {
 
 	private static final long serialVersionUID = 1L;
 
 	static Logger logger = Logger.getLogger(ProductListAction.class);
 
-	 
 	public String mode;
 
 	public EntityDetail entity;
-	 
+
 	private List<ProductImage> prdImages = new ArrayList<ProductImage>();
 	private List<BizEntPrd> products = new ArrayList<BizEntPrd>();
-	
+
 	@Override
 	public String execute() throws Exception {
 
 		logger.info("ProductListAction Success");
-		
+
 		UserDetails usrd = (UserDetails) getSession().get(VedaConstants.USER_KEY);
 		ApplicationContext ctx = (ApplicationContext) getServletContex().getAttribute("SPRING_CTX");
 		String contextPath = (String) getServletContex().getAttribute("TMP_FOLDER");
 		String realPath = (String) getServletContex().getContextPath();
-		String tempPath =(String) getServletContex().getAttribute("IMG_TMP_FOLDER");;
-		
+		String tempPath = (String) getServletContex().getAttribute("IMG_TMP_FOLDER");
+		;
+
 		ProductImageMgr manager = (ProductImageMgr) ctx.getBean("productImageMgrImpl");
-		
+
 		this.entity = (EntityDetail) getServletContex().getAttribute("ENTITY_DETAIL");
 		products = entity.getProducts();
 		for (BizEntPrd p : products) {
-			
-			
+
 			try {
-				ProductImage prdImg = manager.getImgByPrdId(Integer.parseInt(p.getPrdCode().trim()));
-				ImageInputStream iis = ImageIO.createImageInputStream(new ByteArrayInputStream(prdImg.getImage()));
-				BufferedImage img = ImageIO.read(iis);
-				FileOutputStream outputfile = new FileOutputStream(contextPath.trim() + "\\" + prdImg.getPrdId() + "_"
-						+ prdImg.getName() + ".png", false);
-				ImageIO.write(img, "png", outputfile);
-				// prdImg.setImagePath(realPath.trim()+ tempPath+prdImg.getPrdId() +
-				// "_"+ prdImg.getName() + ".png");
-				prdImg.setImagePath(tempPath.trim() + "\\" + prdImg.getPrdId() + "_" + prdImg.getName() + ".png");
-				prdImages.add(prdImg);
+				ProductImage prdImg = manager.getImgByPrdId(p.getDatid());
+				File f = new File(tempPath.trim() + "\\" + prdImg.getPrdId() + "_" + prdImg.getName() + ".png");
+				if (f.exists() && !f.isDirectory()) {
+					ImageInputStream iis = ImageIO.createImageInputStream(new ByteArrayInputStream(prdImg.getImage()));
+					BufferedImage img = ImageIO.read(iis);
+					FileOutputStream outputfile = new FileOutputStream(contextPath.trim() + "\\" + prdImg.getPrdId() + "_"
+							+ prdImg.getName() + ".png", false);
+					ImageIO.write(img, "png", outputfile);
+					
+					prdImg.setImagePath(tempPath.trim() + "\\" + prdImg.getPrdId() + "_" + prdImg.getName() + ".png");
+					prdImages.add(prdImg);
+				} else{
+					prdImg.setImagePath(tempPath.trim() + "\\" + prdImg.getPrdId() + "_" + prdImg.getName() + ".png");
+					prdImages.add(prdImg);
+				}
+
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -91,7 +94,6 @@ public class ProductListAction extends BaseAction {
 
 	}
 
-	
 	public EntityDetail getEntity() {
 		return entity;
 	}
@@ -100,16 +102,12 @@ public class ProductListAction extends BaseAction {
 		this.entity = entity;
 	}
 
-
 	public List<ProductImage> getPrdImages() {
 		return prdImages;
 	}
 
-
 	public void setPrdImages(List<ProductImage> prdImages) {
 		this.prdImages = prdImages;
 	}
-	
-	
 
 }

@@ -2,8 +2,26 @@
 <%@ taglib prefix="sjm" uri="/struts-jquery-mobile-tags"%>
 
 <jsp:include page="/inc.header.jsp" />
+
+
 <sjm:div role="page" id="searchBizMenu" data-theme="d" theme="simple"
-	data-position="inline">
+	data-position="inline" data-ajax="false" data-dom-cache="false">
+	<%
+		session.invalidate();
+	%>
+	<script>
+		$(document).bind('pageshow', function() {
+			$(ui.prevPage).remove();
+		});
+		
+		$(document).bind("mobileinit", function () {
+
+			  $.mobile.document.bind('pagehide', function (event, ui) {
+			    $(event.target).remove();
+			  });
+
+			});
+	</script>
 
 	<sjm:div role="header" data-theme="d" data-position="fixed">
 		<sjm:a button="true" buttonIcon="arrow-l" data-rel="back">Back</sjm:a>
@@ -15,15 +33,19 @@
 			data-divider-theme="d">
 			<li data-role="list-divider">Internal User Menu</li>
 			<li><a href="./index.jsp">Login</a></li>
-			<li><a href="../pages/dialog.html" data-rel="dialog">Dialog
-					link: data-rel="dialog" (not tracked in history)</a></li>
+
 			<li data-role="list-divider">External User Menu</li>
-			<li><a href="./Main/SearchBiz">MyCity Business Search</a></li>
+			<li><a href="./Main/SearchBiz?city=TOR">Toronto Business
+					Search </a></li>
+			<li><a href="./Main/SearchBiz?city=SGP">Singapore Business
+					Search </a></li>
+			<li><a href="./Main/SearchBiz?city=BRM">Brampton Business
+					Search </a></li>
 			<li><a href="http://www.jquery.com">MyCity Business Finder
 					Website</a></li>
 			<li><a href="./Main/SearchBiz data-rel="dialog">Make a
 					booking - Popup</a></li>
-			
+
 			<li data-role="list-divider">Email links</li>
 			<li><a href="mailto:jdoe@foo.com">Basic email:
 					mailto:jdoe@foo.com</a></li>

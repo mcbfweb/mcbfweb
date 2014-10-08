@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cl.dao.BizEntPrdDAO;
-import cl.model.BizEntPrd;
+import cl.model.BizEntPrd2;
 
 @Service
 public class BizEntPrdMgrImpl implements BizEntPrdMgr {
@@ -15,7 +15,7 @@ public class BizEntPrdMgrImpl implements BizEntPrdMgr {
 
 	@Override
 	@Transactional
-	public BizEntPrd getPrdById(int client,  int prdCode) {
+	public BizEntPrd2  getPrdById(String client,  String prdCode) {
 
 		return bizEntPrd.getPrdById(client, prdCode) ;
 	}
