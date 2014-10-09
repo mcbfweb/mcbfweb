@@ -55,6 +55,8 @@ public class EntityDetail {
 	String locLon;
 	@Column(name = "ITYURL")
 	String url;
+	@Column(name = "ITYKYWRD")
+	private String kyWord;
 	@Column(name = "ITYCRTDT")
 	Date crtDate;;
 	@Column(name = "ITYCRTUSR")
@@ -220,6 +222,14 @@ public class EntityDetail {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public String getKyWord() {
+		return kyWord;
+	}
+
+	public void setKyWord(String kyWord) {
+		this.kyWord = kyWord;
 	}
 
 	public Date getCrtDate() {

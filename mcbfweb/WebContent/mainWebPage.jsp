@@ -10,10 +10,7 @@
 		session.invalidate();
 	%>
 	<script>
-		$(document).bind('pageshow', function() {
-			$(ui.prevPage).remove();
-		});
-		
+				
 		$(document).bind("mobileinit", function () {
 
 			  $.mobile.document.bind('pagehide', function (event, ui) {

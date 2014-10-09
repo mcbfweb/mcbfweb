@@ -11,10 +11,16 @@ import javax.persistence.SecondaryTable;
 import javax.persistence.SecondaryTables;
 import javax.persistence.Table;
 
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Service;
 
 @Entity
+@Indexed
 @Table(name = "BIZENTITYM0")
 @Service
 @SecondaryTables({
@@ -41,6 +47,9 @@ public class EntityListDetail {
 	private String grpCode;
 	@Column(name = "ITYINDCODE")
 	private String indCode;
+	@Column(name = "ITYKYWRD")
+	@Field(index=Index.YES, analyze=Analyze.NO, store=Store.YES)
+	private String kyWord;
 	@Column(name = "ITYCRTDT")
 	private Date crtDate;;
 	@Column(name = "ITYCRTUSR")
@@ -155,6 +164,14 @@ public class EntityListDetail {
 
 	public void setIndCode(String indCode) {
 		this.indCode = indCode;
+	}
+
+	public String getKyWord() {
+		return kyWord;
+	}
+
+	public void setKyWord(String kyWord) {
+		this.kyWord = kyWord;
 	}
 
 	public Date getCrtDate() {

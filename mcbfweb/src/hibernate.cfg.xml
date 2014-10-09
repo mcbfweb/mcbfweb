@@ -25,7 +25,14 @@ PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sour
 		<property name="show_sql">false</property>
 
 		<!-- Drop and re-create the database schema on startup -->
-	 <property name="hbm2ddl.auto">update</property> 
+		<property name="hbm2ddl.auto">update</property>
+
+	  <property name="hibernate.search.default.directory_provider">org.hibernate.search.store.impl.FSDirectoryProvider</property>
+ 
+		  <property name="hibernate.search.default.indexBase">./lucene/indexes</property>
+		<property name="hibernate.search.default.batch.merge_factor">10</property>
+		<property name="hibernate.search.default.batch.max_buffered_docs">10</property>  
+
 
 		<mapping class="cl.model.TabEcoSec"></mapping>
 		<mapping class="cl.model.TabBizSec"></mapping>
